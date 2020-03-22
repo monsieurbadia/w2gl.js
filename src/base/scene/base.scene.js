@@ -15,6 +15,12 @@ export class BaseScene extends Scene {
 
   }
 
+  init ( meshes ) {
+
+    this.addMeshes( meshes );
+
+  }
+
 }
 
 export const createBaseScene = options => ( {
