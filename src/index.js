@@ -17,6 +17,7 @@ export const W2GL = {
       createBaseScene,
       createBaseMesh,
       createBaseRendererWebGL,
+      // this.createRenderList.bind( this ),
     ];
 
     const prepare = pipe( ..._operations );
@@ -26,7 +27,18 @@ export const W2GL = {
       ? compute
       : callback( compute );
 
-  }
+  },
+
+  // createRenderList ( options ) {
+
+  //   this.rendererList = Object.keys( options.mesh ).reduce( ( result, key ) => [
+  //     ...result,
+  //     options.mesh[ key ].update
+  //   ], this.rendererList );
+
+  //   return options;
+
+  // }
 
 };
 
@@ -109,24 +121,21 @@ document.addEventListener( 'DOMContentLoaded', _ => {
     console.log( starter );
 
     // init events => event.onresize
-
-    // 1. init scene
-    starter.scene.scene1.init( [ starter.mesh.plane ] );
-
-    // 2. init camera
-    starter.camera.camera1.init( [ 0, 0, 1 ] );
   
-    // 3. init renderer
-    starter.renderer.renderer1.init( starter.scene.scene1, starter.camera.camera1 );
+    // 1. init scene => scene.init
+    starter.scene.scene1.addMeshes( [ starter.mesh.plane ] );
   
-    // 4. update mesh
+    // 2. init camera => camera.init
+    starter.camera.camera1.position.z = 1;
+  
+    // 3. init renderer => renderer.init
+    starter.renderer.renderer1.create( starter.scene.scene1, starter.camera.camera1 );
+    starter.renderer.renderer1.setTimerAnimationLoop();
+  
+    // 4. update mesh => mesh.update
     // starter.mesh.plane.update( ( timer ) => {
     //   console.log( timer );
     // } );
-
-    // 5. resize mesh => mesh.onresize
-
-    // 6. click mesh => mesh.onclick
 
   } );
 
