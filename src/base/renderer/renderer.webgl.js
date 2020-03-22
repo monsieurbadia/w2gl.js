@@ -10,7 +10,7 @@ export class BaseRendererWebGL extends WebGLRenderer {
       antialias: true
     } );
 
-    this.init( options );
+    this.create( options );
     this.add( this.domElement );
 
     // create timer class
@@ -28,16 +28,18 @@ export class BaseRendererWebGL extends WebGLRenderer {
 
   }
 
-  create ( scene, camera ) {
+  init ( scene, camera ) {
 
     this.current = {
       camera,
       scene,
     };
 
+    this.setTimerAnimationLoop();
+
   }
 
-  init ( options ) {
+  create ( options ) {
 
     this.setClearColor( 0x000000 );
     this.setPixelRatio( window.devicePixelRatio );
