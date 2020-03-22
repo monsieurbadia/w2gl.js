@@ -1,30 +1,44 @@
-import { createCamera } from './camera/camera.perspective';
-import { createGeometry } from './geometry/geometry.plane';
-import { createRenderer } from './renderer/renderer.webgl';
-import { createShader } from './shader/shader.basic';
+import { createBaseCamera } from './base/camera/base.camera';
+import { createBaseMesh } from './base/mesh/base.mesh';
+import { createBaseScene } from './base/scene/base.scene';
+import { createBaseRendererWebGL } from './base/renderer/renderer.webgl';
 import { pipe } from './util/util.pipe';
 
 // main
 
-export const w2gl = {
+export const W2GL = {
 
-  async init ( options ) {
+  init ( options, callback ) {
 
     const _options = { ...options };
 
     const _operations = [
-      createRenderer,
-      createCamera,
-      createShader,
-      createGeometry,
+      createBaseCamera,
+      createBaseScene,
+      createBaseMesh,
+      createBaseRendererWebGL,
+      // this.createRenderList.bind( this ),
     ];
 
     const prepare = pipe( ..._operations );
     const compute = prepare( _options );
 
-    return compute;
+    return callback === undefined
+      ? compute
+      : callback( compute );
 
-  }
+  },
+
+  // createRenderList ( options ) {
+
+  //   this.rendererList = Object.keys( options.mesh ).reduce( ( result, key ) => [
+  //     ...result,
+  //     options.mesh[ key ].update
+  //   ], this.rendererList );
+
+  //   return options;
+
+  // }
 
 };
 
@@ -32,65 +46,96 @@ export const w2gl = {
 
 document.addEventListener( 'DOMContentLoaded', _ => {
 
-  // w2gl test implementation
+  // W2GL test implementation
 
-  w2gl.init( {
+  W2GL.init( {
 
+    scene: {
+      scene1: {}
+    },
     camera: {
       camera1: {
         size: [ window.innerWidth, window.innerHeight ],
         type: 'perspective'
       }
     },
-    geometry: {
-      plane: null
+    mesh: {
+      plane: {
+        geometry: {
+          buffer: true,
+          options: [ 2, 2 ],
+          specific: 'plane'
+        },
+        material: {
+          options: {
+            transparent: true
+          },
+          specific: 'normal'
+        },
+        shader: {
+          uniforms: {
+            u_time: { type: 'f', value: 1.0 },
+            u_resolution: { type: 'v2', value: [] },
+            u_mouse: { type: 'v2', value: [] }
+          },
+          vertex: `
+  
+            void main () {
+  
+              gl_Position = vec4( position, 1.0 );
+  
+            }
+  
+          `,
+          fragment: `
+  
+            uniform vec2 u_resolution;
+            uniform float u_time;
+  
+            void main () {
+  
+              gl_FragColor = vec4( 0.0, 0.0, 0.0, 1.0 );
+
+              // vec2 st = gl_FragCoord.xy/u_resolution.xy;
+              // gl_FragColor = vec4( st.x, st.y, 0.0, 1.0 );
+  
+            }
+  
+          `
+        },
+        scene: 'scene1'
+      }
     },
     renderer: {
       renderer1: {
-        // canvas: document.createElement( 'canvas' )
-      }
-    },
-    shader: {
-      shader1: {
-        vertex: `
-
-          attribute vec2 coordinates;
-          attribute vec2 mouse;
-        
-          void main( void ) {
-    
-            gl_Position = vec4( coordinates, 0.0, 1.0 );
-    
-          }
-
-        `,
-        fragment: `
-
-          void main() {
-    
-            gl_FragColor = vec4( 1.0, 1.0, 1.0, 1.0 );
-    
-          }
-
-        `
-      },
-      shader2: {
-        fragment: `1`,
-        vertex: `1`
+        options: {
+          antialias: true,
+          pixelRatio: window.devicePixelRatio,
+          size: [ window.innerWidth, window.innerHeight ],
+        }
       }
     }
 
-  } ).then( starter => {
-  
+  }, ( starter ) => {
+
     console.log( starter );
 
-    starter.shader.shader1.create(
-      starter.geometry.plane,
-      starter.shader.shader1.vertex,
-      starter.shader.shader1.fragment
-    );
-    
-    starter.renderer.renderer1.render( starter.geometry.plane.indices.length );
+    // init events => event.onresize
+  
+    // 1. init scene => scene.init
+    starter.scene.scene1.addMeshes( [ starter.mesh.plane ] );
+  
+    // 2. init camera => camera.init
+    starter.camera.camera1.position.z = 1;
+  
+    // 3. init renderer => renderer.init
+    starter.renderer.renderer1.create( starter.scene.scene1, starter.camera.camera1 );
+    starter.renderer.renderer1.setTimerAnimationLoop();
+  
+    // 4. update mesh => mesh.update
+    // starter.mesh.plane.update( ( timer ) => {
+    //   console.log( timer );
+    // } );
 
   } );
 

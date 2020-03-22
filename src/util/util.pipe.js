@@ -1,6 +1,6 @@
 export const pipe =
   ( ...fs ) =>
-    options => 
+    ( options = {} ) => 
       fs.reduce( ( result, f ) =>
         f( result )
-      , options || {} );
+      , options );
