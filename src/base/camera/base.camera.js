@@ -5,16 +5,10 @@ export class BaseCamera extends Camera {
 
   constructor ( options ) {
   
+    // console.log( options );
+
     super();
   
-    this.options = options;
-
-  }
-
-  init ( positions ) {
-
-    this.position.set( ...positions );
-
   }
 
 };
