@@ -8,7 +8,7 @@ import {
 // i not sure for this pattern for the moment..
 // @see https://stijndewitt.com/2014/01/26/enums-in-javascript/
 
-export const CORE = {
+export const CORE = Object.freeze( {
   EVENT: 1,
   MOUSE: 2,
   SCREEN: 3,
@@ -19,4 +19,4 @@ export const CORE = {
     3: new Screen(),
     4: new Shader()
   }
-};
+} );
