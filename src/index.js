@@ -1,7 +1,10 @@
-import { createBaseCamera } from './base/camera/base.camera';
-import { createBaseMesh } from './base/mesh/base.mesh';
 import { createBaseScene } from './base/scene/base.scene';
+import { createBaseCamera } from './base/camera/base.camera';
 import { createBaseRendererWebGL } from './base/renderer/renderer.webgl';
+import { createBaseMesh } from './base/mesh/base.mesh';
+import { Event } from './core/core.event';
+import { Mouse } from './core/core.mouse';
+import { Screen } from './core/core.screen';
 import { pipe } from './util/util.pipe';
 
 // main
@@ -10,13 +13,18 @@ export const W2GL = {
 
   init ( options, callback ) {
 
-    const _options = { ...options };
+    const _options = {
+      ...options,
+      event: new Event(),
+      mouse: new Mouse(),
+      screen: new Screen()
+    };
 
     const _operations = [
       createBaseCamera,
       createBaseScene,
       createBaseMesh,
-      createBaseRendererWebGL,
+      createBaseRendererWebGL
     ];
 
     const prepare = pipe( ..._operations );
@@ -62,18 +70,18 @@ document.addEventListener( 'DOMContentLoaded', _ => {
         },
         shader: {
           uniforms: {
-            u_time: { type: 'f', value: 1.0 },
+            u_mouse: { type: 'v2', value: [] },
             u_resolution: { type: 'v2', value: [] },
-            u_mouse: { type: 'v2', value: [] }
+            u_time: { type: 'f', value: 1.0 }
           },
           vertex: `
-  
+
             void main () {
   
               gl_Position = vec4( position, 1.0 );
   
             }
-  
+
           `,
           fragment: `
   
@@ -82,7 +90,7 @@ document.addEventListener( 'DOMContentLoaded', _ => {
   
             void main () {
   
-              gl_FragColor = vec4( 0.0, 0.0, 0.0, 1.0 );
+              // gl_FragColor = vec4( 0.0, 0.0, 0.0, 1.0 );
 
               // vec2 st = gl_FragCoord.xy/u_resolution.xy;
               // gl_FragColor = vec4( st.x, st.y, 0.0, 1.0 );
@@ -108,8 +116,6 @@ document.addEventListener( 'DOMContentLoaded', _ => {
 
     console.log( starter );
 
-    // init events => event.onresize
-
     // 1. init scene
     starter.scene.scene1.init( [ starter.mesh.plane ] );
 
@@ -118,15 +124,41 @@ document.addEventListener( 'DOMContentLoaded', _ => {
   
     // 3. init renderer
     starter.renderer.renderer1.init( starter.scene.scene1, starter.camera.camera1 );
-  
+
     // 4. update mesh
-    // starter.mesh.plane.update( ( timer ) => {
-    //   console.log( timer );
-    // } );
+    starter.mesh.plane.onrender( timer => {
 
-    // 5. resize mesh => mesh.onresize
+      starter.mesh.plane.material.uniforms.u_time = timer.time;
 
-    // 6. click mesh => mesh.onclick
+    } );
+
+    // init events
+    starter.event.onresize( starter.screen.resize );
+    starter.event.onmousemove( starter.mouse.mousemove );
+
+    // resize renderer
+    starter.renderer.renderer1.onresize( _ => {
+
+      starter.renderer.renderer1.setSize( starter.screen.width, starter.screen.height );
+
+    } );
+
+    // mousemove listener mesh
+    starter.mesh.plane.onmousemove( _ => {
+
+      starter.mesh.plane.material.uniforms.u_mouse.value.x = starter.mouse.x;
+      starter.mesh.plane.material.uniforms.u_mouse.value.y = starter.mouse.y;
+
+    } );
+
+    // resize listener mesh
+    starter.mesh.plane.onresize( _ => {
+
+      starter.mesh.plane.material.uniforms.u_resolution.value.x = starter.screen.width;
+      starter.mesh.plane.material.uniforms.u_resolution.value.y = starter.screen.height;
+
+    } );
+
 
   } );
 

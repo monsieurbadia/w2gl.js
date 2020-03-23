@@ -20,6 +20,8 @@ export class BaseRendererWebGL extends WebGLRenderer {
       speed: 0.05
     };
 
+    this.onresize = this.onresize.bind( this );
+
   }
 
   add ( element ) {
@@ -44,6 +46,12 @@ export class BaseRendererWebGL extends WebGLRenderer {
     this.setClearColor( 0x000000 );
     this.setPixelRatio( window.devicePixelRatio );
     this.setSize( ...options.options.size, true );
+
+  }
+
+  onresize ( resize ) {
+
+    BASE_CONSTANT.resizeList.push( resize );
 
   }
 

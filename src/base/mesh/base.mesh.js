@@ -19,7 +19,19 @@ export class BaseMesh extends Mesh {
 
   }
 
-  update ( update ) {
+  onmousemove ( mousemove ) {
+
+    BASE_CONSTANT.mousemoveList.push( mousemove );
+
+  }
+
+  onresize ( resize ) {
+
+    BASE_CONSTANT.resizeList.push( resize );
+
+  }
+
+  onrender ( update ) {
 
     BASE_CONSTANT.renderList.push( update );
 
