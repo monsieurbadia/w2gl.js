@@ -1,4 +1,4 @@
-export const BASE_CONSTANT = Object.freeze( {
+export const DEFAULT = Object.freeze( {
   mousemoveList: [],
   renderList: [],
   resizeList: []

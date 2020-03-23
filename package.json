@@ -7,17 +7,23 @@
   "author": "monsieurbadia <contact@monsieurbadia.com>",
   "license": "MIT",
   "private": true,
+  "alias": {
+    "base": "./src/base/index.js",
+    "core": "./src/core/index.js",
+    "custom": "./src/custom/index.js",
+    "util": "./src/util/index.js"
+  },
   "scripts": {
-    "dev:default": "parcel src/index.html",
-    "prod:build": "parcel build src/index.html"
+    "dev:default": "parcel src/index.html --global W2GL",
+    "prod:build": "parcel build src/index.html --experimental-scope-hoisting --global W2GL"
   },
   "dependencies": {
-    "@babel/runtime": "^7.8.7",
     "parcel-bundler": "^1.12.4",
     "three": "^0.114.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.7",
-    "@babel/plugin-transform-runtime": "^7.8.3"
+    "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/runtime": "^7.9.2"
   }
 }

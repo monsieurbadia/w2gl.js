@@ -1,9 +1,9 @@
-export const Browser = {
+export class Browser {
 
-  is: {
+  constructor () {
 
-    webgl () {
-
+    function webgl () {
+  
       let canvas = document.createElementNS( 'http://www.w3.org/1999/xhtml', 'canvas' );
       let gl = null;
       let isWebGL = false;
@@ -27,6 +27,12 @@ export const Browser = {
         : ( isWebGL = false );
 
     }
+
+    this.run = {
+  
+      webgl
+  
+    };
 
   }
 

@@ -1,21 +1,16 @@
-import { EventDispatcher } from 'three';
-import { BASE_CONSTANT } from '../base/constant/base.constant';
+import { Base } from 'base';
 
-export class Event extends EventDispatcher {
+export class Event {
 
-  constructor () {
-    
-    super();
-
-  }
+  constructor () {}
 
   onmousemove ( callback ) {
 
-    if ( callback ) BASE_CONSTANT.mousemoveList.push( callback );
+    if ( callback ) Base.DEFAULT.mousemoveList.push( callback );
 
     window.addEventListener( 'mousemove', event => {
 
-      BASE_CONSTANT.mousemoveList.forEach( mousemove => mousemove( event ) );
+      Base.DEFAULT.mousemoveList.forEach( mousemove => mousemove( event ) );
 
     }, false );
 
@@ -23,11 +18,11 @@ export class Event extends EventDispatcher {
 
   onresize ( callback ) {
 
-    if ( callback ) BASE_CONSTANT.resizeList.push( callback );
+    if ( callback ) Base.DEFAULT.resizeList.push( callback );
 
     window.addEventListener( 'resize', event => {
 
-      BASE_CONSTANT.resizeList.forEach( resize => resize( event ) );
+      Base.DEFAULT.resizeList.forEach( resize => resize( event ) );
 
     }, false );
 

@@ -1,11 +1,6 @@
-import { Vector2 } from 'three';
-import { BASE_CONSTANT } from '../base/constant/base.constant';
-
-export class Mouse extends Vector2 {
+export class Mouse {
 
   constructor () {
-
-    super();
 
     this.x = 0;
     this.y = 0;
@@ -14,10 +9,19 @@ export class Mouse extends Vector2 {
 
   }
 
-  mousemove ( event ) {
+  mousemove ( { clientX, clientY, pageX, pageY } ) {
 
-    this.x = event.clientX || event.pageX;
-    this.y = event.clientY || event.pageY;
+    const x = clientX || pageX;
+    const y = clientY || pageY;
+
+    this.set( x, y );
+
+  }
+
+  set ( x, y ) {
+
+    this.x = x;
+    this.y = y;
 
   }
 

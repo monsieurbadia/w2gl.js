@@ -1,7 +1,7 @@
 import { Scene } from 'three';
-import { reducerLoopObject } from '../../reducer/reducer.object';
+import { reducer } from 'util';
 
-export class BaseScene extends Scene {
+export class CustomScene extends Scene {
 
   constructor ( options ) {
 
@@ -23,7 +23,7 @@ export class BaseScene extends Scene {
 
 }
 
-export const createBaseScene = options => ( {
+export const createCustomScene = options => ( {
   ...options,
-  scene: reducerLoopObject( options.scene, ( option ) => new BaseScene( option ) )
+  scene: reducer( options.scene, option => new CustomScene( option ) )
 } );
