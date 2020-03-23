@@ -11,10 +11,12 @@ export class Browser {
       try {
     
         gl = canvas.getContext( 'webgl' );
+        isWebGL = true;
     
       } catch ( error ) {
     
         gl = null;
+        isWebGL = false
       
         console.warn( error );
     
@@ -22,9 +24,7 @@ export class Browser {
     
       canvas = null;
     
-      return gl !== null
-        ? ( isWebGL = true )
-        : ( isWebGL = false );
+      return gl !== null && isWebGL;
 
     }
 

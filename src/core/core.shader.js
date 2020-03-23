@@ -22,16 +22,22 @@ export class Shader {
 
         const { type, value } = uniform;
 
-        uniform.value = Base.VECTOR.PRIMITIVES[ type ];
-        uniform.value.set( ...value );
+        uniform.value = Base.MATH.PRIMITIVES[ type ];
 
+        if ( value.length > 0 ) {
+          
+          uniform.value.set( ...value );
+
+        }
+        
+        console.log( uniform.value, value )
         return uniform;
 
       }
 
       return {
         ...result,
-        [ key ]: Base.VECTOR.TYPES.includes( uniform.type ) ? parseUniform( uniform ) : uniform
+        [ key ]: Base.MATH.TYPES.includes( uniform.type ) ? parseUniform( uniform ) : uniform
       };
 
     }, {} );

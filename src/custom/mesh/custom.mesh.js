@@ -9,8 +9,10 @@ export class CustomMesh extends Mesh {
     
     const shader = new Shader( options.shader );
     const geometry = new Base.GEOMETRY[ 'plane' ]( ...options.geometry.options );
-    const material = new Base.MATERIAL[ 'shader' ]( shader );
+    const material = new Base.MATERIAL[ 'shader' ]( { ...shader } );
 
+    console.log( shader );
+  
     super( geometry, material );
 
   }

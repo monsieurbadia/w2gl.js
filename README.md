@@ -1,11 +1,10 @@
 # w2gl.js
-===
 
-A WebGL micro-library
+A WebGL micro-library based on three.js
 
-# usage
+## usage
 
-## option schema
+*option schema :*
 
 ```js
 const option = {
@@ -33,26 +32,42 @@ const option = {
       },
       shader: {
         uniforms: {
-          u_mouse: { type: 'v2', value: [] },
-          u_resolution: { type: 'v2', value: [] },
-          u_time: { type: 'f', value: 1.0 }
+          mouse: { type: 'v2', value: [] },
+          resolution: { type: 'v2', value: [] },
+          time: { type: 'f', value: 1.0 }
         },
         vertex: `
+
+          #ifdef GL_ES
+          precision mediump float;
+          #endif
+
           void main () {
+
             gl_Position = vec4( position, 1.0 );
+
           }
+
         `,
         fragment: `
-          uniform vec2 u_resolution;
-          uniform float u_time;
+
+          #ifdef GL_ES
+          precision mediump float;
+          #endif
+
+          uniform vec2 resolution;
+          uniform vec2 mouse;
+          uniform float time;
+
           void main () {
-            gl_FragColor = vec4( 0.0, 0.0, 0.9, 1.0 );
-            // vec2 st = gl_FragCoord.xy/u_resolution.xy;
-            // gl_FragColor = vec4( st.x, st.y, 0.0, 1.0 );
+
+            vec2 st = gl_FragCoord.xy/resolution;
+            gl_FragColor = vec4(st.x,st.y,0.0,1.0);
+            
           }
+
         `
-      },
-      scene: 'scene1'
+      }
     }
   },
   renderer: {
@@ -67,15 +82,16 @@ const option = {
 };
 ```
 
-## create option
+*create option :*
 
 ```js
-const option = { /* ... */ };
+const option = { /* ... */ }; // create option
+const starter = W2GL.init( option ); // init option
 
-W2GL.init( option );
+console.log( starter ) // webgl starter object 
 ```
 
-## create scene
+*create scene :*
 
 to create a scene a director cut need 3 things : a scene, a camera and a monitor. it's the same in 
 3D so to create a scene init them :
@@ -95,18 +111,18 @@ starter.renderer.renderer1.init( starter.scene.scene1, starter.camera.camera1 );
 
 used listeners to doing things, for example each mesh/renderer attach listener methods
 
-### onrender
+##### onrender
 
 ```js
 // update plane mesh
 starter.mesh.plane.onrender( timer => {
 
-  starter.mesh.plane.material.uniforms.u_time += 0.05;
+  starter.mesh.plane.material.uniforms.u_time.value += 0.05;
 
 } );
 ```
 
-### onresize
+##### onresize
 
 ```js
 starter.renderer.renderer1.onresize( _ => {
@@ -116,7 +132,7 @@ starter.renderer.renderer1.onresize( _ => {
 } );
 ```
 
-### onmousemove
+##### onmousemove
 
 ```js
 starter.mesh.plane.onmousemove( _ => {

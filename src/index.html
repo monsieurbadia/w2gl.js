@@ -48,11 +48,15 @@
               },
               shader: {
                 uniforms: {
-                  u_mouse: { type: 'v2', value: [] },
-                  u_resolution: { type: 'v2', value: [] },
-                  u_time: { type: 'f', value: 1.0 }
+                  mouse: { type: 'v2', value: [] },
+                  resolution: { type: 'v2', value: [] },
+                  time: { type: 'f', value: 1.0 }
                 },
                 vertex: `
+
+                  #ifdef GL_ES
+                  precision mediump float;
+                  #endif
 
                   void main () {
 
@@ -63,21 +67,23 @@
                 `,
                 fragment: `
 
-                  uniform vec2 u_resolution;
-                  uniform float u_time;
+                  #ifdef GL_ES
+                  precision mediump float;
+                  #endif
+
+                  uniform vec2 resolution;
+                  uniform vec2 mouse;
+                  uniform float time;
 
                   void main () {
 
-                    gl_FragColor = vec4( 0.0, 0.0, 0.9, 1.0 );
-
-                    // vec2 st = gl_FragCoord.xy/u_resolution.xy;
-                    // gl_FragColor = vec4( st.x, st.y, 0.0, 1.0 );
-
+                    vec2 st = gl_FragCoord.xy/resolution;
+                    gl_FragColor = vec4(st.x,st.y,0.0,1.0);
+                    
                   }
 
                 `
-              },
-              scene: 'scene1'
+              }
             }
           },
           renderer: {
@@ -106,7 +112,7 @@
           // 4. update mesh
           starter.mesh.plane.onrender( timer => {
 
-            starter.mesh.plane.material.uniforms.u_time = timer.time;
+            starter.mesh.plane.material.uniforms.time.value = timer.time;
 
           } );
 
@@ -124,16 +130,16 @@
           // mousemove listener mesh
           starter.mesh.plane.onmousemove( _ => {
 
-            starter.mesh.plane.material.uniforms.u_mouse.value.x = starter.mouse.x;
-            starter.mesh.plane.material.uniforms.u_mouse.value.y = starter.mouse.y;
+            starter.mesh.plane.material.uniforms.mouse.value.x = starter.mouse.x;
+            starter.mesh.plane.material.uniforms.mouse.value.y = starter.mouse.y;
 
           } );
 
           // resize listener mesh
           starter.mesh.plane.onresize( _ => {
 
-            starter.mesh.plane.material.uniforms.u_resolution.value.x = starter.screen.width;
-            starter.mesh.plane.material.uniforms.u_resolution.value.y = starter.screen.height;
+            starter.mesh.plane.material.uniforms.resolution.value.x = starter.screen.width;
+            starter.mesh.plane.material.uniforms.resolution.value.y = starter.screen.height;
 
           } );
 
