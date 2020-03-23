@@ -4,9 +4,11 @@ import {
   Vector4
 } from 'three';
 
-import { reducerLoopObject } from '../reducer/reducer.object';
-
-const types = [ 'v2', 'v3', 'v4' ];
+const types = [
+  'v2',
+  'v3',
+  'v4'
+];
 
 const BASE_TYPE = {
   v2: new Vector2(),
@@ -30,7 +32,7 @@ export class Shader {
 
       let uniform = uniforms[ key ];
 
-      const parseUniform = ( uniform ) => {
+      const parseUniform = uniform => {
 
         const { type, value } = uniform;
 
@@ -51,7 +53,3 @@ export class Shader {
   }
 }
 
-export const createShader = ( options ) => ( {
-  ...options,
-  shader: reducerLoopObject( options.shader, ( option ) => new Shader( option ) )
-} );
