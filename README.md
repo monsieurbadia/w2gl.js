@@ -5,6 +5,76 @@ A WebGL micro-library
 
 # usage
 
+## option schema
+
+```js
+const option = {
+  scene: {
+    scene1: {}
+  },
+  camera: {
+    camera1: {
+      size: [ window.innerWidth, window.innerHeight ],
+      type: 'perspective'
+    }
+  },
+  mesh: {
+    plane: {
+      geometry: {
+        buffer: true,
+        options: [ 2, 2 ],
+        specific: 'plane'
+      },
+      material: {
+        options: {
+          transparent: true
+        },
+        specific: 'normal'
+      },
+      shader: {
+        uniforms: {
+          u_mouse: { type: 'v2', value: [] },
+          u_resolution: { type: 'v2', value: [] },
+          u_time: { type: 'f', value: 1.0 }
+        },
+        vertex: `
+          void main () {
+            gl_Position = vec4( position, 1.0 );
+          }
+        `,
+        fragment: `
+          uniform vec2 u_resolution;
+          uniform float u_time;
+          void main () {
+            gl_FragColor = vec4( 0.0, 0.0, 0.9, 1.0 );
+            // vec2 st = gl_FragCoord.xy/u_resolution.xy;
+            // gl_FragColor = vec4( st.x, st.y, 0.0, 1.0 );
+          }
+        `
+      },
+      scene: 'scene1'
+    }
+  },
+  renderer: {
+    renderer1: {
+      options: {
+        antialias: true,
+        pixelRatio: window.devicePixelRatio,
+        size: [ window.innerWidth, window.innerHeight ],
+      }
+    }
+  }
+};
+```
+
+## create option
+
+```js
+const option = { /* ... */ };
+
+W2GL.init( option );
+```
+
 ## create scene
 
 to create a scene a director cut need 3 things : a scene, a camera and a monitor. it's the same in 
