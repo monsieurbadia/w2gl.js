@@ -8,11 +8,7 @@ export class Event {
 
     if ( callback ) Base.DEFAULT.mousemoveList.push( callback );
 
-    window.addEventListener( 'mousemove', event => {
-
-      Base.DEFAULT.mousemoveList.forEach( mousemove => mousemove( event ) );
-
-    }, false );
+    window.addEventListener( 'mousemove', this.mousemove, false );
 
   }
 
@@ -20,11 +16,26 @@ export class Event {
 
     if ( callback ) Base.DEFAULT.resizeList.push( callback );
 
-    window.addEventListener( 'resize', event => {
+    window.addEventListener( 'resize', this.resize, false );
 
-      Base.DEFAULT.resizeList.forEach( resize => resize( event ) );
+  }
 
-    }, false );
+  mousemove ( event ) {
+
+    Base.DEFAULT.mousemoveList.forEach( mousemove => mousemove( event ) );
+
+  }
+
+  resize ( event ) {
+
+    Base.DEFAULT.resizeList.forEach( resize => resize( event ) );
+
+  }
+
+  clear () {
+
+    window.addEventListener( 'mousemove', this.mousemove, false );
+    window.addEventListener( 'resize', this.resize, false );
 
   }
 
