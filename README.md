@@ -88,7 +88,7 @@ const option = {
 const option = { /* ... */ }; // create option
 const starter = W2GL.init( option ); // init option
 
-console.log( starter ) // webgl starter object 
+console.log( starter ); // webgl starter object 
 ```
 
 *create scene :*
@@ -125,9 +125,9 @@ starter.mesh.plane.onrender( timer => {
 ##### onresize
 
 ```js
-starter.renderer.renderer1.onresize( _ => {
+starter.renderer.renderer1.onresize( event => {
 
-  starter.renderer.renderer1.setSize( window.innerWidth, window.innerHeight );
+  starter.renderer.renderer1.setSize( event.target.innerWidth, event.target.innerHeight );
 
 } );
 ```
@@ -135,10 +135,31 @@ starter.renderer.renderer1.onresize( _ => {
 ##### onmousemove
 
 ```js
-starter.mesh.plane.onmousemove( _ => {
+starter.mesh.plane.onmousemove( event => {
 
-  starter.mesh.plane.material.uniforms.u_mouse.value.x = starter.mouse.x;
-  starter.mesh.plane.material.uniforms.u_mouse.value.y = starter.mouse.y;
+  starter.mesh.plane.material.uniforms.u_mouse.value.x = event.clientX;
+  starter.mesh.plane.material.uniforms.u_mouse.value.y = event.clientY;
 
 } );
 ```
+
+## core
+
+##### browser
+
+to detect WebGL Support
+
+##### event
+
+##### mouse
+
+##### screen
+
+##### shader
+
+##### timer
+
+## TODO
+
+how to reduced my bundle main size by spliting threejs depencies ?
+improve javascript performance
