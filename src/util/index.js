@@ -4,7 +4,7 @@ import { isEmpty } from './util.empty';
 import { pipe } from './util.pipe';
 import { reducer } from './util.reducer';
 
-// some methods to help me to doing elegant things or incoherent method
+// just functions that help me doing things or stupid things, it's depend
 // TODO: enjoy !
 
 export {

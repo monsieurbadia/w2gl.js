@@ -1,0 +1,1 @@
+const prop = prop => object => object[ prop ];

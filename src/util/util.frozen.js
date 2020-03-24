@@ -1,4 +1,4 @@
-export const frozen = ( object ) => {
+export const frozen = object => {
 
   Object.keys( object ).forEach( ( key ) => {
 

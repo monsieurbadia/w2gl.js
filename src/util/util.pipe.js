@@ -1,3 +1,3 @@
 const triggerFunction = ( result, f ) => f( result ); // find explicit name function
 
-export const pipe = ( ...fs ) => options => fs.reduce( triggerFunction, options || {} );
+export const pipe = ( ...fs ) => options => [ ...fs ].reduce( triggerFunction, options || {} );
