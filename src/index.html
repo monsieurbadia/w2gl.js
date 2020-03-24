@@ -13,6 +13,7 @@
     </style>
   </head>
   <body>
+    <script src="https://threejs.org/build/three.min.js"></script>
     <script src="./index.js"></script>
     <script>
       
@@ -53,28 +54,37 @@
                   precision mediump float;
                   #endif
 
+                  uniform vec2 resolution;
+
+                  varying vec2 vUv;
+
                   void main () {
 
-                    gl_Position = vec4( position, 1.0 );
+                    vec2 _position = vec2( position.xy );
 
+                    vUv = uv;
+                    vUv = position.xy;
+                    vUv.x *= resolution.x / resolution.y;
+
+                    gl_Position = vec4( position.xy, 0.0, 1.0 );
                   }
-
+ 
                 `,
                 fragment: `
-
+  
                   #ifdef GL_ES
                   precision mediump float;
                   #endif
 
                   uniform vec2 resolution;
-                  uniform vec2 mouse;
                   uniform float time;
+
+                  varying vec2 vUv;
 
                   void main () {
 
-                    vec2 st = gl_FragCoord.xy/resolution;
-                    gl_FragColor = vec4( st, 0.0, 1.0 );
-                    
+                    gl_FragColor = vec4( vUv, 0.0, 1.0 );
+
                   }
 
                 `
@@ -101,14 +111,16 @@
           starter.scene.scene1.init( [ starter.mesh.plane ] );
 
           // 2. init camera
-          starter.camera.camera1.init( [ 0, 0, 1 ] );
+          starter.camera.camera1.init(  );
 
           // 3. init renderer
+          starter.renderer.renderer1.autoClear = false;
+
           starter.renderer.renderer1.init( starter.scene.scene1, starter.camera.camera1 );
 
           // 4. init events (optional)
           starter.event.onresize( starter.screen.resize );
-          starter.event.onmousemove( starter.mouse.mousemove );
+          // starter.event.onmousemove( starter.mouse.mousemove );
 
           /* then use listeners to update things */
 
