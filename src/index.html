@@ -47,11 +47,6 @@
                 specific: 'normal'
               },
               shader: {
-                uniforms: {
-                  mouse: { type: 'v2', value: [] },
-                  resolution: { type: 'v2', value: [] },
-                  time: { type: 'f', value: 1.0 }
-                },
                 vertex: `
 
                   #ifdef GL_ES
@@ -78,7 +73,7 @@
                   void main () {
 
                     vec2 st = gl_FragCoord.xy/resolution;
-                    gl_FragColor = vec4(st.x,st.y,0.0,1.0);
+                    gl_FragColor = vec4( st, 0.0, 1.0 );
                     
                   }
 
@@ -100,6 +95,8 @@
 
           console.log( starter );
 
+          /* create scene */
+
           // 1. init scene
           starter.scene.scene1.init( [ starter.mesh.plane ] );
 
@@ -109,25 +106,27 @@
           // 3. init renderer
           starter.renderer.renderer1.init( starter.scene.scene1, starter.camera.camera1 );
 
-          // 4. update mesh
+          // 4. init events (optional)
+          starter.event.onresize( starter.screen.resize );
+          starter.event.onmousemove( starter.mouse.mousemove );
+
+          /* then update things using listeners */
+
+          // onrender: update mesh
           starter.mesh.plane.onrender( timer => {
 
             starter.mesh.plane.material.uniforms.time.value = timer.time;
 
           } );
 
-          // init events
-          starter.event.onresize( starter.screen.resize );
-          starter.event.onmousemove( starter.mouse.mousemove );
-
-          // resize renderer
+          // onresize: refresh renderer size
           starter.renderer.renderer1.onresize( _ => {
 
             starter.renderer.renderer1.setSize( starter.screen.width, starter.screen.height );
 
           } );
 
-          // mousemove listener mesh
+          // onmousemove: set mouse coordinates values
           starter.mesh.plane.onmousemove( _ => {
 
             starter.mesh.plane.material.uniforms.mouse.value.x = starter.mouse.x;
@@ -135,7 +134,7 @@
 
           } );
 
-          // resize listener mesh
+          // onresize: update resolution coordinates values
           starter.mesh.plane.onresize( _ => {
 
             starter.mesh.plane.material.uniforms.resolution.value.x = starter.screen.width;

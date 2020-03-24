@@ -6,7 +6,11 @@ export class Shader {
 
     if ( !option ) return;
 
-    this.uniforms = this.createUniforms( option.uniforms );
+    const _uniform = option.uniforms !== undefined
+      ? Object.assign( Base.SHADER.UNIFORMS, option.uniforms )
+      : Base.SHADER.UNIFORMS;
+
+    this.uniforms = this.createUniforms( _uniform );
     this.vertexShader = option.vertex;
     this.fragmentShader = option.fragment;
 
@@ -30,7 +34,6 @@ export class Shader {
 
         }
         
-        console.log( uniform.value, value )
         return uniform;
 
       }
