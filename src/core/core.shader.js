@@ -1,8 +1,5 @@
 import { Base } from 'base';
 
-const include = ( o ) => ( i ) => o.replace( i.name, i.functions );
-const onbeforecompile = ( f, t ) => f( Base.SHADER.CUSTOM[ t ] );
-
 export class Shader {
 
   constructor ( option ) {
@@ -14,10 +11,14 @@ export class Shader {
       : Base.SHADER.UNIFORMS;
 
     this.uniforms = this.createUniforms( _uniform );
-    this.vertexShader = onbeforecompile( include( option.vertex ), 'vertex' );
-    this.fragmentShader = onbeforecompile( include( option.fragment ), 'fragment' );
+    this.vertexShader = option.vertex;
+    this.fragmentShader = option.fragment;
+
+    this.onbeforecompile( this.compile );
 
   }
+
+  onbeforecompile ( f ) { return f( this ); }
 
   createUniforms ( uniforms = {} ) {
 
@@ -47,6 +48,36 @@ export class Shader {
       };
 
     }, {} );
+
+  }
+
+  compile ( shader ) {
+
+    Object.keys( Base.SHADER.CORE ).forEach( key => {
+
+      const core = Base.SHADER.CORE[ key ];
+
+      switch ( core.type ) {
+
+        case 'vertex':
+
+          shader.vertexShader = shader.vertexShader.replace( core.name, core.template );
+
+          break;
+
+        case 'fragment':
+
+          shader.fragmentShader = shader.fragmentShader.replace( core.name, core.template );
+
+          break;
+
+        default:
+
+          return;
+
+      }
+
+    } );
 
   }
 
