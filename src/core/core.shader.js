@@ -1,5 +1,8 @@
 import { Base } from 'base';
 
+const include = ( o ) => ( i ) => o.replace( i.name, i.functions );
+const onbeforecompile = ( f, t ) => f( Base.SHADER.CUSTOM[ t ] );
+
 export class Shader {
 
   constructor ( option ) {
@@ -11,8 +14,8 @@ export class Shader {
       : Base.SHADER.UNIFORMS;
 
     this.uniforms = this.createUniforms( _uniform );
-    this.vertexShader = option.vertex;
-    this.fragmentShader = option.fragment;
+    this.vertexShader = onbeforecompile( include( option.vertex ), 'vertex' );
+    this.fragmentShader = onbeforecompile( include( option.fragment ), 'fragment' );
 
   }
 

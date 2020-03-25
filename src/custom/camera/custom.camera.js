@@ -1,18 +1,11 @@
-import { Camera, OrthographicCamera } from 'three';
+import { Camera } from 'three';
 import { reducer } from 'util';
 
-export class CustomCamera extends OrthographicCamera {
+export class CustomCamera extends Camera {
 
   constructor ( options ) {
   
-    super(
-      -1, // left
-      1, // right
-      1, // top
-     -1, // bottom
-     -1, // near,
-      1, // far
-    );
+    super();
   
   }
 
