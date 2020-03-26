@@ -1,4 +1,5 @@
 import { Base } from 'base';
+import './core/core.glsl';
 
 import {
   createCustomCamera,
