@@ -1,22 +1,24 @@
-import { Camera } from 'three';
-
 import {
   isEmpty,
   reducer
 } from 'util';
 
-export class CustomCamera extends Camera {
+export class CustomCamera {
 
-  constructor ( option ) {
+  constructor ( THREE, option ) {
   
-    super();
+    const camera = new THREE.Camera();
+
+    function init ( positions = [] ) {
+
+      if ( positions.length > 0 ) camera.position.set( ...positions );
   
-  }
+    }
 
-  init ( positions = [] ) {
+    Object.assign( camera, { init } );
 
-    if ( positions.length > 0 ) this.position.set( ...positions );
-
+    return camera;
+  
   }
 
 }
@@ -34,7 +36,7 @@ export const createCustomCamera = option => {
 
   return {
   ...option,
-  camera: reducer( _option, o => new CustomCamera( o ) )
+  camera: reducer( _option, o => new CustomCamera( option.THREE, o ) )
   };
 
 };

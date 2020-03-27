@@ -1,27 +1,30 @@
-import { Scene } from 'three';
-
 import {
   isEmpty,
   reducer
 } from 'util';
 
-export class CustomScene extends Scene {
+export class CustomScene {
 
-  constructor ( option ) {
+  constructor ( THREE, option ) {
 
-    super();
+    const scene = new THREE.Scene();
+    
+    function addMeshes ( meshes ) {
 
-  }
+      meshes.forEach( mesh => scene.add( mesh ) );
+  
+    }
+  
+    function init ( meshes ) {
+  
+      scene.addMeshes( meshes );
+  
+    }
 
-  addMeshes ( meshes ) {
-
-    meshes.forEach( mesh => this.add( mesh ) );
-
-  }
-
-  init ( meshes ) {
-
-    this.addMeshes( meshes );
+    return Object.assign( scene, {
+      addMeshes,
+      init,
+    } );
 
   }
 
@@ -33,7 +36,7 @@ export const createCustomScene = option => {
 
   return {
     ...option,
-    scene: reducer( _option, o => new CustomScene( o ) )
+    scene: reducer( _option, o => new CustomScene( option.THREE, o ) )
   };
 
 };

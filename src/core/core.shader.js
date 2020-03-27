@@ -2,82 +2,88 @@ import { Base } from 'base';
 
 export class Shader {
 
-  constructor ( option ) {
+  constructor ( THREE, option ) {
 
     if ( !option ) return;
+
+    const shader = {};
 
     const _uniform = option.uniforms !== undefined
       ? Object.assign( Base.SHADER.UNIFORMS, option.uniforms )
       : Base.SHADER.UNIFORMS;
 
-    this.uniforms = this.createUniforms( _uniform );
-    this.vertexShader = option.vertex;
-    this.fragmentShader = option.fragment;
+    shader.uniforms = createUniforms( _uniform );
+    shader.vertexShader = option.vertex;
+    shader.fragmentShader = option.fragment;
 
-    this.onbeforecompile( this.compile );
+    onbeforecompile( compile );
 
-  }
+    function onbeforecompile ( f ) { return f( shader ); }
 
-  onbeforecompile ( f ) { return f( this ); }
+    function createUniforms ( uniforms = {} ) {
+  
+      return Object.keys( uniforms ).reduce( ( result, key ) => {
+  
+        const uniform = uniforms[ key ];
+  
+        const parseUniform = uniform => {
+  
+          const { type, value } = uniform;
+  
+          const name = Base.MATH.PRIMITIVES[ type ];
 
-  createUniforms ( uniforms = {} ) {
-
-    return Object.keys( uniforms ).reduce( ( result, key ) => {
-
-      const uniform = uniforms[ key ];
-
-      const parseUniform = uniform => {
-
-        const { type, value } = uniform;
-
-        uniform.value = Base.MATH.PRIMITIVES[ type ];
-
-        if ( value.length > 0 ) {
+          uniform.value = new THREE[ name ]();
+  
+          if ( value.length > 0 ) {
+            
+            uniform.value.set( ...value );
+  
+          }
           
-          uniform.value.set( ...value );
-
+          return uniform;
+  
         }
-        
-        return uniform;
+  
+        return {
+          ...result,
+          [ key ]: Base.MATH.TYPES.includes( uniform.type ) ? parseUniform( uniform ) : uniform
+        };
+  
+      }, {} );
+  
+    }
+  
+    function compile ( shader ) {
+  
+      Object.keys( Base.SHADER.CORE ).forEach( key => {
+  
+        const core = Base.SHADER.CORE[ key ];
+  
+        switch ( core.type ) {
+  
+          case 'vertex':
+  
+            shader.vertexShader = shader.vertexShader.replace( core.name, core.template );
+  
+            break;
+  
+          case 'fragment':
+  
+            shader.fragmentShader = shader.fragmentShader.replace( core.name, core.template );
+  
+            break;
+  
+          default:
+  
+            return;
+  
+        }
+  
+      } );
+  
+    }
 
-      }
-
-      return {
-        ...result,
-        [ key ]: Base.MATH.TYPES.includes( uniform.type ) ? parseUniform( uniform ) : uniform
-      };
-
-    }, {} );
-
-  }
-
-  compile ( shader ) {
-
-    Object.keys( Base.SHADER.CORE ).forEach( key => {
-
-      const core = Base.SHADER.CORE[ key ];
-
-      switch ( core.type ) {
-
-        case 'vertex':
-
-          shader.vertexShader = shader.vertexShader.replace( core.name, core.template );
-
-          break;
-
-        case 'fragment':
-
-          shader.fragmentShader = shader.fragmentShader.replace( core.name, core.template );
-
-          break;
-
-        default:
-
-          return;
-
-      }
-
-    } );
+    return shader;
 
   }
 

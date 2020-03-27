@@ -1,5 +1,4 @@
 import { Base } from 'base';
-import './core/core.glsl';
 
 import {
   createCustomCamera,
@@ -14,11 +13,14 @@ export const W2GL = {
 
   init ( option, callback ) {
 
+    const _browser = Base.CORE.BROWSER;
     const _event = Base.CORE.EVENT;
     const _mouse = Base.CORE.MOUSE;
     const _screen = Base.CORE.SCREEN;
 
     const _core = {
+      THREE: option.instance,
+      browser: Base.CORE.properties[ _browser ],
       event: Base.CORE.properties[ _event ],
       mouse: Base.CORE.properties[ _mouse ],
       screen: Base.CORE.properties[ _screen ],
@@ -34,25 +36,28 @@ export const W2GL = {
     ];
 
     const _prepare = pipe( ..._operations );
-    const _compute = _prepare( _option );
+    const _starter = _prepare( _option );
+
 
     // TODO
     if ( !option.scene ) {
 
       // 1. init scene
-      _compute.scene.default.init( [ _compute.mesh.default ] );
+      _starter.scene.default.init( [ _starter.mesh.default ] );
   
       // 2. init camera
-      _compute.camera.default.init( [ 0, 0, -1 ] );
+      _starter.camera.default.init( [ 0, 0, -1 ] );
   
       // 3. init renderer
-      _compute.renderer.default.init( _compute.scene.default, _compute.camera.default );
+      _starter.renderer.default.init( _starter.scene.default, _starter.camera.default );
 
     }
 
+    if ( !_starter.browser.run.webgl() ) return;
+
     return callback === undefined
-      ? _compute
-      : callback( _compute );
+      ? _starter
+      : callback( _starter );
 
   }
 

@@ -38,7 +38,7 @@
         // W2GL test implementation
 
         W2GL.W2GL.init( {
-
+          instance: THREE,
           shader: {
             vertex: `
 
@@ -86,11 +86,11 @@
 
               }
 
-              vec3 albedo( vec3 pos ) {
+              vec3 albedo(vec3 pos) {
 
                 pos *= 0.5;
 
-                // return fract( pos.x ) * fract( pos.z ) * vec3(1.0);
+                // return fract(pos.x) * fract(pos.z) * vec3(1.0);
                 float f = smoothstep(0.0, 0.0, fract(pos.x + sin(pos.z) + 0.4 ));
                 return f* vec3(1.0);
 
@@ -135,7 +135,7 @@
 
                 color = mix(vec3(0.0, 0.0, 0.0), color, fogFactor);
 
-                gl_FragColor = vec4( color, 1.0 );
+                gl_FragColor = vec4(color, 1.0);
               }
 
             `

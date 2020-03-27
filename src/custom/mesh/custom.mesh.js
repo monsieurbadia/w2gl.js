@@ -1,37 +1,41 @@
-import { Mesh } from 'three';
 import { Base } from 'base';
 import { Shader } from 'core';
 import { reducer } from 'util';
 
-export class CustomMesh extends Mesh {
+export class CustomMesh {
 
-  constructor ( option ) {
+  constructor ( THREE, option ) {
 
-    const shader = new Shader( option.shader );
-    const geometry = new Base.GEOMETRY[ 'plane' ]( ...option.geometry.option );
-    const material = new Base.MATERIAL[ 'shader' ]( shader );
+    const shader = new Shader( THREE, option.shader );
+    const geometry = new THREE[ `PlaneBufferGeometry` ]( ...option.geometry.option );
+    const material = new THREE[ 'ShaderMaterial' ]( shader );
+    const mesh = new THREE.Mesh( geometry, material );
 
-    super( geometry, material );
+    function onmousemove ( mousemove ) {
+
+      Base.DEFAULT.mousemoveList.push( mousemove );
+  
+    }
+  
+    function onresize ( resize ) {
+  
+      Base.DEFAULT.resizeList.push( resize );
+  
+    }
+  
+    function onrender ( update ) {
+  
+      Base.DEFAULT.renderList.push( update );
+  
+    } 
+
+    return Object.assign( mesh, {
+      onmousemove,
+      onresize,
+      onrender
+    } );
 
   }
-
-  onmousemove ( mousemove ) {
-
-    Base.DEFAULT.mousemoveList.push( mousemove );
-
-  }
-
-  onresize ( resize ) {
-
-    Base.DEFAULT.resizeList.push( resize );
-
-  }
-
-  onrender ( update ) {
-
-    Base.DEFAULT.renderList.push( update );
-
-  } 
 
 };
 
@@ -68,7 +72,7 @@ export const createCustomMesh = option => {
 
   return {
     ...option,
-    mesh: reducer( _option, o => new CustomMesh( o ) )
+    mesh: reducer( _option, o => new CustomMesh( option.THREE, o ) )
   };
 
 };

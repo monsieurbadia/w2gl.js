@@ -1,4 +1,3 @@
-import { WebGLRenderer } from 'three';
 import { Base } from 'base';
 import { Timer } from 'core';
 
@@ -7,66 +6,74 @@ import {
   reducer
 } from 'util';
 
-export class CustomRendererWebGL extends WebGLRenderer {
+export class CustomRendererWebGL {
 
-  constructor ( option ) {
+  constructor ( THREE, option ) {
 
-    super( { antialias: true } );
+    const rendererWebGL = new THREE.WebGLRenderer( { antialias: true } )
+    const timer = new Timer();
 
-    this.create( option );
-    this.add( this.domElement );
+    create( option );
+    add( rendererWebGL.domElement );
 
-    this.timer = new Timer();
   
     // that method is used into a listener
-    this.onresize = this.onresize.bind( this );
+    rendererWebGL.onresize = onresize.bind( rendererWebGL );
 
-  }
+    function add ( element ) {
 
-  add ( element ) {
-
-    window.document.body.appendChild( element );
-
-  }
-
-  init ( scene, camera ) {
-
-    this.current = {
-      camera,
-      scene,
-    };
-
-    this.setTimerAnimationLoop();
-
-  }
-
-  create ( option ) {
-
-    this.setClearColor( 0x000000 );
-    this.setPixelRatio( window.devicePixelRatio );
-    this.setSize( ...option.option.size, true );
-
-  }
-
-  onresize ( resize ) {
-
-    Base.DEFAULT.resizeList.push( resize );
-
-  }
-
-  setTimerAnimationLoop ( callback ) {
-
-    this.setAnimationLoop( callback !== null ? _ => {
-
-      this.timer.render();
+      window.document.body.appendChild( element );
   
-      Base.DEFAULT.renderList.forEach( render => render( this.timer ) );
+    }
   
-      if ( callback ) callback( this.timer );
+    function init ( scene, camera ) {
   
-      this.render( this.current.scene, this.current.camera );
+      rendererWebGL.current = {
+        camera,
+        scene,
+      };
+  
+      rendererWebGL.setTimerAnimationLoop();
+  
+    }
+  
+    function create ( option ) {
+  
+      rendererWebGL.setClearColor( 0x000000 );
+      rendererWebGL.setPixelRatio( window.devicePixelRatio );
+      rendererWebGL.setSize( ...option.option.size, true );
+  
+    }
+  
+    function onresize ( resize ) {
+  
+      Base.DEFAULT.resizeList.push( resize );
+  
+    }
+  
+    function setTimerAnimationLoop ( callback ) {
+  
+      rendererWebGL.setAnimationLoop( callback !== null ? _ => {
+  
+        timer.render();
+    
+        Base.DEFAULT.renderList.forEach( render => render( timer ) );
+    
+        if ( callback ) callback( timer );
+    
+        rendererWebGL.render( rendererWebGL.current.scene, rendererWebGL.current.camera );
+  
+      } : null );
+  
+    }
 
-    } : null );
+    return Object.assign( rendererWebGL, {
+      add,
+      init,
+      create,
+      onresize,
+      setTimerAnimationLoop
+    } );
 
   }
 
@@ -88,7 +95,7 @@ export const createCustomRendererWebGL = option => {
 
   return {
     ...option,
-    renderer: reducer( _option, o => new CustomRendererWebGL( o ) )
+    renderer: reducer( _option, o => new CustomRendererWebGL( option.THREE, o ) )
   };
 
 };
