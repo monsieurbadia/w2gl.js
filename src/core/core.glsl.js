@@ -2,9 +2,9 @@
 // @see https://www.clicktorelease.com/blog/using-hooks-for-easier-development-webgl-glsl/
 // @see http://codeflow.org/entries/2013/feb/22/how-to-write-portable-webgl/
 
-function _h( f, c ) {
+function _hook( f, c ) {
   return function() {
-    var res = f.apply( this, arguments );
+    const res = f.apply( this, arguments );
     c.apply( this, arguments );
     return res;
   }
@@ -12,7 +12,7 @@ function _h( f, c ) {
 
 function compileErrors( errors, source ) {
 
-  var css = `
+  const stylesheet = `
 
     .glsl-report {
       left: 0;
@@ -25,28 +25,44 @@ function compileErrors( errors, source ) {
       height: 100%;
       z-index: 9999;
       position: fixed;
-      border-top: 4px solid #12bcfa;
       background-color: #1d262f;
-      font-size: 14px;
+      font-size: 12px;
       color: #ffffff;
       white-space: normal;
-      overflow: hidden;
+      overflow-y: auto;
     }
 
     header {
       top: 0;
       left: 0;
       right: 0;
+      z-index: 1;
       width: 100%;
       height: 80px;
       display: flex;
-      color: #12bcfa;
+      color: hsl( 210, 24%, 75% );
       padding: 0 0 0 30px;
       align-items: center;
-      background: #161d24;
-      position: absolute;
+      background: hsl( 210, 24%, 10% );
+      position: fixed;
       font-weight: 800;
       letter-spacing: 0.1rem;
+      border-top: 6px solid hsl( 210, 24%, 75% );
+    }
+
+    header > span  {
+      margin: 0 0 0 20px;
+      background: red;
+      border-radius: 50%;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: hsl( 5, 98%, 60% );
+      color: hsl( 5, 98%, 90% );
+      font-size: 10px;
+      letter-spacing: 0;
     }
 
     #GLSLReport {
@@ -54,7 +70,7 @@ function compileErrors( errors, source ) {
       border-radius: 10px;
       overflow: hidden;
       list-style-type: none;
-      box-shadow: 0 5px 5px hsla( 0, 0%, 0%, 0.2 );
+      box-shadow: 0 4px 6px hsla( 0, 0%, 0%, 0.2 );
     }
 
     #GLSLReport li {
@@ -76,7 +92,7 @@ function compileErrors( errors, source ) {
       align-items: center;
       flex-direction: row;
       position: relative;
-      border-bottom: 1px solid #161d24;
+      border-bottom: 1px solid hsla( 210, 24%, 11%, 0.35 );
     }
 
     li:last-child .glsl-error__element {
@@ -112,29 +128,31 @@ function compileErrors( errors, source ) {
     .glsl-error__element--type {
       padding: 2px 15px;
       border-radius: 10px;
-      background: rgba( 253, 83, 68, 0.8 );
-      color: rgba( 88, 23, 17, 1.0 );
+      background: hsl( 5, 98%, 60% );
+      color: hsl( 5, 98%, 30% );
       letter-spacing: -0.05em;
     }
 
   `;
 
   const code = source.split( '\n' );
-  const el = document.createElement( 'style' );
+  const style = document.createElement( 'style' );
   const container = document.createElement( 'div' );
   const title = document.createElement( 'header' );
+  const count = document.createElement( 'span' );
   const report = document.createElement( 'ul' );
   const li = document.createElement( 'li' );
 
-  container.classList.add( 'glsl-report' );
+  count.innerHTML = errors.split( '\n' ).length - 1;
   title.innerHTML = 'GLSL Reporter'
+  style.textContent = stylesheet;
 
-  el.textContent = css;
-
+  container.classList.add( 'glsl-report' );
   report.setAttribute( 'id', 'GLSLReport' );
 
-  document.getElementsByTagName( 'head' )[ 0 ].appendChild( el );
+  document.getElementsByTagName( 'head' )[ 0 ].appendChild( style );
   document.body.appendChild( container );
+  title.appendChild( count );
   container.appendChild( title );
   container.appendChild( report );
 
@@ -151,9 +169,8 @@ function compileErrors( errors, source ) {
       const template = `
         <div class="glsl-error__element">
           <div class="glsl-error__element--main">
-
             <div class="glsl-error__element--column">
-              <span class="glsl-error__element--id">000${ index }</span>
+              <span class="glsl-error__element--id">${ index + 1 }</span>
             </div>
             <div class="glsl-error__element--column">
               <span class="glsl-error__element--type">ERROR</span>
@@ -176,8 +193,10 @@ function compileErrors( errors, source ) {
     
 }
 
-WebGLRenderingContext.prototype.compileShader = _h( 
+WebGLRenderingContext.prototype.compileShader = _hook(
+ 
   WebGLRenderingContext.prototype.compileShader, 
+
   function( shader ) {
 
     if ( this.getShaderParameter( shader, this.COMPILE_STATUS ) == false ) {
@@ -189,6 +208,6 @@ WebGLRenderingContext.prototype.compileShader = _h(
 
     }
 
-  } 
+  }
 
 );
