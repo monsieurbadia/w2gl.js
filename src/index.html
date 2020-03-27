@@ -33,144 +33,113 @@
     <script src="./index.js"></script>
     <script>
       
-      // console.log( W2GL ); // { default: { init: f}, __esModule: true }
-
       document.addEventListener( 'DOMContentLoaded', _ => {
 
         // W2GL test implementation
 
         W2GL.W2GL.init( {
 
-          scene: {
-            scene1: {}
-          },
-          camera: {
-            camera1: {
-              size: [ window.innerWidth, window.innerHeight ],
-              type: 'perspective'
-            }
-          },
-          mesh: {
-            plane: {
-              geometry: {
-                buffer: true,
-                options: [ 2, 2 ],
-                specific: 'plane'
-              },
-              material: {
-                options: {
-                  transparent: true
-                },
-                specific: 'normal'
-              },
-              shader: {
-                vertex: `
+          shader: {
+            vertex: `
 
-                  #include <core_vertex>
-                  
-                  uniform vec2 resolution;
+              #include <core_vertex>
+              
+              uniform vec2 resolution;
 
-                  varying vec2 vUv;
+              varying vec2 vUv;
 
-                  void main () {
+              void main () {
 
-                    vec2 _position = vec2( position.xy );
+                vUv = uv;
+                vUv = position.xy;
+                vUv.x *= resolution.x / resolution.y; // normalise screen ratio
 
-                    vUv = uv;
-                    vUv = position.xy;
-                    vUv.x *= resolution.x / resolution.y; // normalise screen ratio
+                gl_Position = vec4( position.xy, 0.0, 1.0 );
 
-                    gl_Position = vec4( position.xy, 0.0, 1.0 );
-                  }
- 
-                `,
-                fragment: `
-
-                  #include <core_fragment>
-                  #include <core_color>
-
-                  uniform vec2 resolution;
-                  uniform float time;
-
-                  varying vec2 vUv;
-
-                  float map(vec3 pos) {
-
-                    float planeDist = plane( pos );
-
-                    pos.xy = rotate( pos.xy, pos.z * sin( time ) * 0.01 );
-
-                    pos.x = abs( pos.x );
-
-                    pos = mod( pos + 10.0, 20.0 ) - 10.0;
-
-                    // pos.xy = rotate( pos.xy, time );
-                    pos.xz = rotate( pos.xz, time * 0.7 );
-
-                    return min( planeDist, sphere( vec3(pos.x, abs(pos.y - 4.0), pos.z ), 4.0 ) );
-
-                  }
-
-                  vec3 material(vec3 pos) {
-                    
-                    return vec3(smoothstep(0.4, 0.41, fract(pos.x + sin(pos.z * 0.4 + time))));
-
-                  }
-
-                  vec3 albedo( vec3 pos ) {
- 
-                    pos += 0.5;
-
-                    // return vec3(fract(pos.x) * fract(pos.z)) * vec3(1.0);
-                    float f = smoothstep(0.27, 0.3, fract(pos.x + sin(pos.z) * 0.4));
-
-                    return f * vec3( 1.0 );
-
-                  }
-
-                  void main () {
-
-                    vec3 pos = vec3( 0.0, 5.0 + sin( time * 0.2 ) * 2.0, -10.0 );
-                    vec3 dir = normalize(vec3(vUv, 1.0));
-                    
-                    // vec3 color = mix(vec3(0.4, 0.5, 0.6), vec3(0.7, 0.8, 0.9), -vUv.y);
-
-                    vec3 color = BLACK;
-
-                    for ( int i = 0; i < 64; i++ ) {
-                        
-                      float d = map( pos );
-
-                      if ( d < 0.01 ) {
-
-                        float lighDistance = sphere( pos, 1.0 );
-
-                        color = 30.0 / ( lighDistance * lighDistance ) * vec3( 0.0, 0.0, 1.0 ) * albedo( pos );
-
-                        break;
-
-                      }
-                      
-                      pos += d * dir;
-
-                    }
-                    
-                    gl_FragColor = vec4( color, 1.0 );
-
-                  }
-
-                `
               }
-            }
-          },
-          renderer: {
-            renderer1: {
-              options: {
-                antialias: true,
-                pixelRatio: window.devicePixelRatio,
-                size: [ window.innerWidth, window.innerHeight ],
+
+            `,
+            fragment: `
+
+              #include <core_fragment>
+              #include <core_color>
+
+              uniform vec2 resolution;
+              uniform float time;
+
+              varying vec2 vUv;
+
+              float distanceField(vec3 pos) {
+
+                // pos.xy = rotate(pos.xy, pos.z * sin(time) * 0.001);
+                pos.zy = rotate(pos.zy, pos.y * sin(time) * 0.001);
+                pos.zx = rotate(pos.zx, pos.x * sin(time) * 0.002);
+
+                pos.x = abs(pos.x);
+
+                pos = mod(pos + 5.0, 10.0) - 5.0;
+
+                pos.xy = rotate(pos.xy, time);
+                pos.xz = rotate(pos.xz, time * 0.1);
+
+                return min(4.0, box(pos - vec3(0.0, 0.0, 0.0), vec3(1.35)));
+
               }
-            }
+
+              vec3 albedo( vec3 pos ) {
+
+                pos *= 0.5;
+
+                // return fract( pos.x ) * fract( pos.z ) * vec3(1.0);
+                float f = smoothstep(0.0, 0.0, fract(pos.x + sin(pos.z) + 0.4 ));
+                return f* vec3(1.0);
+
+              }
+
+              vec3 computeNormal(vec3 pos) {
+                vec2 eps = vec2(0.01, 0.0);
+                return normalize(vec3(
+                  distanceField(pos + eps.xyy) - distanceField(pos - eps.xyy),
+                  distanceField(pos + eps.yxy) - distanceField(pos - eps.yxy),
+                  distanceField(pos + eps.yyx) - distanceField(pos - eps.yyx)
+                ));
+              }
+
+              void main() {
+
+                vec3 pos = vec3(0.0,5.0, -15.0);
+                vec3 dir = normalize(vec3(vUv, 1.0));
+                vec3 color = BLACK;
+
+                for ( int i = 0; i < 100; i++ ) {
+
+                  float d = distanceField(pos);
+
+                  if ( d < 0.01 ) {
+                    
+                    float lightDistance = sphere(pos - vec3(4.0, 0.0, 0.0), 1.0);
+                    vec3 norm = computeNormal(pos);
+                    float diff = diffuse(norm);
+                    float spec = specular(norm, dir);
+
+                    color = (diff + spec) * albedo(pos);
+
+                    break;
+                  }
+
+                  pos += d * dir;
+
+                }
+
+                float fogFactor = exp(-pos.z * 0.01);
+
+                color = mix(vec3(0.0, 0.0, 0.0), color, fogFactor);
+
+                gl_FragColor = vec4( color, 1.0 );
+              }
+
+            `
+
           }
 
         }, ( starter ) => {
@@ -179,14 +148,14 @@
 
           /* INIT WEBGL */
 
-          // 1. init scene
-          starter.scene.scene1.init( [ starter.mesh.plane ] );
+          // // 1. init scene
+          // starter.scene.default.init( [ starter.mesh.default ] );
 
-          // 2. init camera
-          starter.camera.camera1.init(  );
+          // // 2. init camera
+          // starter.camera.default.init( [ 0, 0, -1 ] );
 
-          // 3. init renderer
-          starter.renderer.renderer1.init( starter.scene.scene1, starter.camera.camera1 );
+          // // 3. init renderer
+          // starter.renderer.default.init( starter.scene.default, starter.camera.default );
 
           /* INIT LISTENERS */
 
@@ -199,32 +168,32 @@
           /* THEN USE LISTENERS TO UPDATE THINGS */
 
           // onrender: update mesh
-          starter.mesh.plane.onrender( timer => {
+          starter.mesh.default.onrender( timer => {
 
-            starter.mesh.plane.material.uniforms.time.value = timer.time;
+            starter.mesh.default.material.uniforms.time.value = timer.time;
 
           } );
 
           // onresize: refresh renderer size
-          starter.renderer.renderer1.onresize( event => {
+          starter.renderer.default.onresize( event => {
 
-            starter.renderer.renderer1.setSize( starter.screen.width, starter.screen.height );
+            starter.renderer.default.setSize( starter.screen.width, starter.screen.height );
 
           } );
 
           // onmousemove: set mouse coordinates values
-          starter.mesh.plane.onmousemove( event => {
+          starter.mesh.default.onmousemove( event => {
 
-            starter.mesh.plane.material.uniforms.mouse.value.x = starter.mouse.x;
-            starter.mesh.plane.material.uniforms.mouse.value.y = starter.mouse.y;
+            starter.mesh.default.material.uniforms.mouse.value.x = starter.mouse.x;
+            starter.mesh.default.material.uniforms.mouse.value.y = starter.mouse.y;
 
           } );
 
           // onresize: update resolution coordinates values
-          starter.mesh.plane.onresize( event => {
+          starter.mesh.default.onresize( event => {
 
-            starter.mesh.plane.material.uniforms.resolution.value.x = starter.screen.width;
-            starter.mesh.plane.material.uniforms.resolution.value.y = starter.screen.height;
+            starter.mesh.default.material.uniforms.resolution.value.x = starter.screen.width;
+            starter.mesh.default.material.uniforms.resolution.value.y = starter.screen.height;
 
           } );
 

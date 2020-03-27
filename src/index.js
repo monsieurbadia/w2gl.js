@@ -36,6 +36,20 @@ export const W2GL = {
     const _prepare = pipe( ..._operations );
     const _compute = _prepare( _option );
 
+    // TODO
+    if ( !option.scene ) {
+
+      // 1. init scene
+      _compute.scene.default.init( [ _compute.mesh.default ] );
+  
+      // 2. init camera
+      _compute.camera.default.init( [ 0, 0, -1 ] );
+  
+      // 3. init renderer
+      _compute.renderer.default.init( _compute.scene.default, _compute.camera.default );
+
+    }
+
     return callback === undefined
       ? _compute
       : callback( _compute );
