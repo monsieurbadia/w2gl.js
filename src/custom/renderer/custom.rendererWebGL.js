@@ -1,15 +1,19 @@
 import { WebGLRenderer } from 'three';
 import { Base } from 'base';
 import { Timer } from 'core';
-import { reducer } from 'util';
+
+import {
+  isEmpty,
+  reducer
+} from 'util';
 
 export class CustomRendererWebGL extends WebGLRenderer {
 
-  constructor ( options ) {
+  constructor ( option ) {
 
     super( { antialias: true } );
 
-    this.create( options );
+    this.create( option );
     this.add( this.domElement );
 
     this.timer = new Timer();
@@ -36,11 +40,11 @@ export class CustomRendererWebGL extends WebGLRenderer {
 
   }
 
-  create ( options ) {
+  create ( option ) {
 
     this.setClearColor( 0x000000 );
     this.setPixelRatio( window.devicePixelRatio );
-    this.setSize( ...options.options.size, true );
+    this.setSize( ...option.option.size, true );
 
   }
 
@@ -68,7 +72,23 @@ export class CustomRendererWebGL extends WebGLRenderer {
 
 };
 
-export const createCustomRendererWebGL = options => ( {
-  ...options,
-  renderer: reducer( options.renderer, option => new CustomRendererWebGL( option ) )
-} );
+export const createCustomRendererWebGL = option => {
+  
+  const _option = isEmpty( option.renderer )
+    ? {
+        default: {
+          option: {
+            antialias: true,
+            pixelRatio: window.devicePixelRatio,
+            size: [ window.innerWidth, window.innerHeight ],
+          }
+        }
+      }
+    : option.renderer;
+
+  return {
+    ...option,
+    renderer: reducer( _option, o => new CustomRendererWebGL( o ) )
+  };
+
+};

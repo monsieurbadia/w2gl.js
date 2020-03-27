@@ -1,9 +1,13 @@
 import { Scene } from 'three';
-import { reducer } from 'util';
+
+import {
+  isEmpty,
+  reducer
+} from 'util';
 
 export class CustomScene extends Scene {
 
-  constructor ( options ) {
+  constructor ( option ) {
 
     super();
 
@@ -23,7 +27,13 @@ export class CustomScene extends Scene {
 
 }
 
-export const createCustomScene = options => ( {
-  ...options,
-  scene: reducer( options.scene, option => new CustomScene( option ) )
-} );
+export const createCustomScene = option => {
+
+  const _option = isEmpty( option.scene ) ? { default: {} } : option.scene;
+
+  return {
+    ...option,
+    scene: reducer( _option, o => new CustomScene( o ) )
+  };
+
+};
