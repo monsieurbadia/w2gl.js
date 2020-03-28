@@ -16,9 +16,15 @@ export class GLSLReports extends HTMLElement {
 
     this.state = {
       logs: [],
+      button: {
+        filter: {
+          all: null,
+          error: null,
+          warning: null
+        }
+      },
       template: document.createElement( 'template' )
     };
-
 
   }
 
@@ -84,16 +90,22 @@ export class GLSLReports extends HTMLElement {
           letter-spacing: 0;
         }
 
-        #GLSLReports {
-          padding: 80px 30px;
+        main {
+          background: #202d39;
+          margin: 80px 30px;
           border-radius: 10px;
           overflow: hidden;
-          list-style-type: none;
           box-shadow: 0 4px 6px hsla( 0, 0%, 0%, 0.2 );
+        }
+
+        #GLSLReports {
+          margin: 0;
+          padding: 0;
+          list-style-type: none;
+          position: relative;
         }
       
         #GLSLReports li {
-          background: #202d39;
           color: #e8dfda;
           overflow: hidden;
         }
@@ -172,15 +184,65 @@ export class GLSLReports extends HTMLElement {
       </style>
 
       <section>
-        <header><h3>GLSL Reports</h3></header>
+      <header>
+        <div><h3>GLSL Reports</h3><span id="GLSLReportsErrorCounter"></span></div>
+        <div>
+          <ul>
+            <li><button id="GLSLReportsButtonAll" type="button" value="all">all</button></li>
+            <li><button id="GLSLReportsButtonError" type="button" value="error">error</button></li>
+            <li><button id="GLSLReportsButtonWarning" type="button" value="warning">warning</button></li>
+          </ul>
+        </div>
+      </header>
+      <main>
         <ul id="GLSLReports"></ul>
+      </main>
       </section>
     `;
 
     this.shadowRoot.appendChild( document.importNode( this.state.template.content, true ) );
 
+    this.state.button.filter.all = this.shadowRoot.getElementById( 'GLSLReportsButtonAll' );
+    this.state.button.filter.error = this.shadowRoot.getElementById( 'GLSLReportsButtonError' );
+    this.state.button.filter.warning = this.shadowRoot.getElementById( 'GLSLReportsButtonWarning' );
+
+    this.state.button.filter.all.onclick = this.click.bind( this );
+    this.state.button.filter.error.onclick = this.click.bind( this );
+    this.state.button.filter.warning.onclick = this.click.bind( this );
+
   }
 
+  click ( event ) {
+
+    let logsFiltered;
+    
+    switch ( event.target.value ) {
+
+      case 'error':
+
+        logsFiltered = this.state.logs.filter( log => log.type === 'ERROR' );
+
+        break;
+
+      case 'warning':
+
+        logsFiltered = this.state.logs.filter( log => log.type === 'WARNING' );
+
+        break;
+
+      default:
+
+        logsFiltered = this.state.logs;
+
+        break;
+
+    }
+
+    this.shadowRoot.getElementById( 'GLSLReports' ).innerHTML = '';
+
+    logsFiltered.forEach( logFiltered => this.templating( logFiltered ) );
+
+  }
 
   apply () {
 
@@ -217,7 +279,7 @@ export class GLSLReports extends HTMLElement {
 
   }
 
-  templating ( log, source ) {
+  templating ( log ) {
 
     this.shadowRoot.getElementById( 'GLSLReports' ).innerHTML += `
       <li>
@@ -232,7 +294,7 @@ export class GLSLReports extends HTMLElement {
           </div>
           <div class="glsl-error__element__column">
             <span class="glsl-error__element__message">"<b> ${ log.message } </b>" in line ${ log.line }</span>
-            <span class="glsl-error__element__code">${ source[ log.line ] }</span>
+            <span class="glsl-error__element__code">${ log.source[ log.line ] }</span>
           </div>
         </div>
       </li>
@@ -264,19 +326,15 @@ export class GLSLReports extends HTMLElement {
           type,
           status,
           line,
-          message
+          message,
+          source: _source
         };
 
         this.templating( log, _source );
 
         return [
           ...result,
-          {
-            type,
-            status,
-            line,
-            message
-          }
+          log
         ];
 
       }
@@ -286,9 +344,6 @@ export class GLSLReports extends HTMLElement {
       ];
 
     }, [] );
-
-    // console.log( this.state.logs.filter( e => e.type === 'WARNING' ) );
-    // console.log( this.state.logs.filter( e => e.type === 'ERROR' ) );
 
   }
 
