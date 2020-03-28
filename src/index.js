@@ -1,4 +1,6 @@
 import { Base } from 'base';
+import { GLSLReports } from './core/core.glsl';
+// import './core/core.glsl';
 
 import {
   createCustomCamera,
@@ -38,9 +40,12 @@ export const W2GL = {
     const _prepare = pipe( ..._operations );
     const _starter = _prepare( _option );
 
-
     // TODO
     if ( !option.scene ) {
+
+      const glslReport = new GLSLReports();
+
+      glslReport.init();
 
       // 1. init scene
       _starter.scene.default.init( [ _starter.mesh.default ] );
