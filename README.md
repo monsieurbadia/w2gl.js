@@ -118,7 +118,7 @@ starter.renderer.renderer1.init( starter.scene.scene1, starter.camera.camera1 );
 
 ## listeners
 
-used listeners to doing things, for example each mesh/renderer attach listener methods
+use listeners to update things, for example each mesh/renderer attach listener methods
 
 ##### onrender
 
@@ -188,7 +188,7 @@ starter.mesh.plane.onmousemove( event => {
 - create live editor mode
 - ~~create GLSL debugger~~
   - ~~with web components~~ 
-  - create dark/light theme mode
+  - ~~create dark/light theme mode~~
   - improve ui
 
 ## SOURCE
