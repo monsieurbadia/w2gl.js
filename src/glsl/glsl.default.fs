@@ -1,5 +1,3 @@
-// PRIMITIVE
-
 float box (vec3 pos, vec3 size) {
   return length(max(abs(pos) - size, 0.0));
 }
@@ -30,12 +28,6 @@ vec2 repeat(inout vec2 pos, vec2 period) {
 
 }
 
-// vec3 albedo( vec3 pos ) {
-  
-//   return vec3( fract( pos.x ) + fract( pos.z ) );
-
-// }
-
 // LIGHT
 
 vec3 sunDirection = normalize (vec3(0.0, 0.0, 0.0));
@@ -50,7 +42,7 @@ float specular(vec3 normal, vec3 dir) {
   
   vec3 h = normalize(sunDirection - dir);
 
-  return pow(clamp(dot(h, normal), 0.0, 1.0), 15.0);
+  return pow(clamp(dot(h, normal), 0.0, 1.0), 8.0);
 
 }
 

@@ -2,6 +2,10 @@ import { Base } from 'base';
 import { Shader } from 'core';
 import { reducer } from 'util';
 
+/**
+ * @author monsieurbadia / https://monsieurbadia.com/
+ */
+
 export class CustomMesh {
 
   constructor ( THREE, option ) {

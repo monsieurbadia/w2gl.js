@@ -1,3 +1,7 @@
+/**
+ * @author monsieurbadia / https://monsieurbadia.com/
+ */
+
 const TYPES = [
   'glsl',
   'vert',
@@ -8,6 +12,8 @@ const TYPES = [
 
 module.exports = function ( bundler ) {
 
-  TYPES.forEach( function ( type ) { bundler.addAssetType( type, require.resolve( './src/GLSLAsset' ) ) } );
+  const GLSLAssetPath = require.resolve( './src/GLSLAsset' );
+
+  TYPES.forEach( function ( type ) { bundler.addAssetType( type, GLSLAssetPath ) } );
 
 };

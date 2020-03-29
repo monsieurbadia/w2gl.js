@@ -1,3 +1,7 @@
+/**
+ * @author monsieurbadia / https://monsieurbadia.com/
+ */
+
 export const frozen = object => {
 
   Object.keys( object ).forEach( ( key ) => {

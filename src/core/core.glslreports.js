@@ -1,4 +1,7 @@
-// follow these articles 
+/**
+ * @author monsieurbadia / https://monsieurbadia.com/
+ */
+
 // @see https://www.clicktorelease.com/blog/using-hooks-for-easier-development-webgl-glsl/
 // @see http://codeflow.org/entries/2013/feb/22/how-to-write-portable-webgl/
 

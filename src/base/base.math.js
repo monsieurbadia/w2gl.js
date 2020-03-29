@@ -1,3 +1,7 @@
+/**
+ * @author monsieurbadia / https://monsieurbadia.com/
+ */
+
 const MATH_PRIMITIVES = Object.freeze( {
   v2: 'Vector2',
   v3: 'Vector3',

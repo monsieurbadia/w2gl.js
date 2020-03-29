@@ -1,5 +1,9 @@
 import { Base } from 'base';
 
+/**
+ * @author monsieurbadia / https://monsieurbadia.com/
+ */
+
 export class Shader {
 
   constructor ( THREE, option ) {

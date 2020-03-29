@@ -3,6 +3,10 @@ import {
   reducer
 } from 'util';
 
+/**
+ * @author monsieurbadia / https://monsieurbadia.com/
+ */
+
 export class CustomScene {
 
   constructor ( THREE, option ) {

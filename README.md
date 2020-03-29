@@ -38,13 +38,19 @@ const option = {
         },
         vertex: `
 
-          #ifdef GL_ES
-          precision mediump float;
-          #endif
+          #include <core_vertex>
+          
+          uniform vec2 resolution;
+
+          varying vec2 vUv;
 
           void main () {
 
-            gl_Position = vec4( position, 1.0 );
+            vUv = uv;
+            vUv = position.xy;
+            vUv.x *= resolution.x / resolution.y;
+
+            gl_Position = vec4( position.xy, 0.0, 1.0 );
 
           }
 
@@ -59,10 +65,13 @@ const option = {
           uniform vec2 mouse;
           uniform float time;
 
+          varying vec2 vUv;
+
           void main () {
 
-            vec2 st = gl_FragCoord.xy/resolution;
-            gl_FragColor = vec4(st.x,st.y,0.0,1.0);
+            vec2 pos = gl_FragCoord.xy/resolution;
+
+            gl_FragColor = vec4(vUv,0.0,1.0);
             
           }
 
@@ -147,9 +156,9 @@ starter.mesh.plane.onmousemove( event => {
 
 ##### browser
 
-to detect WebGL Support
-
 ##### event
+
+##### glsl
 
 ##### mouse
 
@@ -157,9 +166,34 @@ to detect WebGL Support
 
 ##### shader
 
+  - include core
+
+  ```c
+    #include <core_vertex>
+    #include <core_fragment>
+    #include <core_color>
+  ```
+
 ##### timer
 
 ## TODO
 
-how to reduced my bundle main size by spliting threejs depencies ?
-improve javascript performance
+- ~~reduce my project bundle size by removing threejs~~
+- improve javascript/WebGL performance
+- create keyboard control
+- ~~glsl files support (create plugin)~~
+- create documentation
+- ~~include colors vec3~~
+- ~~add option mode by default~~
+- create live editor mode
+- ~~create GLSL debugger~~
+  - ~~with web components~~ 
+  - create dark/light theme mode
+  - improve ui
+
+## SOURCE
+
+@see https://github.com/wsmind/webglparis2015-raymarching
+@see http://codeflow.org/entries/2013/feb/22/how-to-write-portable-webgl
+@see https://www.clicktorelease.com/blog/using-hooks-for-easier-development-webgl-glsl
+@see https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices

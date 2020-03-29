@@ -6,6 +6,10 @@ import {
   Shader
 } from 'core';
 
+/**
+ * @author monsieurbadia / https://monsieurbadia.com/
+ */
+
 // i not sure for this pattern for the moment..
 // @see https://stijndewitt.com/2014/01/26/enums-in-javascript/
 

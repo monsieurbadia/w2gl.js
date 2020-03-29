@@ -1,6 +1,5 @@
 import { Base } from 'base';
-import { GLSLReports } from './core/core.glsl';
-// import './core/core.glsl';
+import { GLSLReports } from 'core';
 
 import {
   createCustomCamera,
@@ -10,6 +9,10 @@ import {
 } from 'custom';
 
 import { pipe } from 'util';
+
+/**
+ * @author monsieurbadia / https://monsieurbadia.com/
+ */
 
 export const W2GL = {
 
@@ -21,7 +24,7 @@ export const W2GL = {
     const _screen = Base.CORE.SCREEN;
 
     const _core = {
-      THREE: option.instance,
+      THREE: option.THREE,
       browser: Base.CORE.properties[ _browser ],
       event: Base.CORE.properties[ _event ],
       mouse: Base.CORE.properties[ _mouse ],
@@ -45,8 +48,6 @@ export const W2GL = {
 
       const glslReport = new GLSLReports();
 
-      glslReport.init();
-
       // 1. init scene
       _starter.scene.default.init( [ _starter.mesh.default ] );
   
@@ -55,6 +56,8 @@ export const W2GL = {
   
       // 3. init renderer
       _starter.renderer.default.init( _starter.scene.default, _starter.camera.default );
+
+      glslReport.init();
 
     }
 

@@ -1,3 +1,7 @@
+/**
+ * @author monsieurbadia / https://monsieurbadia.com/
+ */
+
 const { Asset } = require( 'parcel-bundler' );
 
 module.exports = class GLslAsset extends Asset {

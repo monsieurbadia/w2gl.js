@@ -6,6 +6,10 @@ import {
   reducer
 } from 'util';
 
+/**
+ * @author monsieurbadia / https://monsieurbadia.com/
+ */
+
 export class CustomRendererWebGL {
 
   constructor ( THREE, option ) {
