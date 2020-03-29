@@ -14,7 +14,14 @@ export class Browser {
     
       try {
     
-        gl = canvas.getContext( 'webgl' );
+        gl = canvas.getContext( 'experimental-webgl' );
+
+        if ( gl == null ) {
+
+          gl = canvas.getContext( 'webgl' );
+
+        }
+        
         isWebGL = true;
     
       } catch ( error ) {
