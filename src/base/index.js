@@ -3,8 +3,8 @@ import { DEFAULT } from './base.default';
 import { MATH } from './base.math';
 import { SHADER } from './base.shader';
 
-// base enums from the whole project. when i have default values
-// i have to declared them in a single file then added them here to the export
+// base enums of the whole project. when i have default values
+// i have to declare them in a one separate file then add it here to be exported
 
 export const Base = {
   CORE,

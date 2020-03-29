@@ -3,7 +3,7 @@ import { createCustomMesh } from './mesh/custom.mesh';
 import { createCustomRendererWebGL } from './renderer/custom.rendererWebGL';
 import { createCustomScene } from './scene/custom.scene';
 
-// all components relative to threejs library
+// all components relative to threejs
 // TODO: add more primitives
 
 export {

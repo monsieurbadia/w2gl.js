@@ -178,18 +178,18 @@ starter.mesh.plane.onmousemove( event => {
 
 ## TODO
 
-- ~~reduce my project bundle size by removing threejs~~
-- improve javascript/WebGL performance
-- create keyboard control
-- ~~glsl files support (create plugin)~~
-- create documentation
-- ~~include colors vec3~~
-- ~~add option mode by default~~
-- create live editor mode
-- ~~create GLSL debugger~~
-  - ~~with web components~~ 
-  - ~~create dark/light theme mode~~
-  - improve ui
+- ~~reduce my project bundle size by removing threejs~~ (v0)
+- improve javascript/WebGL performance (v0)
+- create keyboard control (v1)
+- ~~glsl files support (create plugin)~~ (v0)
+- create documentation (v0)
+- ~~include colors vec3~~ (v0)
+- ~~add option mode by default~~ (v0)
+- create live editor mode (v1)
+- ~~create GLSL debugger~~ (v0)
+  - ~~with web components~~ (v0)
+  - ~~create dark/light theme mode~~ (v0)
+  - improve ui (v0)
 
 ## SOURCE
 

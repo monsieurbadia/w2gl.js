@@ -1,6 +1,6 @@
+import defaultColor from '../glsl/glsl.color.fs';
 import defaultVertex from '../glsl/glsl.default.vs';
 import defaultFragment from '../glsl/glsl.default.fs';
-import defaultColor from '../glsl/glsl.color.fs';
 
 /**
  * @author monsieurbadia / https://monsieurbadia.com/
