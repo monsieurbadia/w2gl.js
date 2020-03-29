@@ -1,5 +1,5 @@
 import { Base } from 'base';
-import { GLSLReports } from 'core';
+import { GLSLReports } from 'webcomponent';
 
 import {
   createCustomCamera,

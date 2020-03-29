@@ -2,6 +2,7 @@
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
+// @see https://uxplanet.org/8-tips-for-dark-theme-design-8dfc2f8f7ab6
 // @see https://www.clicktorelease.com/blog/using-hooks-for-easier-development-webgl-glsl/
 // @see http://codeflow.org/entries/2013/feb/22/how-to-write-portable-webgl/
 
@@ -344,7 +345,7 @@ export class GLSLReports extends HTMLElement {
 
     this.state.counter.value = logsFiltered.length;
 
-    this.templating( logsFiltered )
+    this.templating( logsFiltered );
 
   }
 

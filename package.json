@@ -11,7 +11,8 @@
     "base": "./src/base/index.js",
     "core": "./src/core/index.js",
     "custom": "./src/custom/index.js",
-    "util": "./src/util/index.js"
+    "util": "./src/util/index.js",
+    "webcomponent": "./src/webcomponent/index.js"
   },
   "scripts": {
     "dev:default": "parcel src/index.html --global W2GL",
