@@ -398,10 +398,20 @@ export class GLSLReports extends HTMLElement {
 
   onopen ( event ) {
 
-    event.target.value.split( '\n' ).forEach( line => {
-      
-      event.target.parentNode.parentNode.nextElementSibling.innerHTML += `<p>${ line.replace( /[[:space:]]/g, '%20' ) }<p>`;
+    // UGLY
 
+    event.target.parentNode.parentNode.nextElementSibling.innerHTML = '';
+
+    event.target.value.split( '\n' ).forEach( (line, index) => {
+
+    const currentIndex = event.target.parentNode.parentNode.querySelector( '.glsl-reports__element__message__line' ).innerHTML;
+
+      if ( index === JSON.parse( currentIndex ) ) {
+
+        console.log( 'eee', index === currentIndex)
+      }
+      
+      event.target.parentNode.parentNode.nextElementSibling.innerHTML += `<p style="${ index === JSON.parse( currentIndex ) ? 'background:red;' : '' }">${ line.replace( /[[:space:]]/g, '%20' ) }<p>`;
     } );
 
   }
@@ -513,7 +523,7 @@ export class GLSLReports extends HTMLElement {
               </span>
             </div>
             <div class="glsl-error__element__column">
-              <span class="glsl-error__element__message">"<b> ${ log.message } </b>" in line ${ log.line }</span>
+              <span class="glsl-error__element__message">"<b> ${ log.message } </b>" in line<span class="glsl-reports__element__message__line">${ log.line }</span></span>
               <span class="glsl-error__element__code">${ log.code[ log.line ] }</span>
               <button id="GLSLReportsButtonSeeMore" type="button" value="${ log.source }">...</button>
             </div>
