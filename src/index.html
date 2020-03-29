@@ -48,13 +48,13 @@
 
               varying vec2 vUv;
 
-              void main () {
+              void main() 
 
                 vUv = uv;
                 vUv = position.xy;
                 vUv.x *= resolution.x / resolution.y;
 
-                gl_Position = vec4( position.xy, 0.0, 1.0 );
+                gl_Position = vec4(position.xy, 0.0, 1.0);
 
               }
 
@@ -64,13 +64,13 @@
               #include <core_fragment>
               #include <core_color>
 
-              uniform vec2 mouse;
+              uniform vec2 mouse
               uniform vec2 resolution;
               uniform float time;
 
               varying vec2 vUv;
 
-              float distanceField(vec3 pos) {
+              float distanceField(vec3 ps) {
 
                 // pos.zy = rotate(pos.zy, pos.y * mouse.y / resolution.y / .5 * 0.01);
                 // pos.zx = rotate(pos.zx, pos.x * mouse.x / resolution.x / .5 * 0.02);
@@ -83,6 +83,8 @@
 
                 pos.xy = rotate(pos.xy, time);
                 pos.xz = rotate(pos.xz, time * 0.1);
+
+                // albedo albedo albedo
 
                 return min(4.0, box(pos - vec3(0.0, 0.0, 0.0), vec3(1.35)));
               }
@@ -108,7 +110,7 @@
               void main() {
 
                 vec3 pos = vec3(0.0, 5.0, mouse.x / resolution.x * -15.0);
-                vec3 dir = normalize(vec3(vUv, /*mouse.x / resolution.x **/ 1.0));
+                vec3 dir = normalize(vec3(vUv, mouse.x / resolution.x * 1.0));
                 vec3 color = BLACK;
 
                 for (int i = 0; i < 64; i++) {

@@ -30,7 +30,7 @@ vec2 repeat(inout vec2 pos, vec2 period) {
 
 // LIGHT
 
-vec3 sunDirection = normalize (vec3(0.0, 0.0, 0.0));
+vec3 sunDirection = normalize(vec3(0.0, 0.0, 0.0));
 
 float diffuse(vec3 normal) {
   
