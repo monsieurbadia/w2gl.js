@@ -6,7 +6,35 @@
 // @see http://codeflow.org/entries/2013/feb/22/how-to-write-portable-webgl/
 
 export class GLSLReports extends HTMLElement {
-  
+
+  static get observedAttributes () {
+
+    return [ 'theme' ];
+
+  }
+
+  get theme () {
+
+    return this.state.theme.current;
+
+  }
+
+  set theme ( value ) {
+
+    this.state.theme.current = value;
+
+    this.setAttribute( 'theme', value );
+
+  }
+
+  attributeChangedCallback ( name, oldValue, newValue ) {
+
+    if ( oldValue === newValue ) return;
+
+    this.state.section.element.className = this.state.theme.list.includes( newValue ) ? newValue : '';
+
+  }
+
   connectedCallback () {
     this.ready();
   }
@@ -20,13 +48,30 @@ export class GLSLReports extends HTMLElement {
     this.state = {
       logs: [],
       button: {
+        toggle: {
+          theme: null
+        },
         filter: {
           all: null,
           error: null,
           warning: null
         }
       },
-      template: document.createElement( 'template' )
+      counter: {
+        element: null,
+        value: 0
+      },
+      reports: {
+        element: null
+      },
+      section: {
+        element: null
+      },
+      template: document.createElement( 'template' ),
+      theme: {
+        list: [ 'dark', 'light' ],
+        current: 'light'
+      }
     };
 
   }
@@ -42,7 +87,7 @@ export class GLSLReports extends HTMLElement {
     this.state.template.innerHTML = `
       <style>
 
-        section {
+        #GLSL {
           left: 0;
           top: 0;
           right: 0;
@@ -52,11 +97,18 @@ export class GLSLReports extends HTMLElement {
           width: 100%;
           height: 100%;
           position: fixed;
-          background-color: #1d262f;
           font-size: 12px;
-          color: #ffffff;
           white-space: normal;
           overflow-y: auto;
+          transition: background 300ms ease;
+        }
+
+        #GLSL.light {
+          background: #f2f6f9;
+        }
+
+        #GLSL.dark {
+          background: #1d262f;
         }
           
         header {
@@ -68,17 +120,34 @@ export class GLSLReports extends HTMLElement {
           height: 80px;
           display: flex;
           font-size: 12px;
-          color: hsl( 210, 24%, 75% );
           padding: 0 0 0 30px;
           align-items: center;
           background: hsl( 210, 24%, 10% );
           position: fixed;
           font-weight: 800;
           letter-spacing: 0.1rem;
+          transition:
+            color 300ms ease,
+            border-top 300ms ease;
+        }
+
+        #GLSL.light header {
+          color: #e8dfda;
+          border-top: 6px solid #e8dfda;
+        }
+
+        #GLSL.dark header {
+          color: hsl( 210, 24%, 75% );
           border-top: 6px solid hsl( 210, 24%, 75% );
         }
 
-        header > span  {
+        header > div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        #GLSLReportsCounter  {
           margin: 0 0 0 20px;
           background: red;
           border-radius: 50%;
@@ -87,18 +156,37 @@ export class GLSLReports extends HTMLElement {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: hsl( 5, 98%, 60% );
-          color: hsl( 5, 98%, 90% );
           font-size: 10px;
           letter-spacing: 0;
+          transition:
+            background 300ms ease,
+            color 300ms ease;
+        }
+
+        #GLSL.light #GLSLReportsCounter {
+          background: #71d7fc;
+          color: hsla(196, 96%, 24%, 1);
+        }
+
+        #GLSL.dark #GLSLReportsCounter {
+          background: hsl(185, 76%, 64%);
+          color: hsl(185, 76%, 24%);
         }
 
         main {
-          background: #202d39;
           margin: 80px 30px;
           border-radius: 10px;
           overflow: hidden;
           box-shadow: 0 4px 6px hsla( 0, 0%, 0%, 0.2 );
+          transition: background 300ms ease;
+        }
+
+        #GLSL.light main {
+          background: #ffffff;
+        }
+
+        #GLSL.dark main {
+          background: #202d39;
         }
 
         #GLSLReports {
@@ -106,21 +194,6 @@ export class GLSLReports extends HTMLElement {
           padding: 0;
           list-style-type: none;
           position: relative;
-        }
-      
-        #GLSLReports li {
-          color: #e8dfda;
-          overflow: hidden;
-        }
-        
-        #GLSLReports li:first-child {
-          border-top-left-radius: 10px;
-          border-top-right-radius: 10px;
-        }
-
-        #GLSLReports li:last-child {
-          border-bottom-left-radius: 10px;
-          border-bottom-right-radius: 10px;
         }
 
         #GLSLReports li .glsl-error__element {
@@ -133,10 +206,17 @@ export class GLSLReports extends HTMLElement {
           justify-content: flex-start;
           position: relative;
           border-bottom: 1px solid hsla( 210, 24%, 11%, 0.35 );
-          color: #e8dfda;
           letter-spacing: -0.05em;
         }
-          
+        
+        #GLSL.light #GLSLReports li .glsl-error__element {
+          color: hsl(219, 86%, 28%);
+        }
+
+        #GLSL.dark #GLSLReports li .glsl-error__element {
+          color: #e8dfda;
+        }
+
         #GLSLReports li:last-child .glsl-error__element {
           border-bottom: none;
         }
@@ -160,6 +240,10 @@ export class GLSLReports extends HTMLElement {
         
         .glsl-error__element__id {
           font-weight: 700;
+        }
+
+        #GLSL.light .glsl-error__element__id {
+          color: #71d7fc;
         }
           
         .glsl-error__element--code {
@@ -186,32 +270,49 @@ export class GLSLReports extends HTMLElement {
 
       </style>
 
-      <section>
-      <header>
-        <div><h3>GLSL Reports</h3><span id="GLSLReportsErrorCounter"></span></div>
-        <div>
-          <ul>
-            <li><button id="GLSLReportsButtonAll" type="button" value="all">all</button></li>
-            <li><button id="GLSLReportsButtonError" type="button" value="error">error</button></li>
-            <li><button id="GLSLReportsButtonWarning" type="button" value="warning">warning</button></li>
-          </ul>
-        </div>
-      </header>
-      <main>
-        <ul id="GLSLReports"></ul>
-      </main>
+      <section id="GLSL">
+        <header>
+          <div><h3>GLSL Reports</h3><span id="GLSLReportsCounter"></span></div>
+          <div>
+            <ul>
+              <li><button id="GLSLReportsButtonAll" type="button" value="all">all</button></li>
+              <li><button id="GLSLReportsButtonError" type="button" value="error">error</button></li>
+              <li><button id="GLSLReportsButtonWarning" type="button" value="warning">warning</button></li>
+            </ul>
+          </div>
+          <div>
+            <button id="GLSLReportsButtonToggleTheme" type="button" value="${ this.state.theme.current }">toggle</button>
+          </div>
+        </header>
+        <main>
+          <ul id="GLSLReports"></ul>
+        </main>
       </section>
     `;
 
     this.shadowRoot.appendChild( document.importNode( this.state.template.content, true ) );
 
+    this.state.section.element = this.shadowRoot.getElementById( 'GLSL' );
+    this.state.reports.element = this.shadowRoot.getElementById( 'GLSLReports' );
+    this.state.counter.element = this.shadowRoot.getElementById( 'GLSLReportsCounter' );
     this.state.button.filter.all = this.shadowRoot.getElementById( 'GLSLReportsButtonAll' );
     this.state.button.filter.error = this.shadowRoot.getElementById( 'GLSLReportsButtonError' );
     this.state.button.filter.warning = this.shadowRoot.getElementById( 'GLSLReportsButtonWarning' );
+    this.state.button.toggle.theme = this.shadowRoot.getElementById( 'GLSLReportsButtonToggleTheme' )
 
     this.state.button.filter.all.onclick = this.click.bind( this );
     this.state.button.filter.error.onclick = this.click.bind( this );
     this.state.button.filter.warning.onclick = this.click.bind( this );
+    this.state.button.toggle.theme.onclick = this.toggle.bind( this );
+
+    this.setAttribute( 'theme', this.state.theme.current );
+
+  }
+
+  toggle ( event ) {
+
+    this.theme = event.target.value === 'light' ? 'dark' : 'light';
+    event.target.value = this.theme;
 
   }
 
@@ -241,9 +342,9 @@ export class GLSLReports extends HTMLElement {
 
     }
 
-    this.shadowRoot.getElementById( 'GLSLReports' ).innerHTML = '';
+    this.state.counter.value = logsFiltered.length;
 
-    logsFiltered.forEach( logFiltered => this.templating( logFiltered ) );
+    this.templating( logsFiltered )
 
   }
 
@@ -282,26 +383,33 @@ export class GLSLReports extends HTMLElement {
 
   }
 
-  templating ( log ) {
+  templating ( logs ) {
 
-    this.shadowRoot.getElementById( 'GLSLReports' ).innerHTML += `
-      <li>
-        <div class="glsl-error__element">
-          <div class="glsl-error__element__column">
-            <span class="glsl-error__element__id">${ log.id }</span>
+    this.state.reports.element.innerHTML = '';
+    this.state.counter.element.innerHTML = logs.length;
+
+    logs.forEach( log =>  
+
+      this.state.reports.element.innerHTML += `
+        <li>
+          <div class="glsl-error__element">
+            <div class="glsl-error__element__column">
+              <span class="glsl-error__element__id">${ log.id }</span>
+            </div>
+            <div class="glsl-error__element__column">
+              <span class="glsl-error__element__type glsl-error__element__type--${ log.type === 'ERROR' ? 'error' : 'warning' }">
+                ${ log.type }
+              </span>
+            </div>
+            <div class="glsl-error__element__column">
+              <span class="glsl-error__element__message">"<b> ${ log.message } </b>" in line ${ log.line }</span>
+              <span class="glsl-error__element__code">${ log.source }</span>
+            </div>
           </div>
-          <div class="glsl-error__element__column">
-            <span class="glsl-error__element__type glsl-error__element__type--${ log.type === 'ERROR' ? 'error' : 'warning' }">
-              ${ log.type }
-            </span>
-          </div>
-          <div class="glsl-error__element__column">
-            <span class="glsl-error__element__message">"<b> ${ log.message } </b>" in line ${ log.line }</span>
-            <span class="glsl-error__element__code">${ log.source[ log.line ] }</span>
-          </div>
-        </div>
-      </li>
-    `;
+        </li>
+      `
+
+    );
 
   }
 
@@ -309,8 +417,6 @@ export class GLSLReports extends HTMLElement {
 
     const _logs = logs.split( '\n' );
     const _source = source.split( '\n');
-
-    this.shadowRoot.getElementById( 'GLSLReports' ).innerHTML = '';
 
     this.state.logs = _logs.reduce( ( result, log, index ) => {
 
@@ -323,6 +429,7 @@ export class GLSLReports extends HTMLElement {
         const status = match[ 2 ];
         const line = parseInt( match[ 3 ], 10 ) - 1;
         const message = match[ 4 ];
+        const source = _source[ line ];
 
         const log = {
           id,
@@ -330,10 +437,8 @@ export class GLSLReports extends HTMLElement {
           status,
           line,
           message,
-          source: _source
+          source
         };
-
-        this.templating( log, _source );
 
         return [
           ...result,
@@ -347,6 +452,8 @@ export class GLSLReports extends HTMLElement {
       ];
 
     }, [] );
+
+    this.templating( this.state.logs );
 
   }
 
