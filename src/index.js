@@ -5,7 +5,7 @@ import {
   createCustomCamera,
   createCustomMesh,
   createCustomScene,
-  createCustomRendererWebGL,
+  createCustomRendererWebGL
 } from 'custom';
 
 import { pipe } from 'util';
@@ -14,7 +14,7 @@ import { pipe } from 'util';
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
-export const W2GL = {
+export default {
 
   init ( option, callback ) {
 
@@ -50,10 +50,10 @@ export const W2GL = {
 
       // 1. init scene
       _starter.scene.default.init( [ _starter.mesh.default ] );
-  
+
       // 2. init camera
       _starter.camera.default.init( [ 0, 0, -1 ] );
-  
+
       // 3. init renderer
       _starter.renderer.default.init( _starter.scene.default, _starter.camera.default );
 
@@ -69,4 +69,4 @@ export const W2GL = {
 
   }
 
-};
+}

@@ -8,11 +8,6 @@ lerna-debug.log*
 
 # dependency directories
 node_modules/
-jspm_packages/
-
-# markup
-snippets.md
-w2gl.md
 
 # cache
 .cache

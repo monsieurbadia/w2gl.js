@@ -193,6 +193,7 @@ starter.mesh.plane.onmousemove( event => {
 
 ## SOURCE
 
+@see https://semver.org/lang/fr
 @see https://github.com/wsmind/webglparis2015-raymarching
 @see http://codeflow.org/entries/2013/feb/22/how-to-write-portable-webgl
 @see https://www.clicktorelease.com/blog/using-hooks-for-easier-development-webgl-glsl
