@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>w2gl</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        box-sizing: border-box;
+      }
+
+      body,
+      html {
+        width: 100vw;
+        height: 100vh;
+      }
+
+      body {
+        margin: 0;
+        height: 100%;
+        background: #ffffff;
+        overflow: hidden;
+        font-family: -apple-system, Segoe UI, Roboto, Noto Sans, Ubuntu, Cantarell, Helvetica Neue;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script src="../dist/index.js"></script>
+    <script>
+
+      document.addEventListener( 'DOMContentLoaded', _ => {
+
+        // w2gl test implementation
+
+        w2gl.default.init( {
+          THREE,
+          shader: {
+            vertex: `
+
+              #include <core_vertex>
+              
+              uniform vec2 resolution;
+
+              varying vec2 vUv;
+
+              void main() {
+
+                vUv = uv;
+                vUv = position.xy;
+                vUv.x *= resolution.x / resolution.y;
+
+                gl_Position = vec4(position.xy, 0.0, 1.0);
+
+              }
+
+            `,
+            fragment: `
+
+              #include <core_fragment>
+              #include <core_color>
+
+              uniform vec2 mouse;
+              uniform vec2 resolution;
+              uniform float time;
+
+              varying vec2 vUv;
+
+              float distanceField(vec3 pos) {
+
+                // pos.zy = rotate(pos.zy, pos.y * mouse.y / resolution.y / .5 * 0.01);
+                // pos.zx = rotate(pos.zx, pos.x * mouse.x / resolution.x / .5 * 0.02);
+                pos.zy = rotate(pos.zy, pos.y * sin(time) * 0.001);
+                pos.zx = rotate(pos.zx, pos.x * sin(time) * 0.002);
+
+                pos.x = abs(pos.x);
+
+                pos = mod(pos + 5.0, 10.0) - 5.0;
+
+                pos.xy = rotate(pos.xy, time);
+                pos.xz = rotate(pos.xz, time * 0.1);
+
+                // albedo albedo albedo
+
+                return min(4.0, box(pos - vec3(0.0, 0.0, 0.0), vec3(1.35)));
+              }
+
+              vec3 albedo(vec3 pos) {
+
+                pos *= 0.5;
+
+                float f = smoothstep(0.0, 0.0, fract(pos.x + sin(pos.z) + 0.4));
+
+                return f * vec3(1.0, 1.0, mouse.x / resolution.x + 1.0);
+              }
+
+              vec3 computeNormal(vec3 pos) {
+                vec2 eps = vec2(0.01, 0.0);
+                return normalize(vec3(
+                  distanceField(pos + eps.xyy) - distanceField(pos - eps.xyy),
+                  distanceField(pos + eps.yxy) - distanceField(pos - eps.yxy),
+                  distanceField(pos + eps.yyx) - distanceField(pos - eps.yyx)
+                ));
+              }
+
+              void main() {
+
+                vec3 pos = vec3(0.0, 5.0, mouse.x / resolution.x * -15.0);
+                vec3 dir = normalize(vec3(vUv, mouse.x / resolution.x * 1.0));
+                vec3 color = BLACK;
+
+                for (int i = 0; i < 64; i++) {
+
+                  float d = distanceField(pos);
+
+                  if (d < 0.01) {
+                    
+                    vec3 norm = computeNormal(pos);
+                    float diff = diffuse(norm);
+                    float spec = specular(norm, dir);
+
+                    color = (diff + spec) * albedo(pos);
+
+                    break;
+                  }
+
+                  pos += d * dir;
+                }
+
+                float fogFactor = exp(-pos.z * 0.025);
+
+                color = mix(vec3(0.0, 0.0, 0.0), color, fogFactor);
+
+                gl_FragColor = vec4(color, 1.0);
+              }
+
+            `
+
+          }
+
+        }, ( starter ) => {
+
+          const toto = document.createElement('div');
+          toto.classList.add( 'toto' );
+
+          document.body.appendChild( toto );
+
+          // console.log( starter );
+
+          /* INIT WEBGL */
+
+          // // 1. init scene
+          // starter.scene.default.init( [ starter.mesh.default ] );
+
+          // // 2. init camera
+          // starter.camera.default.init( [ 0, 0, -1 ] );
+
+          // // 3. init renderer
+          // starter.renderer.default.init( starter.scene.default, starter.camera.default );
+
+          /* INIT LISTENERS */
+
+          // 4. onresize: reset screen (optional)
+          starter.event.onresize( starter.screen.resize );
+
+          // 5. onmousemove: set coordinates (optional)
+          starter.event.onmousemove( starter.mouse.mousemove );
+
+          /* THEN USE LISTENERS TO UPDATE THINGS */
+
+          // onrender: update mesh
+          starter.mesh.default.onrender( timer => {
+
+            starter.mesh.default.material.uniforms.time.value = timer.time;
+
+          } );
+
+          // onresize: refresh renderer size
+          starter.renderer.default.onresize( event => {
+
+            starter.renderer.default.setSize( starter.screen.width, starter.screen.height );
+
+          } );
+          
+          // onmousemove: set mouse coordinates values
+          starter.mesh.default.onmousemove( event => {
+
+            starter.mesh.default.material.uniforms.mouse.value.x = starter.mouse.x;
+            starter.mesh.default.material.uniforms.mouse.value.y = starter.mouse.y;
+
+            const ratioX = starter.mouse.x / window.innerWidth;
+
+            toto.style.background = `rgb(132, 132, ${ 132 + ratioX * 136  })`; // current + pos + offset
+
+          } );
+
+          // onresize: update resolution coordinates values
+          starter.mesh.default.onresize( event => {
+
+            starter.mesh.default.material.uniforms.resolution.value.x = starter.screen.width;
+            starter.mesh.default.material.uniforms.resolution.value.y = starter.screen.height;
+
+          } );
+
+        } );
+
+      }, false );
+
+    </script>
+  </body>
+</html>
