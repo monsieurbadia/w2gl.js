@@ -1,8 +1,21 @@
 # w2gl.js
 
-A WebGL micro-library based on three.js
+A WebGL micro-library
 
 ## usage
+
+*no config*
+
+```js
+// 1.
+const starter = w2gl.init( { shader: { vertexShader, fragmentShader } } );
+console.log( starter ); // w2gl is ready
+
+// OR
+
+// 2.
+w2gl.init( { shader: { vertexShader, fragmentShader } }, starter => console.log( starter ) ); // w2gl is ready in the callback scope
+```
 
 *option schema :*
 

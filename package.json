@@ -17,7 +17,7 @@
   "scripts": {
     "dev:default": "parcel examples/index.html --global w2gl",
     "prod:build": "parcel build src/index.js --out-file w2gl.js --experimental-scope-hoisting --global w2gl",
-    "prod:publish": "parcel build src/index.js --out-file build/w2gl.js --experimental-scope-hoisting --global w2gl"
+    "prod:publish": "parcel build src/index.js --out-dir build --out-file w2gl.js --experimental-scope-hoisting --global w2gl"
   },
   "dependencies": {
     "parcel-bundler": "^1.12.4"
