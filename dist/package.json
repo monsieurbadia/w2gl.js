@@ -6,7 +6,10 @@
     "w2gl",
     "W2GL",
     "webgl",
-    "shader"
+    "shader",
+    "vertex",
+    "fragment",
+    "three"
   ],
   "main": "w2gl.js",
   "repository": "https://github.com/monsieurbadia/w2gl.js.git",
