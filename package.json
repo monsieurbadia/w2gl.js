@@ -2,11 +2,12 @@
   "name": "w2gl",
   "version": "0.0.1",
   "description": "A WebGL micro-library",
-  "main": "build/w2gl.js",
+  "main": "dist/w2gl.js",
   "repository": "https://github.com/monsieurbadia/w2gl.js.git",
   "author": "monsieurbadia <contact@monsieurbadia.com>",
   "license": "MIT",
   "private": false,
+  "homepage": "https://github.com/monsieurbadia/w2gl.js",
   "alias": {
     "base": "./src/base/index.js",
     "core": "./src/core/index.js",
@@ -16,8 +17,7 @@
   },
   "scripts": {
     "dev:default": "parcel examples/index.html --global w2gl",
-    "prod:build": "parcel build src/index.js --out-file w2gl.js --experimental-scope-hoisting --global w2gl",
-    "prod:publish": "parcel build src/index.js --out-dir build --out-file w2gl.js --experimental-scope-hoisting --global w2gl"
+    "prod:build": "parcel build src/index.js --out-file w2gl.js --experimental-scope-hoisting --global w2gl"
   },
   "dependencies": {},
   "devDependencies": {

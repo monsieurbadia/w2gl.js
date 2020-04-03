@@ -1,5 +1,7 @@
 # w2gl.js
 
+[![NPM](https://nodei.co/npm/w2gl.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/w2gl/)
+
 A WebGL micro-library
 
 ## usage
@@ -206,8 +208,14 @@ starter.mesh.plane.onmousemove( event => {
 
 ## SOURCE
 
-@see https://semver.org/lang/fr
-@see https://github.com/wsmind/webglparis2015-raymarching
-@see http://codeflow.org/entries/2013/feb/22/how-to-write-portable-webgl
-@see https://www.clicktorelease.com/blog/using-hooks-for-easier-development-webgl-glsl
-@see https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices
+- @see [semver](https://semver.org/lang/fr)
+- @see [raymarching by wsmind](https://github.com/wsmind/webglparis2015-raymarching)
+- @see [how to write portable webgl](http://codeflow.org/entries/2013/feb/22/how-to-write-portable-webgl)
+- @see [using hooks for easier development webgl glsl](https://www.clicktorelease.com/blog/using-hooks-for-easier-development-webgl-glsl)
+- @see [WebGL best practices](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices)
+
+## License
+
+Copyright ©️ 2019 monsieurbadia
+
+Released under the [MIT](https://github.com/monsieurbadia/glsl-reports/blob/master/LICENSE.md) license
