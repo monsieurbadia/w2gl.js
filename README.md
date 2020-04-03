@@ -1,28 +1,169 @@
-# w2gl.js
+<p align="center" style="font-size: 100px">💻<p>
 
-[![NPM Package][npm]][npm-url]
-[![Build Size][build-size]][build-size-url]
-[![NPM Downloads][npm-downloads]][npmtrends-url]
-[![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
+# w2gl.js [![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url] [![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
 
-A WebGL micro-library
+> **w2gl** is a WebGL micro-library based on [three.js](https://threejs.org) that will helping you create 3d primitives and shader quickly.
 
-## usage
+## Problem❓
 
-*no config*
+*using the WebGL API natively is not easy to use or  to maintain a clean code. Some libraries already resolve this issue. Thank God ! Even if now it's more simple to create a 3D scene in WebGL. We still have to create all primitives manually before playing with them.*
+
+### three.js
+
+actually display something into your screen you have to follow this code snippet
 
 ```js
-// 1.
-const starter = w2gl.init( { shader: { vertexShader, fragmentShader } } );
-console.log( starter ); // w2gl is ready
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
-// OR
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize( window.innerWidth, window.innerHeight );
+document.body.appendChild( renderer.domElement );
 
-// 2.
-w2gl.init( { shader: { vertexShader, fragmentShader } }, starter => console.log( starter ) ); // w2gl is ready in the callback scope
+var geometry = new THREE.BoxGeometry();
+var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
+var cube = new THREE.Mesh( geometry, material );
+scene.add( cube );
+
+camera.position.z = 5;
+
+var animate = function () {
+  requestAnimationFrame( animate );
+
+  cube.rotation.x += 0.01;
+  cube.rotation.y += 0.01;
+
+  renderer.render( scene, camera );
+};
+
+animate();
 ```
 
-*option schema :*
+### Solution❓
+
+*w2gl is a javascript micro-layer based on the 3D engine libraries which will allow you to quickly initialize your primitives or to have fun quickly with the obscure universe of shaders. w2gl do not replace the perfect role that the 3D engine libraries allow, it just there to prepare a scene for you.*
+
+### w2gl.js
+
+```js
+// es6 snippets
+
+// first way : the w2gl starter is ready to play with shader
+const starter = w2gl.init( { shader: { vertex, fragment } } );
+
+// second way : the w2gl starter is ready to create an entire 3D world
+const starter = w2gl.init( { 
+  mesh: {
+    mesh1Name: {
+      geometry: {
+        buffer: true,
+        options: [ 2, 2 ],
+        specific: 'plane'
+      },
+      material: {
+        options: {
+          transparent: true
+        },
+        specific: 'basic'
+      }
+    },
+    mesh2Name: {
+      geometry: {
+        buffer: true,
+        options: [ 2, 2 ],
+        specific: 'sphere'
+      },
+      material: {
+        options: {
+          transparent: true
+        },
+        specific: 'normal'
+      }
+    }
+  }
+ } );
+```
+
+## 📦 Install dependencies
+
+### 1. npm
+
+```sh
+npm i w2gl
+```
+
+### 2. yarn
+
+```sh
+yarn add w2gl
+```
+
+## 🚀 Start project
+
+### 1. es6
+
+```js
+// es6
+import * as THREE from 'three';
+import w2gl from 'w2gl';
+import vertex from './shader/vertex.fs';
+import fragment from './shader/fragment.fs';
+
+// 1. first way
+// get the starter object from the init return function
+const starter = w2gl.init( { shader: { vertex, fragment } } );
+console.log( starter ); // w2gl is set in the starter constant
+
+// 2. second way
+// get the starter object from the init callback
+w2gl.init( { shader: { vertex, fragment } }, starter => {
+  console.log( starter ); // w2gl is ready in the callback scope only
+} );
+```
+
+### 2. html/javascript
+
+```html
+<!-- html -->
+<script src="./src/three.js"></script>
+<script src="./src/w2gl.js"></script>
+<script id="vertexShader" type="x-shader/x-vertex">
+  attribute vec2 position;
+
+  void main () {
+
+    gl_Position = vec4( position, 1.0 );
+
+  }
+</script>
+<script id="fragmentShader" type="x-shader/x-fragment">
+  attribute vec2 position;
+
+  void main () {
+
+    gl_FragColor = vec4( position, 1.0 );
+
+  }
+</script>
+<script>
+  // 1. first way
+  // get the starter object from the init return function
+  var starter = w2gl.init( { shader: { vertex: vertexShader, fragment: fragmentShader } } );
+  console.log( starter ); // w2gl is set in the starter constant
+
+  // 2. second way
+  // get the starter object from the init callback
+  w2gl.init( { shader: { vertex: vertexShader, fragment: fragmentShader } }, starter => {
+    console.log( starter ); // w2gl is ready in the callback scope only
+  } );
+</script>
+```
+
+## 📖 Usage
+
+### 1. option [`object`]
+
+the `init` function takes option param. `option` object define your scene `starter`. this is the valid schema object you must follow to init your scene or shader scene properly
 
 ```js
 const option = {
@@ -109,36 +250,31 @@ const option = {
 };
 ```
 
-*create option :*
+create scene : to create a scene a director cut need 3 things : a scene, a camera and a monitor. it's the same in 3D so to create a scene init them
+
+wanted to initialize shaders quickly ? try this
 
 ```js
-const option = { /* ... */ }; // create option
-const starter = W2GL.init( option ); // init option
+// first initialize w2gl
+const starter = w2gl.init( { shader: { vertex, fragment } } );
 
-console.log( starter ); // webgl starter object 
-```
+// THEN 
 
-*create scene :*
-
-to create a scene a director cut need 3 things : a scene, a camera and a monitor. it's the same in 
-3D so to create a scene init them :
-
-```js
 // 1. init scene
-starter.scene.scene1.init( [ starter.mesh.plane ] );
+starter.scene.current.init( [ starter.mesh.plane ] );
 
 // 2. init camera
-starter.camera.camera1.init( [ 0, 0, 1 ] );
+starter.camera.current.init( [ 0, 0, 1 ] );
 
 // 3. init renderer
-starter.renderer.renderer1.init( starter.scene.scene1, starter.camera.camera1 );
+starter.renderer.renderer1.init( starter.scene.current, starter.camera.current );
 ```
 
-## listeners
+### 2. listeners [`callback`]
 
 use listeners to update things, for example each mesh/renderer attach listener methods
 
-##### onrender
+#### • `onrender`
 
 ```js
 // update plane mesh
@@ -149,7 +285,7 @@ starter.mesh.plane.onrender( timer => {
 } );
 ```
 
-##### onresize
+#### • `onresize`
 
 ```js
 starter.renderer.renderer1.onresize( event => {
@@ -159,7 +295,7 @@ starter.renderer.renderer1.onresize( event => {
 } );
 ```
 
-##### onmousemove
+#### • `onmousemove`
 
 ```js
 starter.mesh.plane.onmousemove( event => {
@@ -170,54 +306,31 @@ starter.mesh.plane.onmousemove( event => {
 } );
 ```
 
-## core
+### 3. starter [`object`]
 
-##### browser
+#### • `event`
 
-##### event
+#### • `mouse`
 
-##### glsl
+#### • `screen`
 
-##### mouse
+#### • `timer`
 
-##### screen
+## 📝 Todo
 
-##### shader
+- ~~glsl files support (create plugin)~~
+- supports more primitives
+- create keyboard control
+- create documentation
+- add option mode by default
 
-  - include core
+## 📁 Source
 
-  ```c
-    #include <core_vertex>
-    #include <core_fragment>
-    #include <core_color>
-  ```
-
-##### timer
-
-## TODO
-
-- ~~reduce my project bundle size by removing threejs~~ (v0)
-- improve javascript/WebGL performance (v0)
-- create keyboard control (v1)
-- ~~glsl files support (create plugin)~~ (v0)
-- create documentation (v0)
-- ~~include colors vec3~~ (v0)
-- ~~add option mode by default~~ (v0)
-- create live editor mode (v1)
-- ~~create GLSL debugger~~ (v0)
-  - ~~with web components~~ (v0)
-  - ~~create dark/light theme mode~~ (v0)
-  - improve ui (v0)
-
-## SOURCE
-
-- @see [semver](https://semver.org/lang/fr)
-- @see [raymarching by wsmind](https://github.com/wsmind/webglparis2015-raymarching)
 - @see [how to write portable webgl](http://codeflow.org/entries/2013/feb/22/how-to-write-portable-webgl)
 - @see [using hooks for easier development webgl glsl](https://www.clicktorelease.com/blog/using-hooks-for-easier-development-webgl-glsl)
 - @see [WebGL best practices](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices)
 
-## License
+## ©️ License
 
 Copyright ©️ 2019 monsieurbadia
 
