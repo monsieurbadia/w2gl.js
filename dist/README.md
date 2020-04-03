@@ -5,8 +5,6 @@
 [![NPM Downloads][npm-downloads]][npmtrends-url]
 [![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
 
-[![NPM](https://nodei.co/npm/w2gl.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/w2gl/)
-
 A WebGL micro-library
 
 ## usage
