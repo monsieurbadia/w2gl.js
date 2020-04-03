@@ -1,5 +1,3 @@
-<p align="center" style="font-size: 100px">💻<p>
-
 # w2gl.js [![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url] [![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
 
 > **w2gl** is a WebGL micro-library based on [three.js](https://threejs.org) that will helping you create 3d primitives and shader quickly.
@@ -10,7 +8,7 @@
 
 ### three.js
 
-actually display something into your screen you have to follow this code snippet
+actually to display something into your screen you have to follow this code snippet
 
 ```js
 var scene = new THREE.Scene();

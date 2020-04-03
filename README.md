@@ -1,8 +1,6 @@
-<p align="center" style="font-size: 100px">💻<p>
-
 # w2gl.js [![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url] [![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
 
-> **w2gl** is a WebGL micro-library based on [three.js](https://threejs.org) that will helping you create 3d primitives and shader quickly.
+> A WebGL micro-library based on [three.js](https://threejs.org) that will helping you create 3d primitives and shader quickly.
 
 ## Problem❓
 
@@ -10,9 +8,10 @@
 
 ### three.js
 
-actually display something into your screen you have to follow this code snippet
+actually to display something into your screen you have to follow this code snippet
 
 ```js
+// @see https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
 
@@ -100,6 +99,10 @@ yarn add w2gl
 
 ## 🚀 Start project
 
+to create a scene a director cut need 3 things : a scene, a camera and a monitor. it's the same in 3D so to create a scene init them
+
+wanted to initialize shaders quickly ? try this
+
 ### 1. es6
 
 ```js
@@ -110,12 +113,12 @@ import vertex from './shader/vertex.fs';
 import fragment from './shader/fragment.fs';
 
 // 1. first way
-// get the starter object from the init return function
+// gets the starter object provide by the init function result
 const starter = w2gl.init( { shader: { vertex, fragment } } );
 console.log( starter ); // w2gl is set in the starter constant
 
 // 2. second way
-// get the starter object from the init callback
+// gets the starter object provide by the init callback function
 w2gl.init( { shader: { vertex, fragment } }, starter => {
   console.log( starter ); // w2gl is ready in the callback scope only
 } );
@@ -250,29 +253,9 @@ const option = {
 };
 ```
 
-create scene : to create a scene a director cut need 3 things : a scene, a camera and a monitor. it's the same in 3D so to create a scene init them
-
-wanted to initialize shaders quickly ? try this
-
-```js
-// first initialize w2gl
-const starter = w2gl.init( { shader: { vertex, fragment } } );
-
-// THEN 
-
-// 1. init scene
-starter.scene.current.init( [ starter.mesh.plane ] );
-
-// 2. init camera
-starter.camera.current.init( [ 0, 0, 1 ] );
-
-// 3. init renderer
-starter.renderer.renderer1.init( starter.scene.current, starter.camera.current );
-```
-
 ### 2. listeners [`callback`]
 
-use listeners to update things, for example each mesh/renderer attach listener methods
+use the events listener to update your scene, for example each mesh and render got to himself several listeners
 
 #### • `onrender`
 
