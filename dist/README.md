@@ -1,4 +1,4 @@
-<img src="../w2gl-logo-standard.png">
+<img src="./w2gl-logo-standard.png">
 
 # w2gl.js [![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url] [![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
 
