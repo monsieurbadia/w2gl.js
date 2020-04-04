@@ -31,7 +31,7 @@ export const createCustomCamera = option => {
   
   const _option = isEmpty( option.camera )
     ? {
-        default: {
+        current: {
           size: [ window.innerWidth, window.innerHeight ],
           type: 'perspective'
         }

@@ -1,7 +1,3 @@
-import defaultColor from '../glsl/glsl.color.fs';
-import defaultVertex from '../glsl/glsl.default.vs';
-import defaultFragment from '../glsl/glsl.default.fs';
-
 /**
  * @author monsieurbadia / https://monsieurbadia.com/
  */
@@ -10,17 +6,17 @@ export const SHADER = Object.freeze( {
   CORE: {
     color: {
       name: '#include <core_color>',
-      template: defaultColor,
+      template: '',
       type: 'fragment'
     },
     vertex: {
       name: '#include <core_vertex>',
-      template: defaultVertex,
+      template: '',
       type: 'vertex'
     },
     fragment: {
       name: '#include <core_fragment>',
-      template: defaultFragment,
+      template: '',
       type: 'fragment'
     }
   },

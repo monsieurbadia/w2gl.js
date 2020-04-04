@@ -9,7 +9,6 @@ export class Screen {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
 
-    // that method is used into a listener
     this.resize = this.resize.bind( this );
 
   }

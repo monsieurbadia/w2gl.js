@@ -67,13 +67,13 @@ export class Shader {
   
           case 'vertex':
   
-            shader.vertexShader = shader.vertexShader.replace( core.name, core.template );
+            shader.vertexShader = shader.vertexShader.includes( core.name ) ? shader.vertexShader.replace( core.name, core.template ) : shader.vertexShader;
   
             break;
   
           case 'fragment':
   
-            shader.fragmentShader = shader.fragmentShader.replace( core.name, core.template );
+            shader.fragmentShader = shader.fragmentShader.includes( core.name ) ? shader.fragmentShader.replace( core.name, core.template ) : shader.fragmentShader;
   
             break;
   

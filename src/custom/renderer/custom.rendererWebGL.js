@@ -19,9 +19,7 @@ export class CustomRendererWebGL {
 
     create( option );
     add( rendererWebGL.domElement );
-
   
-    // that method is used into a listener
     rendererWebGL.onresize = onresize.bind( rendererWebGL );
 
     function add ( element ) {
@@ -87,7 +85,7 @@ export const createCustomRendererWebGL = option => {
   
   const _option = isEmpty( option.renderer )
     ? {
-        default: {
+        current: {
           option: {
             antialias: true,
             pixelRatio: window.devicePixelRatio,

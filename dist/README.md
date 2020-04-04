@@ -1,85 +1,110 @@
+![w2gl-logo-standard](./w2gl-logo-standard.png)
+<img src="./w2gl-logo-standard.png">
+
 # w2gl.js [![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url] [![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
 
-> **w2gl** is a WebGL micro-library based on [three.js](https://threejs.org) that will helping you create 3d primitives and shader quickly.
+> A **WebGL** micro-library based on [three.js](https://threejs.org) that will helping you initialize your  3D scene more quickly.
 
 ## Problem❓
 
-*using the WebGL API natively is not easy to use or  to maintain a clean code. Some libraries already resolve this issue. Thank God ! Even if now it's more simple to create a 3D scene in WebGL. We still have to create all primitives manually before playing with them.*
+*to create a scene a director cut need 3 things : a scene, a camera and a monitor. it's the same in the shader universe. but using the **WebGL API** natively is not easy to use or to maintain a clean code. Some libraries already resolve this issue. Thank God ! Even if now it's more simple to create a shaders in **WebGL.** We still have to create declare several instructions manually before playing with shaders. it can be annoying when like me you like to play with the **WebGL** technology*
 
 ### three.js
 
-actually to display something into your screen you have to follow this code snippet
+```html
+<!-- source @see https://thebookofshaders.com/04/ -->
+<body>
+  <div id="container"></div>
+  <script src="js/three.min.js"></script>
+  <script id="vertexShader" type="x-shader/x-vertex">
+      void main () {
+        gl_Position = vec4( position, 1.0 );
+      }
+  </script>
+  <script id="fragmentShader" type="x-shader/x-fragment">
+      uniform vec2 u_resolution;
+      uniform float u_time;
 
-```js
-var scene = new THREE.Scene();
-var camera = new THREE.PerspectiveCamera( 75, window.innerWidth/window.innerHeight, 0.1, 1000 );
+      void main () {
+        vec2 st = gl_FragCoord.xy/u_resolution.xy;
+        gl_FragColor=vec4( st.x, st.y, 0.0, 1.0 );
+      }
+  </script>
+  <script>
+      var container;
+      var camera, scene, renderer;
+      var uniforms;
 
-var renderer = new THREE.WebGLRenderer();
-renderer.setSize( window.innerWidth, window.innerHeight );
-document.body.appendChild( renderer.domElement );
+      init();
+      animate();
 
-var geometry = new THREE.BoxGeometry();
-var material = new THREE.MeshBasicMaterial( { color: 0x00ff00 } );
-var cube = new THREE.Mesh( geometry, material );
-scene.add( cube );
+      function init() {
+          container = document.getElementById( 'container' );
 
-camera.position.z = 5;
+          camera = new THREE.Camera();
+          camera.position.z = 1;
 
-var animate = function () {
-  requestAnimationFrame( animate );
+          scene = new THREE.Scene();
 
-  cube.rotation.x += 0.01;
-  cube.rotation.y += 0.01;
+          var geometry = new THREE.PlaneBufferGeometry( 2, 2 );
 
-  renderer.render( scene, camera );
-};
+          uniforms = {
+              u_time: { type: "f", value: 1.0 },
+              u_resolution: { type: "v2", value: new THREE.Vector2() },
+              u_mouse: { type: "v2", value: new THREE.Vector2() }
+          };
 
-animate();
+          var material = new THREE.ShaderMaterial( {
+              uniforms: uniforms,
+              vertexShader: document.getElementById( 'vertexShader' ).textContent,
+              fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+          } );
+
+          var mesh = new THREE.Mesh( geometry, material );
+          scene.add( mesh );
+
+          renderer = new THREE.WebGLRenderer();
+          renderer.setPixelRatio( window.devicePixelRatio );
+
+          container.appendChild( renderer.domElement );
+
+          onWindowResize();
+          window.addEventListener( 'resize', onWindowResize, false );
+
+          document.onmousemove = function(e){
+            uniforms.u_mouse.value.x = e.pageX
+            uniforms.u_mouse.value.y = e.pageY
+          }
+      }
+
+      function onWindowResize( event ) {
+          renderer.setSize( window.innerWidth, window.innerHeight );
+          uniforms.u_resolution.value.x = renderer.domElement.width;
+          uniforms.u_resolution.value.y = renderer.domElement.height;
+      }
+
+      function animate() {
+          requestAnimationFrame( animate );
+          render();
+      }
+
+      function render() {
+          uniforms.u_time.value += 0.05;
+          renderer.render( scene, camera );
+      }
 ```
 
 ### Solution❓
 
-*w2gl is a javascript micro-layer based on the 3D engine libraries which will allow you to quickly initialize your primitives or to have fun quickly with the obscure universe of shaders. w2gl do not replace the perfect role that the 3D engine libraries allow, it just there to prepare a scene for you.*
+***w2gl** is a javascript micro-layer based on the 3D engine libraries which will allow you to quickly to have fun quickly with the obscure universe of shaders. **w2gl** do not replace the perfect role that the 3D engine libraries allow, it just there to prepare a scene for you.*
 
 ### w2gl.js
 
 ```js
 // es6 snippets
 
-// first way : the w2gl starter is ready to play with shader
-const starter = w2gl.init( { shader: { vertex, fragment } } );
-
-// second way : the w2gl starter is ready to create an entire 3D world
-const starter = w2gl.init( { 
-  mesh: {
-    mesh1Name: {
-      geometry: {
-        buffer: true,
-        options: [ 2, 2 ],
-        specific: 'plane'
-      },
-      material: {
-        options: {
-          transparent: true
-        },
-        specific: 'basic'
-      }
-    },
-    mesh2Name: {
-      geometry: {
-        buffer: true,
-        options: [ 2, 2 ],
-        specific: 'sphere'
-      },
-      material: {
-        options: {
-          transparent: true
-        },
-        specific: 'normal'
-      }
-    }
-  }
- } );
+// the w2gl starter is ready to play with shader
+const starter = w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } } );
 ```
 
 ## 📦 Install dependencies
@@ -98,6 +123,8 @@ yarn add w2gl
 
 ## 🚀 Start project
 
+Are you wanted to initialize your scene quickly? try this!
+
 ### 1. es6
 
 ```js
@@ -107,57 +134,71 @@ import w2gl from 'w2gl';
 import vertex from './shader/vertex.fs';
 import fragment from './shader/fragment.fs';
 
-// 1. first way
-// get the starter object from the init return function
-const starter = w2gl.init( { shader: { vertex, fragment } } );
-console.log( starter ); // w2gl is set in the starter constant
+// 1. first way, gets the starter object provide by the init function result
+const starter = w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } } );
 
-// 2. second way
-// get the starter object from the init callback
-w2gl.init( { shader: { vertex, fragment } }, starter => {
-  console.log( starter ); // w2gl is ready in the callback scope only
+console.log( starter ); // <-- w2gl is set in the starter constant
+
+// 2. second way, gets the starter object provide by the init callback function
+w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter => {
+
+  console.log( starter ); // <-- w2gl is ready in the callback scope only
+
 } );
 ```
 
 ### 2. html/javascript
 
 ```html
-<!-- html -->
+<!-- add three -->
+
 <script src="./src/three.js"></script>
 <script src="./src/w2gl.js"></script>
+
 <script id="vertexShader" type="x-shader/x-vertex">
-  attribute vec2 position;
-
   void main () {
-
     gl_Position = vec4( position, 1.0 );
-
   }
 </script>
+
 <script id="fragmentShader" type="x-shader/x-fragment">
-  attribute vec2 position;
+  uniform vec2 u_resolution;
+  uniform float u_time;
 
   void main () {
-
-    gl_FragColor = vec4( position, 1.0 );
-
+    vec2 st = gl_FragCoord.xy/u_resolution.xy;
+    gl_FragColor=vec4( st.x, st.y, 0.0, 1.0 );
   }
 </script>
+
 <script>
-  // 1. first way
-  // get the starter object from the init return function
-  var starter = w2gl.init( { shader: { vertex: vertexShader, fragment: fragmentShader } } );
+  // 1. first way, get the starter object from the init return function
+  var starter = w2gl.init( {
+    THREE,
+    shader: {
+      vertex: vertexShader,
+      fragment: fragmentShader
+    }
+  } );
+
   console.log( starter ); // w2gl is set in the starter constant
 
-  // 2. second way
-  // get the starter object from the init callback
-  w2gl.init( { shader: { vertex: vertexShader, fragment: fragmentShader } }, starter => {
+  // 2. second way, get the starter object from the init callback
+  w2gl.init( {
+    THREE,
+    shader: {
+      vertex: vertexShader,
+      fragment: fragmentShader
+    } 
+  }, starter => {
+  
     console.log( starter ); // w2gl is ready in the callback scope only
+  
   } );
 </script>
 ```
 
-## 📖 Usage
+## 📖 Documentation
 
 ### 1. option [`object`]
 
@@ -166,119 +207,55 @@ the `init` function takes option param. `option` object define your scene `start
 ```js
 const option = {
   scene: {
-    scene1: {}
+    mySceneName: {}
   },
   camera: {
-    camera1: {
+    myCameraName: {
       size: [ window.innerWidth, window.innerHeight ],
       type: 'perspective'
     }
   },
-  mesh: {
-    plane: {
-      geometry: {
-        buffer: true,
-        options: [ 2, 2 ],
-        specific: 'plane'
-      },
-      material: {
-        options: {
-          transparent: true
-        },
-        specific: 'normal'
-      },
-      shader: {
-        uniforms: {
-          mouse: { type: 'v2', value: [] },
-          resolution: { type: 'v2', value: [] },
-          time: { type: 'f', value: 1.0 }
-        },
-        vertex: `
-
-          #include <core_vertex>
-          
-          uniform vec2 resolution;
-
-          varying vec2 vUv;
-
-          void main () {
-
-            vUv = uv;
-            vUv = position.xy;
-            vUv.x *= resolution.x / resolution.y;
-
-            gl_Position = vec4( position.xy, 0.0, 1.0 );
-
-          }
-
-        `,
-        fragment: `
-
-          #ifdef GL_ES
-          precision mediump float;
-          #endif
-
-          uniform vec2 resolution;
-          uniform vec2 mouse;
-          uniform float time;
-
-          varying vec2 vUv;
-
-          void main () {
-
-            vec2 pos = gl_FragCoord.xy/resolution;
-
-            gl_FragColor = vec4(vUv,0.0,1.0);
-            
-          }
-
-        `
-      }
-    }
-  },
   renderer: {
-    renderer1: {
+    myRendererName: {
       options: {
         antialias: true,
         pixelRatio: window.devicePixelRatio,
         size: [ window.innerWidth, window.innerHeight ],
       }
     }
+  },
+  shader: {
+    myShaderName: {
+      fragment: `
+        void main () {
+          gl_Position = vec4( position, 1.0 );
+        }
+      `,
+      vertex: `
+        uniform vec2 u_resolution;
+        uniform float u_time;
+  
+        void main () {
+          vec2 st = gl_FragCoord.xy/u_resolution.xy;
+          gl_FragColor=vec4( st.x, st.y, 0.0, 1.0 );
+        }
+      `
+    }
   }
 };
 ```
 
-create scene : to create a scene a director cut need 3 things : a scene, a camera and a monitor. it's the same in 3D so to create a scene init them
-
-wanted to initialize shaders quickly ? try this
-
-```js
-// first initialize w2gl
-const starter = w2gl.init( { shader: { vertex, fragment } } );
-
-// THEN 
-
-// 1. init scene
-starter.scene.current.init( [ starter.mesh.plane ] );
-
-// 2. init camera
-starter.camera.current.init( [ 0, 0, 1 ] );
-
-// 3. init renderer
-starter.renderer.renderer1.init( starter.scene.current, starter.camera.current );
-```
-
 ### 2. listeners [`callback`]
 
-use listeners to update things, for example each mesh/renderer attach listener methods
+use the events listener to update your scene, for example each shader and render got to himself several listeners
 
 #### • `onrender`
 
 ```js
 // update plane mesh
-starter.mesh.plane.onrender( timer => {
+starter.shader.myShaderName.onrender( timer => {
 
-  starter.mesh.plane.material.uniforms.u_time.value += 0.05;
+  starter.shader.myShaderName.material.uniforms.u_time.value += 0.05;
 
 } );
 ```
@@ -286,9 +263,9 @@ starter.mesh.plane.onrender( timer => {
 #### • `onresize`
 
 ```js
-starter.renderer.renderer1.onresize( event => {
+starter.renderer.myShaderName.onresize( event => {
 
-  starter.renderer.renderer1.setSize( event.target.innerWidth, event.target.innerHeight );
+  starter.renderer.myShaderName.setSize( event.target.innerWidth, event.target.innerHeight );
 
 } );
 ```
@@ -296,10 +273,10 @@ starter.renderer.renderer1.onresize( event => {
 #### • `onmousemove`
 
 ```js
-starter.mesh.plane.onmousemove( event => {
+starter.shader.myShaderName.onmousemove( event => {
 
-  starter.mesh.plane.material.uniforms.u_mouse.value.x = event.clientX;
-  starter.mesh.plane.material.uniforms.u_mouse.value.y = event.clientY;
+  starter.shader.myShaderName.material.uniforms.u_mouse.value.x = event.clientX;
+  starter.shader.myShaderName.material.uniforms.u_mouse.value.y = event.clientY;
 
 } );
 ```
@@ -321,6 +298,7 @@ starter.mesh.plane.onmousemove( event => {
 - create keyboard control
 - create documentation
 - add option mode by default
+- test cases
 
 ## 📁 Source
 
@@ -333,6 +311,10 @@ starter.mesh.plane.onmousemove( event => {
 Copyright ©️ 2019 monsieurbadia
 
 Released under the [MIT](https://github.com/monsieurbadia/glsl-reports/blob/master/LICENSE.md) license
+
+## 🙏 Supports
+
+⭐️ this repository if this project helped you!
 
 [npm]: https://img.shields.io/npm/v/w2gl
 [npm-url]: https://www.npmjs.com/package/w2gl

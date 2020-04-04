@@ -36,7 +36,7 @@ export class CustomScene {
 
 export const createCustomScene = option => {
 
-  const _option = isEmpty( option.scene ) ? { default: {} } : option.scene;
+  const _option = isEmpty( option.scene ) ? { current: {} } : option.scene;
 
   return {
     ...option,

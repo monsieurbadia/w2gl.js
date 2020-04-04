@@ -16,7 +16,7 @@
     "webcomponent": "./src/webcomponent/index.js"
   },
   "scripts": {
-    "dev:default": "parcel examples/index.html --global w2gl",
+    "dev:default": "parcel src/index.html --global w2gl",
     "prod:build": "parcel build src/index.js --out-file w2gl.js --experimental-scope-hoisting --global w2gl"
   },
   "dependencies": {},

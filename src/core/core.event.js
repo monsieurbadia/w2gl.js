@@ -7,7 +7,7 @@ import { Base } from 'base';
 export class Event {
 
   constructor () {}
-
+  
   onmousemove ( callback ) {
 
     if ( callback ) Base.DEFAULT.mousemoveList.push( callback );
@@ -38,8 +38,8 @@ export class Event {
 
   clear () {
 
-    window.addEventListener( 'mousemove', this.mousemove, false );
-    window.addEventListener( 'resize', this.resize, false );
+    window.removeEventListener( 'mousemove', this.mousemove, false );
+    window.removeEventListener( 'resize', this.resize, false );
 
   }
 
