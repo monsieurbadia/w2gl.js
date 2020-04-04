@@ -171,11 +171,11 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 </script>
 
 <script id="fragmentShader" type="x-shader/x-fragment">
-  uniform vec2 u_resolution;
-  uniform float u_time;
+  uniform vec2 resolution;
+  uniform float time;
 
   void main () {
-    vec2 st = gl_FragCoord.xy/u_resolution.xy;
+    vec2 st = gl_FragCoord.xy/resolution.xy;
     gl_FragColor=vec4( st.x, st.y, 0.0, 1.0 );
   }
 </script>
@@ -229,7 +229,7 @@ const option = {
   
         void main () {
           vec2 st = gl_FragCoord.xy/resolution.xy;
-          gl_FragColor=vec4( st.x, st.y, 0.0, 1.0 );
+          gl_FragColor = vec4( st.x, st.y, 0.0, 1.0 );
         }
       `
     }
