@@ -1,6 +1,6 @@
 {
   "name": "w2gl",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A WebGL micro-library based on three.js that will helping you to initialize your shader scene more quickly",
   "keywords": [
     "w2gl",
