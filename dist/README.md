@@ -95,15 +95,25 @@
 
 ### Solution❓
 
-***w2gl** is a javascript micro-layer based on the 3D engine libraries which will allow you to quickly to have fun quickly with the obscure universe of shaders. **w2gl** do not replace the perfect role that the 3D engine libraries allow, it just there to prepare a scene for you.*
+*As a director cut you need some assistance, a you need this guy who gets your back all the time, it will do the annoying tasks for you. you know what i mean! but more seriously, **w2gl** is a javascript micro-layer based on the 3D engine libraries which will allow you to quickly to have fun quickly with the obscure universe of shaders. **w2gl** do not replace the perfect role that the 3D engine libraries allow, it just there to prepare a scene for you.*
 
 ### w2gl.js
 
 ```js
-// es6 snippets
-
-// the w2gl starter is ready to play with shader
+// es6 snippet
 const starter = w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } } );
+
+starter.event.onresize( starter.screen.resize );
+starter.event.onmousemove( starter.mouse.mousemove );
+
+starter.shader.current.onresize( event => {
+
+  starter.shader.current.material.uniforms.resolution.value.x = event.target.innerWidth;
+  starter.shader.current.material.uniforms.resolution.value.y = event.target.innerHeight;
+
+} );
+
+starter.starter.shader.current.onrender( timer => starter.shader.current.material.uniforms.time.value = timer.time );
 ```
 
 ## 📦 Install dependencies
@@ -127,7 +137,7 @@ Are you wanted to initialize your scene quickly? try this!
 ### 1. es6
 
 ```js
-// es6
+// es6 snippet
 import * as THREE from 'three';
 import w2gl from 'w2gl';
 import vertex from './shader/vertex.fs';
@@ -293,6 +303,7 @@ starter.shader.myShaderName.onmousemove( event => {
 ## 📝 Todo
 
 - ~~glsl files support (create plugin)~~
+- supports glsl #include
 - supports more primitives
 - create keyboard control
 - create documentation
