@@ -215,24 +215,7 @@ the `init` function takes option param. `option` object define your scene `start
 
 ```js
 const option = {
-  scene: {
-    mySceneName: {}
-  },
-  camera: {
-    myCameraName: {
-      size: [ window.innerWidth, window.innerHeight ],
-      type: 'perspective'
-    }
-  },
-  renderer: {
-    myRendererName: {
-      options: {
-        antialias: true,
-        pixelRatio: window.devicePixelRatio,
-        size: [ window.innerWidth, window.innerHeight ],
-      }
-    }
-  },
+  THREE,
   shader: {
     myShaderName: {
       fragment: `

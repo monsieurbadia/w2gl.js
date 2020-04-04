@@ -1,12 +1,21 @@
 {
   "name": "w2gl",
   "version": "0.0.1",
-  "description": "A WebGL micro-library",
+  "description": "A WebGL micro-library based on three.js that will helping you to initialize your shader scene more quickly",
   "main": "dist/w2gl.js",
   "repository": "https://github.com/monsieurbadia/w2gl.js.git",
   "author": "monsieurbadia <contact@monsieurbadia.com>",
   "license": "MIT",
   "private": false,
+  "keywords": [
+    "w2gl",
+    "W2GL",
+    "webgl",
+    "shader",
+    "vertex",
+    "fragment",
+    "three"
+  ],
   "homepage": "https://github.com/monsieurbadia/w2gl.js",
   "alias": {
     "base": "./src/base/index.js",

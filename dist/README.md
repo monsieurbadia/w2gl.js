@@ -2,7 +2,7 @@
 
 # w2gl.js [![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url] [![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
 
-> A **WebGL** micro-library based on [three.js](https://threejs.org) that will helping you initialize your  3D scene more quickly.
+> A **WebGL** micro-library based on [three.js](https://threejs.org) that will helping you initialize your shader scene more quickly.
 
 ## Problem❓
 
@@ -215,24 +215,7 @@ the `init` function takes option param. `option` object define your scene `start
 
 ```js
 const option = {
-  scene: {
-    mySceneName: {}
-  },
-  camera: {
-    myCameraName: {
-      size: [ window.innerWidth, window.innerHeight ],
-      type: 'perspective'
-    }
-  },
-  renderer: {
-    myRendererName: {
-      options: {
-        antialias: true,
-        pixelRatio: window.devicePixelRatio,
-        size: [ window.innerWidth, window.innerHeight ],
-      }
-    }
-  },
+  THREE,
   shader: {
     myShaderName: {
       fragment: `
