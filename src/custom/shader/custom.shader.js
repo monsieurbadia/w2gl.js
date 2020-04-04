@@ -10,23 +10,22 @@ export class CustomShader {
 
   constructor ( THREE, option ) {
 
-    const shader = Object.keys( option.shader ).map( key => { 
+    Object.assign( option, {
+      geometry: {
+        parameter: [ 2, 2 ],
+      }
+    } );
 
-      const shaderCurrent = new Shader( THREE, option.shader[ key ] );
-      const material = new THREE[ 'ShaderMaterial' ]( shaderCurrent );
-      const geometry = new THREE[ `PlaneBufferGeometry` ]( ...option.geometry.option );
-
-      return new THREE.Mesh( geometry, material );
-    
-    } )[ 0 ];
+    const shader = new Shader( THREE, option );
+    const material = new THREE[ 'ShaderMaterial' ]( shader );
+    const geometry = new THREE[ `PlaneBufferGeometry` ]( ...option.geometry.parameter );
+    const mesh = new THREE.Mesh( geometry, material );
 
     const onmousemove = mousemove => Base.DEFAULT.mousemoveList.push( mousemove );
-  
     const onresize = resize => Base.DEFAULT.resizeList.push( resize );
-  
     const onrender = update => Base.DEFAULT.renderList.push( update );
 
-    return Object.assign( shader, {
+    return Object.assign( mesh, {
       onmousemove,
       onresize,
       onrender
@@ -37,39 +36,10 @@ export class CustomShader {
 };
 
 export const createCustomShader = option => {
-  
-  let _option;
-
-  if ( option.shader ) {
-
-    _option = Object.assign( {}, {
-      current: {
-        geometry: {
-          buffer: true,
-          option: [ 2, 2 ],
-          specific: 'plane'
-        },
-        material: {
-          option: {},
-          specific: 'normal'
-        },
-        shader: option.shader
-      }
-    } );
-
-  } else {
-
-    if ( option.mesh && option.mesh.shader ) {
-
-      _option = option.mesh;
-
-    }
-
-  }
 
   return {
     ...option,
-    shader: reducer( _option, o => new CustomShader( option.THREE, o ) )
+    shader: reducer( option.shader, o => new CustomShader( option.THREE, o ) )
   };
 
 };

@@ -34,7 +34,10 @@ const w2gl = {
 
     if ( !_starter.browser.run.webgl() ) return;
 
-    _starter.scene.current.init( [ _starter.shader.current ] );
+    Object.keys( _starter.shader ).forEach( key => {
+      _starter.scene.current.init( [ _starter.shader[ key ] ] );
+    } );
+
     _starter.camera.current.init( [ 0, 0, -1 ] );
     _starter.renderer.current.init( _starter.scene.current, _starter.camera.current );
 

@@ -2,11 +2,11 @@
 
 # w2gl.js [![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url] [![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
 
-> A **WebGL** micro-library based on [three.js](https://threejs.org) that will helping you initialize your  3D scene more quickly.
+> A **WebGL** micro-library based on [three.js](https://threejs.org) that will helping you initialize your shader scene more quickly.
 
 ## Problem❓
 
-*to create a scene a director cut need 3 things : a scene, a camera and a monitor. it's the same in the shader universe. but using the **WebGL API** natively is not easy to use or to maintain a clean code. Some libraries already resolve this issue. Thank God ! Even if now it's more simple to create a shaders in **WebGL.** We still have to create declare several instructions manually before playing with shaders. it can be annoying when like me you like to play with the **WebGL** technology*
+*to create a scene a director cut need 3 things : a scene, a camera and a monitor. it's the same in the shader universe. but using the **WebGL API** natively is not easy to use or to maintain a clean code. Some libraries already resolve this issue. Thank God ! Even if now it's more simple to create a shaders in **WebGL.** We still have to create declare several instructions manually before playing with shaders. it can be annoying when like me you like to play with the **WebGL** technology.*
 
 ### three.js
 
@@ -95,7 +95,7 @@
 
 ### Solution❓
 
-*As a director cut you need some assistance, a you need this guy who gets your back all the time, it will do the annoying tasks for you. you know what i mean! but more seriously, **w2gl** is a javascript micro-layer based on the 3D engine libraries which will allow you to quickly to have fun quickly with the obscure universe of shaders. **w2gl** do not replace the perfect role that the 3D engine libraries allow, it just there to prepare a scene for you.*
+*As a director cut you need some assistance, in fact you need this guy who gets your back all the time, it will do the annoying tasks for you. you know what i mean! but more seriously, **w2gl** is a javascript micro-layer based on the 3D engine libraries which will allow you to quickly to have fun quickly with the obscure universe of shaders. **w2gl** do not replace the perfect role that the 3D engine libraries allow, it just there to prepare a scene for you.*
 
 ### w2gl.js
 
@@ -211,7 +211,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
 ### 1. option [`object`]
 
-the `init` function takes option param. `option` object define your scene `starter`. this is the valid schema object you must follow to init your scene or shader scene properly
+the `init` function takes option param. `option` object define your scene `starter`. this is the valid schema object you must follow to init your scene or shader scene properly.
 
 ```js
 const option = {
@@ -224,11 +224,11 @@ const option = {
         }
       `,
       vertex: `
-        uniform vec2 u_resolution;
-        uniform float u_time;
+        uniform vec2 resolution;
+        uniform float time;
   
         void main () {
-          vec2 st = gl_FragCoord.xy/u_resolution.xy;
+          vec2 st = gl_FragCoord.xy/resolution.xy;
           gl_FragColor=vec4( st.x, st.y, 0.0, 1.0 );
         }
       `
@@ -239,7 +239,7 @@ const option = {
 
 ### 2. listeners [`callback`]
 
-use the events listener to update your scene, for example each shader and render got to himself several listeners
+use the events listener to update your scene, for example each shader and render got to himself several listeners.
 
 #### • `onrender`
 
@@ -267,8 +267,8 @@ starter.renderer.myShaderName.onresize( event => {
 ```js
 starter.shader.myShaderName.onmousemove( event => {
 
-  starter.shader.myShaderName.material.uniforms.u_mouse.value.x = event.clientX;
-  starter.shader.myShaderName.material.uniforms.u_mouse.value.y = event.clientY;
+  starter.shader.myShaderName.material.uniforms.mouse.value.x = event.clientX;
+  starter.shader.myShaderName.material.uniforms.mouse.value.y = event.clientY;
 
 } );
 ```
@@ -285,19 +285,17 @@ starter.shader.myShaderName.onmousemove( event => {
 
 ## 📝 Todo
 
-- ~~glsl files support (create plugin)~~
-- supports glsl #include
-- supports more primitives
-- create keyboard control
-- create documentation
-- add option mode by default
-- test cases
+- [X] ~~glsl files support (create plugin)~~
+- [ ] supports glsl #include
+- [ ] keyboard event
+- [ ] documentation
+- [ ] default mode
+- [ ] test cases
 
 ## 📁 Source
 
-- @see [how to write portable webgl](http://codeflow.org/entries/2013/feb/22/how-to-write-portable-webgl)
-- @see [using hooks for easier development webgl glsl](https://www.clicktorelease.com/blog/using-hooks-for-easier-development-webgl-glsl)
 - @see [WebGL best practices](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices)
+- @see [three.js documentation](https://threejs.org/docs/index.html)
 
 ## ©️ License
 
@@ -307,7 +305,7 @@ Released under the [MIT](https://github.com/monsieurbadia/glsl-reports/blob/mast
 
 ## 🙏 Supports
 
-⭐️ this repository if this project helped you!
+Built with 🖤 by [@monsieurbadia](https://twitter.com/monsieurbadia) ⭐️ this repository if this project helped you!
 
 [npm]: https://img.shields.io/npm/v/w2gl
 [npm-url]: https://www.npmjs.com/package/w2gl

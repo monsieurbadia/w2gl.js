@@ -27,13 +27,13 @@ export class Shader {
     function createUniforms ( uniforms = {} ) {
   
       return Object.keys( uniforms ).reduce( ( result, key ) => {
-  
+
         const uniform = uniforms[ key ];
-  
+
         const parseUniform = uniform => {
   
           const { type, value } = uniform;
-  
+
           const name = Base.MATH.PRIMITIVES[ type ];
 
           uniform.value = new THREE[ name ]();
@@ -68,7 +68,7 @@ export class Shader {
           case 'vertex':
   
             shader.vertexShader = shader.vertexShader.includes( core.name ) ? shader.vertexShader.replace( core.name, core.template ) : shader.vertexShader;
-  
+
             break;
   
           case 'fragment':
