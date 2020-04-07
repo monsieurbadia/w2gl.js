@@ -13,17 +13,8 @@ export class CustomScene {
 
     const scene = new THREE.Scene();
     
-    function addMeshes ( meshes ) {
-
-      meshes.forEach( mesh => scene.add( mesh ) );
-  
-    }
-  
-    function init ( meshes ) {
-  
-      scene.addMeshes( meshes );
-  
-    }
+    const addMeshes = ( meshes ) => meshes.forEach( mesh => scene.add( mesh ) );
+    const init = ( meshes ) => scene.addMeshes( meshes );
 
     return Object.assign( scene, {
       addMeshes,
@@ -36,7 +27,7 @@ export class CustomScene {
 
 export const createCustomScene = option => {
 
-  const _option = isEmpty( option.scene ) ? { current: {} } : option.scene;
+  const _option = isEmpty( option.scene || {} ) ? { current: {} } : option.scene;
 
   return {
     ...option,

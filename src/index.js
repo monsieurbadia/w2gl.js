@@ -13,7 +13,7 @@ import { pipe } from 'util';
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
-const w2gl = {
+const w2gl = Object.freeze( {
 
   init ( option, callback ) {
 
@@ -28,6 +28,8 @@ const w2gl = {
       ...result,
       [ coreType ]: Base.CORE[ coreType.toUpperCase() ]
     } ), Object.assign( {}, { ...option } ) );
+
+    // check THREE instance option
 
     const _prepare = pipe( ..._operations );
     const _starter = _prepare( _option );
@@ -47,7 +49,7 @@ const w2gl = {
 
   }
 
-};
+} );
 
 // es6 exports w2gl
 export default w2gl;

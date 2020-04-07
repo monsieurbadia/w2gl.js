@@ -14,6 +14,8 @@ export class Event {
 
     window.addEventListener( 'mousemove', this.mousemove, false );
 
+    return this;
+
   }
 
   onresize ( callback ) {
@@ -21,6 +23,8 @@ export class Event {
     if ( callback ) Base.DEFAULT.resizeList.push( callback );
 
     window.addEventListener( 'resize', this.resize, false );
+
+    return this;
 
   }
 

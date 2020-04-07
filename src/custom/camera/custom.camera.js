@@ -13,15 +13,9 @@ export class CustomCamera {
   
     const camera = new THREE.Camera();
 
-    function init ( positions = [] ) {
+    const init = ( positions = [] ) => ( positions.length > 0 ) && camera.position.set( ...positions );
 
-      if ( positions.length > 0 ) camera.position.set( ...positions );
-  
-    }
-
-    Object.assign( camera, { init } );
-
-    return camera;
+    return Object.assign( camera, { init } );
   
   }
 
@@ -29,7 +23,7 @@ export class CustomCamera {
 
 export const createCustomCamera = option => {
   
-  const _option = isEmpty( option.camera )
+  const _option = isEmpty( option.camera || {} )
     ? {
         current: {
           size: [ window.innerWidth, window.innerHeight ],

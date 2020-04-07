@@ -27,8 +27,8 @@ export class Browser {
       } catch ( error ) {
     
         gl = null;
-        isWebGL = false
-      
+        isWebGL = false;
+
         console.warn( error );
     
       }

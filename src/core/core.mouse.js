@@ -15,8 +15,8 @@ export class Mouse {
 
   mousemove ( { clientX, clientY, pageX, pageY } ) {
 
-    const x = clientX || pageX;
-    const y = clientY || pageY;
+    const x = clientX || pageX || this.x;
+    const y = clientY || pageY || this.y;
 
     this.set( x, y );
 
@@ -24,8 +24,8 @@ export class Mouse {
 
   set ( x, y ) {
 
-    this.x = x;
-    this.y = y;
+    this.x = x || this.x;
+    this.y = y || this.y;
 
   }
 

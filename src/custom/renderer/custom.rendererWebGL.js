@@ -17,18 +17,9 @@ export class CustomRendererWebGL {
     const rendererWebGL = new THREE.WebGLRenderer( { antialias: true } )
     const timer = new Timer();
 
-    create( option );
-    add( rendererWebGL.domElement );
+    const add = ( element ) => window.document.body.appendChild( element );
   
-    rendererWebGL.onresize = onresize.bind( rendererWebGL );
-
-    function add ( element ) {
-
-      window.document.body.appendChild( element );
-  
-    }
-  
-    function init ( scene, camera ) {
+    const init = ( scene, camera ) => {
   
       rendererWebGL.current = {
         camera,
@@ -37,23 +28,19 @@ export class CustomRendererWebGL {
   
       rendererWebGL.setTimerAnimationLoop();
   
-    }
+    };
   
-    function create ( option ) {
+    const create = ( option ) => {
   
       rendererWebGL.setClearColor( 0x000000 );
       rendererWebGL.setPixelRatio( window.devicePixelRatio );
       rendererWebGL.setSize( ...option.option.size, true );
   
-    }
+    };
   
-    function onresize ( resize ) {
+    const onresize = ( resize ) => Base.DEFAULT.resizeList.push( resize );
   
-      Base.DEFAULT.resizeList.push( resize );
-  
-    }
-  
-    function setTimerAnimationLoop ( callback ) {
+    const setTimerAnimationLoop = ( callback ) => {
   
       rendererWebGL.setAnimationLoop( callback !== null ? _ => {
   
@@ -67,7 +54,12 @@ export class CustomRendererWebGL {
   
       } : null );
   
-    }
+    };
+
+    create( option );
+    add( rendererWebGL.domElement );
+  
+    rendererWebGL.onresize = onresize.bind( rendererWebGL );
 
     return Object.assign( rendererWebGL, {
       add,
@@ -83,7 +75,7 @@ export class CustomRendererWebGL {
 
 export const createCustomRendererWebGL = option => {
   
-  const _option = isEmpty( option.renderer )
+  const _option = isEmpty( option.renderer || {} )
     ? {
         current: {
           option: {
