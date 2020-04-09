@@ -1,4 +1,4 @@
-import { Browser, Events, Mouse, Screen } from 'core';
+import { Events, Mouse, Screen } from 'core';
 import { createCustomCamera, createCustomShader, createCustomScene, createCustomRendererWebGL } from 'custom';
 import { pipe } from 'util';
 
@@ -23,7 +23,6 @@ const w2gl = Object.freeze( {
     const starter = Object.assign(
       prepare( payload ),
       {
-        browser: new Browser(),
         events: new Events(),
         mouse: new Mouse(),
         screen: new Screen(),

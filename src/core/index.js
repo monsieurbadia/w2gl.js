@@ -1,4 +1,3 @@
-export { Browser } from './core.browser';
 export { Events } from './core.events';
 export { Mouse } from './core.mouse';
 export { Screen } from './core.screen';
