@@ -5,4 +5,4 @@ import { EVENT } from 'base';
  */
 
 /** @public */
-export const onrender = update => typeof f === 'function' && EVENT.LIST.renderList.push( update );
+export const onrender = f => typeof f === 'function' && EVENT.LIST.renderList.push( f );

@@ -2,6 +2,7 @@
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
+/** @public */
 export const SHADER = Object.freeze( {
   TYPE: {
     color: {

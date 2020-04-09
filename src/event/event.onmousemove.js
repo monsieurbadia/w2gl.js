@@ -5,4 +5,4 @@ import { EVENT } from 'base';
  */
 
 /** @public */
-export const onmousemove = mousemove => typeof f === 'function' && EVENT.LIST.mousemoveList.push( mousemove );
+export const onmousemove = f => typeof f === 'function' && EVENT.LIST.mousemoveList.push( f );

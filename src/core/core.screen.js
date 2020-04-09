@@ -2,16 +2,13 @@
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
- /** @public */
-const setSize = ( object, [ width, height ] ) => {
-  
-  object.width = width;
-  object.height = height;
+/** @public */
+const resize = function ( { target } ) {
+
+  this.width = target.innerWidth;
+  this.height = target.innerHeight;
 
 };
-
-/** @public */
-const resize = function ( { target } ) { setSize( this, [ target.innerWidth, target.innerHeight ] ) };
 
 /**
  * screen
@@ -20,8 +17,9 @@ const resize = function ( { target } ) { setSize( this, [ target.innerWidth, tar
 
 export const Screen = function () {
 
-  setSize( this, [ window.innerWidth, window.innerHeight ] )
+  this.width = window.innerWidth;
+  this.height = window.innerHeight;
 
-  return Object.assign( this, { resize } );
+  this.resize = resize.bind( this );
 
 };

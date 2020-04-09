@@ -5,4 +5,4 @@ import { EVENT } from 'base';
  */
 
 /** @public */
-export const onresize = resize => typeof f === 'function' && EVENT.LIST.resizeList.push( resize );
+export const onresize = f => typeof f === 'function' && EVENT.LIST.resizeList.push( f );

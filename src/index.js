@@ -31,11 +31,12 @@ const w2gl = Object.freeze( {
     );
 
     Object.keys( starter.shader ).forEach( key => {
-      starter.scene?.current.init( [ starter.shader[ key ] ] );
+      starter.scene?.current.init( starter.scene?.current, [ starter.shader[ key ] ] );
     } );
 
-    starter.camera?.current.init( [ 0, 0, -1 ] );
-    starter.renderer?.current.init( starter.scene.current, starter.camera.current );
+    starter.events?.init();
+    starter.camera?.current.init( starter.camera.current, [ 0, 0, -1 ] );
+    starter.renderer?.current.init( starter.renderer?.current, starter.scene.current, starter.camera.current );
 
     return f ? f( starter ) : starter;
 
@@ -43,8 +44,5 @@ const w2gl = Object.freeze( {
 
 } );
 
-// es6 exports w2gl
 export default w2gl;
-
-// commonjs exports w2gl
 module.exports = w2gl;

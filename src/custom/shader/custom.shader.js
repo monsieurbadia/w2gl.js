@@ -7,31 +7,31 @@ import { onmousemove, onrender, onresize } from 'event';
  */
 
 /** @private */
-export class CustomShader {
+export const customShader = ( THREE, option ) => {
 
-  constructor ( THREE, option ) {
+  const shade = new Shade( THREE, option );
+  const material = new THREE[ 'ShaderMaterial' ]( shade );
+  const geometry = new THREE[ 'PlaneBufferGeometry' ]( 2, 2 );
+  const mesh = new THREE.Mesh( geometry, material );
 
-    const shade = new Shade( THREE, option );
-    const material = new THREE[ 'ShaderMaterial' ]( shade );
-    const geometry = new THREE[ 'PlaneBufferGeometry' ]( 2, 2 );
-    const mesh = new THREE.Mesh( geometry, material );
-
-    return Object.assign( mesh, {
-      onmousemove,
-      onresize,
-      onrender
-    } );
-
-  }
+  return Object.assign( mesh, {
+    onmousemove,
+    onresize,
+    onrender
+  } );
 
 };
 
-/** @public */
-export const createCustomShader = option => {
+/**
+ * create custom shader
+ * @public
+ */
+
+export const createCustomShader = payload => {
 
   return {
-    ...option,
-    shader: reducer( option.shader, o => new CustomShader( option.THREE, o ) )
+    ...payload,
+    shader: reducer( payload.shader, o => customShader( payload.THREE, o ) )
   };
 
 };

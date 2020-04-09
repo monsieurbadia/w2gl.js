@@ -1,37 +1,27 @@
-import {
-  isEmpty,
-  reducer
-} from 'util';
+import { reducer } from 'util';
 
 /**
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
-export class CustomScene {
+/** @public */
+const init = ( scene, meshes ) => meshes.forEach( mesh => scene.add( mesh ) );
 
-  constructor ( THREE, option ) {
+/** @private */
+export const customScene = THREE => Object.assign( new THREE.Scene(), { init } );
 
-    const scene = new THREE.Scene();
-    
-    const addMeshes = ( meshes ) => meshes.forEach( mesh => scene.add( mesh ) );
-    const init = ( meshes ) => scene.addMeshes( meshes );
+/**
+ * create custom scene
+ * @public
+ */
 
-    return Object.assign( scene, {
-      addMeshes,
-      init,
-    } );
+ export const createCustomScene = payload => {
 
-  }
-
-}
-
-export const createCustomScene = option => {
-
-  const _option = isEmpty( option.scene || {} ) ? { current: {} } : option.scene;
+  const option = { current: {} };
 
   return {
-    ...option,
-    scene: reducer( _option, o => new CustomScene( option.THREE, o ) )
+    ...payload,
+    scene: reducer( option, o => customScene( payload.THREE, o ) )
   };
 
 };

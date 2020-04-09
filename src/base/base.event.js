@@ -1,3 +1,7 @@
+/**
+ * @author monsieurbadia / https://monsieurbadia.com/
+ */
+
 /** @public */
 export const LIST = Object.freeze( {
   mousemoveList: [],
