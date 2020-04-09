@@ -1,4 +1,5 @@
-import { Base } from 'base';
+import { EVENT } from 'base';
+import { onresize } from 'event';
 import { Timer } from 'core';
 
 import {
@@ -10,6 +11,7 @@ import {
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
+/** @public */
 export class CustomRendererWebGL {
 
   constructor ( THREE, option ) {
@@ -17,7 +19,7 @@ export class CustomRendererWebGL {
     const rendererWebGL = new THREE.WebGLRenderer( { antialias: true } )
     const timer = new Timer();
 
-    const add = ( element ) => window.document.body.appendChild( element );
+    const add = element => window.document.body.appendChild( element );
   
     const init = ( scene, camera ) => {
   
@@ -30,31 +32,23 @@ export class CustomRendererWebGL {
   
     };
   
-    const create = ( option ) => {
+    const create = option => {
   
       rendererWebGL.setClearColor( 0x000000 );
       rendererWebGL.setPixelRatio( window.devicePixelRatio );
       rendererWebGL.setSize( ...option.option.size, true );
-  
+
     };
+
+    const setTimerAnimationLoop = _ => rendererWebGL.setAnimationLoop( _ => {
+
+      timer.render();
   
-    const onresize = ( resize ) => Base.DEFAULT.resizeList.push( resize );
+      EVENT.LIST.renderList.forEach( render => render( timer ) );
+
+      rendererWebGL.render( rendererWebGL.current.scene, rendererWebGL.current.camera );
   
-    const setTimerAnimationLoop = ( callback ) => {
-  
-      rendererWebGL.setAnimationLoop( callback !== null ? _ => {
-  
-        timer.render();
-    
-        Base.DEFAULT.renderList.forEach( render => render( timer ) );
-    
-        if ( callback ) callback( timer );
-    
-        rendererWebGL.render( rendererWebGL.current.scene, rendererWebGL.current.camera );
-  
-      } : null );
-  
-    };
+    } );
 
     create( option );
     add( rendererWebGL.domElement );

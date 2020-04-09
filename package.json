@@ -22,17 +22,39 @@
     "core": "./src/core/index.js",
     "custom": "./src/custom/index.js",
     "util": "./src/util/index.js",
+    "event": "./src/event/index.js",
     "webcomponent": "./src/webcomponent/index.js"
   },
   "scripts": {
     "dev:default": "parcel src/index.html --global w2gl",
-    "prod:build": "parcel build src/index.js --out-file w2gl.js --experimental-scope-hoisting --global w2gl"
+    "prod:build": "parcel build src/index.js --out-file w2gl.js --experimental-scope-hoisting --global w2gl",
+    "test:reports": "jest --coverage",
+    "test:watch": "jest --watch test/*.js --coverage"
+  },
+  "jest": {
+    "verbose": true,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!**/dist/**",
+      "!**/node_modules/**"
+    ],
+    "coverageDirectory": "<rootDir>/test/.report",
+    "moduleNameMapper": {
+      "^base$": "<rootDir>/src/base/index.js",
+      "^core$": "<rootDir>/src/core/index.js",
+      "^custom$": "<rootDir>/src/custom/index.js",
+      "^event$": "<rootDir>/src/event/index.js"
+    }
   },
   "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.8.7",
+    "@babel/core": "^7.0.0-0",
     "@babel/plugin-transform-runtime": "^7.8.3",
+    "@babel/preset-env": "^7.9.0",
     "@babel/runtime": "^7.9.2",
+    "babel-jest": "^25.2.6",
+    "jest": "^25.2.7",
     "parcel-bundler": "^1.12.4",
     "parcel-plugin-glsl": "file:root_modules/parcel-plugin-glsl"
   }

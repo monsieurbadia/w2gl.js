@@ -1,15 +1,6 @@
-import { Browser } from './core.browser';
-import { Event } from './core.event';
-import { Mouse } from './core.mouse';
-import { Screen } from './core.screen';
-import { Shader } from './core.shader';
-import { Timer } from './core.timer';
-
-export {
-  Browser,
-  Event,
-  Mouse,
-  Screen,
-  Shader,
-  Timer
-};
+export { Browser } from './core.browser';
+export { Events } from './core.events';
+export { Mouse } from './core.mouse';
+export { Screen } from './core.screen';
+export { Shade } from './core.shade';
+export { Timer } from './core.timer';

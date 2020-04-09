@@ -1,12 +1,5 @@
-import { Base } from 'base';
-
-import {
-  createCustomCamera,
-  createCustomShader,
-  createCustomScene,
-  createCustomRendererWebGL
-} from 'custom';
-
+import { Browser, Events, Mouse, Screen } from 'core';
+import { createCustomCamera, createCustomShader, createCustomScene, createCustomRendererWebGL } from 'custom';
 import { pipe } from 'util';
 
 /**
@@ -15,37 +8,36 @@ import { pipe } from 'util';
 
 const w2gl = Object.freeze( {
 
-  init ( option, callback ) {
+  init ( payload, f ) {
 
-    const _operations = [
+    const operations = [
       createCustomScene,
       createCustomCamera,
       createCustomRendererWebGL,
       createCustomShader,
     ];
 
-    const _option = Base.CORE.LIST.reduce( ( result, coreType ) => ( {
-      ...result,
-      [ coreType ]: Base.CORE[ coreType.toUpperCase() ]
-    } ), Object.assign( {}, { ...option } ) );
+    if ( !payload.THREE ) throw new Error( 'required THREE instance' );
 
-    // check THREE instance option
+    const prepare = pipe( ...operations );
+    const starter = Object.assign(
+      prepare( payload ),
+      {
+        browser: new Browser(),
+        events: new Events(),
+        mouse: new Mouse(),
+        screen: new Screen(),
+      }
+    );
 
-    const _prepare = pipe( ..._operations );
-    const _starter = _prepare( _option );
-
-    if ( !_starter.browser.run.webgl() ) return;
-
-    Object.keys( _starter.shader ).forEach( key => {
-      _starter.scene.current.init( [ _starter.shader[ key ] ] );
+    Object.keys( starter.shader ).forEach( key => {
+      starter.scene?.current.init( [ starter.shader[ key ] ] );
     } );
 
-    _starter.camera.current.init( [ 0, 0, -1 ] );
-    _starter.renderer.current.init( _starter.scene.current, _starter.camera.current );
+    starter.camera?.current.init( [ 0, 0, -1 ] );
+    starter.renderer?.current.init( starter.scene.current, starter.camera.current );
 
-    return callback === undefined
-      ? _starter
-      : callback( _starter );
+    return f ? f( starter ) : starter;
 
   }
 

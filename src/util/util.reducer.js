@@ -2,8 +2,8 @@
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
-export const reducer = ( object, callback ) =>
+export const reducer = ( object, f ) =>
   Object.keys( object ).reduce( ( result, key ) => ( {
     ...result,
-    [ key ]: callback( { ...object[ key ] } )
+    [ key ]: f( { ...object[ key ] } )
   } ), {} );

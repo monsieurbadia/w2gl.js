@@ -2,19 +2,13 @@
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
-export class Timer {
+const render = function () { this.time += this.speed; }
 
-  constructor () {
+export const Timer = function () {
 
-    this.speed = 0.05;
-    this.time = 0;
+  this.speed = 0.05;
+  this.time = 0;
 
-  }
+  return Object.assign( this, { render } );
 
-  render () {
-
-    this.time += this.speed;
-
-  }
-
-}
+};

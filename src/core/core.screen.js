@@ -2,22 +2,26 @@
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
-export class Screen {
-
-  constructor () {
-
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
-
-    this.resize = this.resize.bind( this );
-
-  }
-
-  resize ( event ) {
+ /** @public */
+const setSize = ( object, [ width, height ] ) => {
   
-    this.width = event.target.innerWidth;
-    this.height = event.target.innerHeight;
-  
-  }
+  object.width = width;
+  object.height = height;
 
-}
+};
+
+/** @public */
+const resize = function ( { target } ) { setSize( this, [ target.innerWidth, target.innerHeight ] ) };
+
+/**
+ * screen
+ * @public
+ */
+
+export const Screen = function () {
+
+  setSize( this, [ window.innerWidth, window.innerHeight ] )
+
+  return Object.assign( this, { resize } );
+
+};

@@ -3,7 +3,7 @@
  */
 
 export const SHADER = Object.freeze( {
-  CORE: {
+  TYPE: {
     color: {
       name: '#include <core_color>',
       template: '',

@@ -1,11 +1,4 @@
-import { createCustomCamera } from './camera/custom.camera';
-import { createCustomShader } from './shader/custom.shader';
-import { createCustomRendererWebGL } from './renderer/custom.rendererWebGL';
-import { createCustomScene } from './scene/custom.scene';
-
-export {
-  createCustomCamera,
-  createCustomShader,
-  createCustomRendererWebGL,
-  createCustomScene
-};
+export { createCustomCamera } from './camera/custom.camera';
+export { createCustomShader } from './shader/custom.shader';
+export { createCustomRendererWebGL } from './renderer/custom.rendererWebGL';
+export { createCustomScene } from './scene/custom.scene';
