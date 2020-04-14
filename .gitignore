@@ -7,11 +7,10 @@ yarn-error.log*
 lerna-debug.log*
 
 # dependency directories
-node_modules/
+node_modules
 
 # cache
 .cache
 
 # test
-test
 test/.report

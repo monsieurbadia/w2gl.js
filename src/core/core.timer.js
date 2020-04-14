@@ -2,7 +2,7 @@
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
-const render = function () { this.time += this.speed; }
+const render = function () { this.time += this.speed; };
 
 export const Timer = function () {
 

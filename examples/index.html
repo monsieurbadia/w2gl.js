@@ -6,29 +6,14 @@
     <title>Document</title>
   </head>
   <body>
-    <script src="./index.js"></script>
+    <script src="../dist/w2gl.js"></script>
     <script src="https://threejs.org/build/three.min.js"></script>
     <script>
+
       const starter = w2gl.init( {
         THREE,
         shader: {
           myShaderName : {
-            include: [
-              {
-                color: {
-                  name: '#include <core_color>',
-                  template: '',
-                  type: 'fragment'
-                }
-              },
-              {
-                color: {
-                  name: '#include <core_color>',
-                  template: '',
-                  type: 'fragment'
-                }
-              }
-            ],
             vertex: `
               void main () {
                 gl_Position = vec4(position, 1.0);
@@ -46,6 +31,12 @@
           }
         }
       } );
+
+      console.log( starter );
+
+      starter.events.onresize( starter.screen.resize );
+      starter.events.onmousemove( starter.mouse.move );
+
     </script>
   </body>
 </html>

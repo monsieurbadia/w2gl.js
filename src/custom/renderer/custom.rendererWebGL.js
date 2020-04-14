@@ -7,6 +7,17 @@ import { reducer } from 'util';
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
+/** @private */
+const option = {
+  current: {
+    option: {
+      antialias: true,
+      pixelRatio: window.devicePixelRatio,
+      size: [ window.innerWidth, window.innerHeight ],
+    }
+  }
+};
+
 /** @public */
 const init = ( renderer, scene, camera ) => {
 
@@ -27,12 +38,8 @@ const setTimerAnimationLoop = ( renderer, start ) => renderer.setAnimationLoop( 
 
 } : null );
 
-/**
- * create custom renderer webgl
- * @public
- */
-
-export const customRendererWebGL = ( THREE, payload ) => {
+/** @private */
+const customRendererWebGL = ( THREE, payload ) => {
 
   const rendererWebGL = new THREE.WebGLRenderer( { antialias: true } );
 
@@ -56,21 +63,7 @@ export const customRendererWebGL = ( THREE, payload ) => {
  * @public
  */
 
-export const createCustomRendererWebGL = payload => {
-  
-  const option = {
-    current: {
-      option: {
-        antialias: true,
-        pixelRatio: window.devicePixelRatio,
-        size: [ window.innerWidth, window.innerHeight ],
-      }
-    }
-  };
-
-  return {
-    ...payload,
-    renderer: reducer( option, o => customRendererWebGL( payload.THREE, o ) )
-  };
-
-};
+export const createCustomRendererWebGL = payload => ( {
+  ...payload,
+  renderer: reducer( option, o => customRendererWebGL( payload.THREE, o ) )
+} );

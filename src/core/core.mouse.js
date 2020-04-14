@@ -5,8 +5,8 @@
 /** @public */
 function move ( { clientX, clientY, pageX, pageY } ) {
 
-  const x = clientX || pageX || this.x;
-  const y = clientY || pageY || this.y;
+  const x = clientX || pageX;
+  const y = clientY || pageY;
 
   this.x = x || this.x;
   this.y = y || this.y;

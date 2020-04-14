@@ -2,7 +2,7 @@
 
 # w2gl.js [![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url] [![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
 
-> A **WebGL** micro-library based on [three.js](https://threejs.org) that will helping you initialize your shader scene more quickly.
+> *a **WebGL** micro-library based on [three.js](https://threejs.org) that will helping you initialize your shader scene more quickly.*
 
 ## Problem❓
 
@@ -16,81 +16,81 @@
   <div id="container"></div>
   <script src="js/three.min.js"></script>
   <script id="vertexShader" type="x-shader/x-vertex">
-      void main () {
-        gl_Position = vec4( position, 1.0 );
-      }
+    void main () {
+      gl_Position = vec4( position, 1.0 );
+    }
   </script>
   <script id="fragmentShader" type="x-shader/x-fragment">
-      uniform vec2 u_resolution;
-      uniform float u_time;
+    uniform vec2 u_resolution;
+    uniform float u_time;
 
-      void main () {
-        vec2 st = gl_FragCoord.xy/u_resolution.xy;
-        gl_FragColor=vec4( st.x, st.y, 0.0, 1.0 );
-      }
+    void main () {
+      vec2 st = gl_FragCoord.xy/u_resolution.xy;
+      gl_FragColor=vec4( st.x, st.y, 0.0, 1.0 );
+    }
   </script>
   <script>
-      var container;
-      var camera, scene, renderer;
-      var uniforms;
+    var container;
+    var camera, scene, renderer;
+    var uniforms;
 
-      init();
-      animate();
+    init();
+    animate();
 
-      function init() {
-          container = document.getElementById( 'container' );
+    function init() {
+      container = document.getElementById( 'container' );
 
-          camera = new THREE.Camera();
-          camera.position.z = 1;
+      camera = new THREE.Camera();
+      camera.position.z = 1;
 
-          scene = new THREE.Scene();
+      scene = new THREE.Scene();
 
-          var geometry = new THREE.PlaneBufferGeometry( 2, 2 );
+      var geometry = new THREE.PlaneBufferGeometry( 2, 2 );
 
-          uniforms = {
-              u_time: { type: "f", value: 1.0 },
-              u_resolution: { type: "v2", value: new THREE.Vector2() },
-              u_mouse: { type: "v2", value: new THREE.Vector2() }
-          };
+      uniforms = {
+          u_time: { type: "f", value: 1.0 },
+          u_resolution: { type: "v2", value: new THREE.Vector2() },
+          u_mouse: { type: "v2", value: new THREE.Vector2() }
+      };
 
-          var material = new THREE.ShaderMaterial( {
-              uniforms: uniforms,
-              vertexShader: document.getElementById( 'vertexShader' ).textContent,
-              fragmentShader: document.getElementById( 'fragmentShader' ).textContent
-          } );
+      var material = new THREE.ShaderMaterial( {
+          uniforms: uniforms,
+          vertexShader: document.getElementById( 'vertexShader' ).textContent,
+          fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+      } );
 
-          var mesh = new THREE.Mesh( geometry, material );
-          scene.add( mesh );
+      var mesh = new THREE.Mesh( geometry, material );
+      scene.add( mesh );
 
-          renderer = new THREE.WebGLRenderer();
-          renderer.setPixelRatio( window.devicePixelRatio );
+      renderer = new THREE.WebGLRenderer();
+      renderer.setPixelRatio( window.devicePixelRatio );
 
-          container.appendChild( renderer.domElement );
+      container.appendChild( renderer.domElement );
 
-          onWindowResize();
-          window.addEventListener( 'resize', onWindowResize, false );
+      onWindowResize();
+      window.addEventListener( 'resize', onWindowResize, false );
 
-          document.onmousemove = function(e){
-            uniforms.u_mouse.value.x = e.pageX
-            uniforms.u_mouse.value.y = e.pageY
-          }
+      document.onmousemove = function(e){
+        uniforms.u_mouse.value.x = e.pageX
+        uniforms.u_mouse.value.y = e.pageY
       }
+    }
 
-      function onWindowResize( event ) {
-          renderer.setSize( window.innerWidth, window.innerHeight );
-          uniforms.u_resolution.value.x = renderer.domElement.width;
-          uniforms.u_resolution.value.y = renderer.domElement.height;
-      }
+    function onWindowResize( event ) {
+      renderer.setSize( window.innerWidth, window.innerHeight );
+      uniforms.u_resolution.value.x = renderer.domElement.width;
+      uniforms.u_resolution.value.y = renderer.domElement.height;
+    }
 
-      function animate() {
-          requestAnimationFrame( animate );
-          render();
-      }
+    function animate() {
+      requestAnimationFrame( animate );
+      render();
+    }
 
-      function render() {
-          uniforms.u_time.value += 0.05;
-          renderer.render( scene, camera );
-      }
+    function render() {
+      uniforms.u_time.value += 0.05;
+      renderer.render( scene, camera );
+    }
 ```
 
 ### Solution❓
@@ -100,21 +100,35 @@
 ### w2gl.js
 
 ```js
-// es6 snippet
-const starter = w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } } );
+const starter = w2gl.init( {
+  THREE,
+  shader: {
+    myShaderName : {
+      vertex: `
+        void main () {
+          gl_Position = vec4(position, 1.0);
+        }
+      `,
+      fragment: `
+        uniform vec2 resolution;
+        uniform float time;
 
-starter.event.onresize( starter.screen.resize );
-starter.event.onmousemove( starter.mouse.mousemove );
-
-starter.shader.current.onresize( event => {
-
-  starter.shader.current.material.uniforms.resolution.value.x = event.target.innerWidth;
-  starter.shader.current.material.uniforms.resolution.value.y = event.target.innerHeight;
-
+        void main () {
+          vec2 st = gl_FragCoord.xy / resolution.xy;
+          gl_FragColor=vec4(st.x, st.y, 0.0, 1.0);
+        }
+      `
+    }
+  }
 } );
 
-starter.starter.shader.current.onrender( timer => starter.shader.current.material.uniforms.time.value = timer.time );
+starter.events.onresize( starter.screen.resize );
+starter.events.onmousemove( starter.mouse.move );
 ```
+
+## ⚠️ Disclaimer
+
+i am not a developer, i am just a regular guy whos appreciate programming and want to learn more about shader. So in a future some changes will be expected.
 
 ## 📦 Install dependencies
 
@@ -137,21 +151,20 @@ Are you wanted to initialize your scene quickly? try this!
 ### 1. es6
 
 ```js
-// es6 snippet
 import * as THREE from 'three';
 import w2gl from 'w2gl';
 import vertex from './shader/vertex.fs';
 import fragment from './shader/fragment.fs';
 
-// 1. first way, gets the starter object provide by the init function result
+// 1. first way, get the starter object provide by the init function result
 const starter = w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } } );
 
-console.log( starter ); // <-- w2gl is set in the starter constant
+console.log( starter ); // <-- et hop! w2gl is set in the starter constant
 
-// 2. second way, gets the starter object provide by the init callback function
+// 2. second way, get the starter object provide by the init callback function
 w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter => {
 
-  console.log( starter ); // <-- w2gl is ready in the callback scope only
+  console.log( starter ); // <-- voilà! w2gl is ready in the callback scope only
 
 } );
 ```
@@ -159,8 +172,6 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 ### 2. html/javascript
 
 ```html
-<!-- add three -->
-
 <script src="./src/three.js"></script>
 <script src="./src/w2gl.js"></script>
 
@@ -185,8 +196,8 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
   var starter = w2gl.init( {
     THREE,
     shader: {
-      vertex: vertexShader,
-      fragment: fragmentShader
+      vertex: document.getElementById( 'vertexShader' ),
+      fragment: document.getElementById( 'fragmentShader' )
     }
   } );
 
@@ -196,8 +207,8 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
   w2gl.init( {
     THREE,
     shader: {
-      vertex: vertexShader,
-      fragment: fragmentShader
+      vertex: document.getElementById( 'vertexShader' ),
+      fragment: document.getElementById( 'fragmentShader' )
     } 
   }, starter => {
   
@@ -207,95 +218,166 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 </script>
 ```
 
-## 📖 Documentation
+## 📖 API
 
-### 1. option [`object`]
+- ### `.init( option )`
 
-the `init` function takes option param. `option` object define your scene `starter`. this is the valid schema object you must follow to init your scene or shader scene properly.
+  the `init` function takes option param.
 
-```js
-const option = {
-  THREE,
-  shader: {
-    myShaderName: {
-      fragment: `
-        void main () {
-          gl_Position = vec4( position, 1.0 );
-        }
-      `,
-      vertex: `
-        uniform vec2 resolution;
-        uniform float time;
-  
-        void main () {
-          vec2 st = gl_FragCoord.xy/resolution.xy;
-          gl_FragColor = vec4( st.x, st.y, 0.0, 1.0 );
-        }
-      `
-    }
+  ##### params
+
+  `option` **{ Object }**: collection.
+
+  ##### example
+
+  [see the option schema](./documentation/w2gl.option.md)
+
+- ### `starter` [ Object ]
+
+  it is a collection that we help you during your shader development.
+
+  ##### example
+
+  ```js
+  {
+    THREE: {ACESFilmicToneMapping: 5, AddEquation: 100, AddOperation: 2, AdditiveBlending: 2, AlphaFormat: 1021, …}
+    shader: {myShaderName: S}
+    scene: {current: ob}
+    camera: {current: db}
+    renderer: {current: og}
+    events: {onmousemove: ƒ, onresize: ƒ, clear: ƒ, init: ƒ, mousemove: ƒ, …}
+    mouse: X {x: 5, y: 382, move: ƒ}
+    screen: ea {width: 1306, height: 460, resize: ƒ}
   }
-};
-```
+  ```
 
-### 2. listeners [`callback`]
+  - #### `.shader` [ THREE.Mesh ]
 
-use the events listener to update your scene, for example each shader and render got to himself several listeners.
+    it is a plane buffer geometry with a shader material that contains your both shaders.
 
-#### • `onrender`
+    ##### uniforms
 
-```js
-// update plane mesh
-starter.shader.myShaderName.onrender( timer => {
+    several uniforms are already implemented for you.   
 
-  starter.shader.myShaderName.material.uniforms.u_time.value += 0.05;
+    <br/>
 
-} );
-```
+    ```js
+    starter.shader.myShaderName.material.uniforms
 
-#### • `onresize`
+    /* output:
 
-```js
-starter.renderer.myShaderName.onresize( event => {
+    {
+      mouse: {type: "v2", value: t}
+      resolution: {type: "v2", value: t}
+      time: {type: "f", value: 1}
+    }
 
-  starter.renderer.myShaderName.setSize( event.target.innerWidth, event.target.innerHeight );
+    */
+    ```
 
-} );
-```
+  - #### `.scene` [ THREE.Scene ]
 
-#### • `onmousemove`
+    it is your THREE scene that is already initliazed.
 
-```js
-starter.shader.myShaderName.onmousemove( event => {
+  - #### `.camera` [ THREE.Camera ]
 
-  starter.shader.myShaderName.material.uniforms.mouse.value.x = event.clientX;
-  starter.shader.myShaderName.material.uniforms.mouse.value.y = event.clientY;
+    it is your THREE camera that is already initialized.
 
-} );
-```
+  - #### `.renderer` [ THREE.WeGLRenderer ]
 
-### 3. starter [`object`]
+    it is your THREE renderer that is already initialized.
 
-#### • `event`
+  - #### `.events` [ Object ]
 
-#### • `mouse`
+    use the events listener to update your scene, for example each shader and render got to himself several listeners.
 
-#### • `screen`
+    - #### `onrender`
 
-#### • `timer`
+      this method is run during a requestAnimationFrame that will give you a timer object that you can used to update your fragment shader.
+
+      ##### example
+
+      ```js
+      starter.shader.myShaderName.onrender( timer => {
+
+        starter.shader.myShaderName.material.uniforms.time.value += timer.time;
+
+      } );
+      ```
+
+    - #### `onresize`
+
+      this method is called when the screen dimension has been changed. You can get the event and used it to resize you fragment shader only when the screen size has been detected.
+
+      ##### example
+
+      ```js
+      starter.renderer.myShaderName.onresize( event => {
+
+        starter.renderer.myShaderName.setSize( event.target.innerWidth, event.target.innerHeight );
+
+      } );
+      ```
+
+    - #### `onmousemove`
+
+      this method is called when the mouse is moving the entire screen. You can get the `window` event and used to update you fragment shader only when a mouse move has been detected.
+
+      ##### example
+
+      ```js
+      starter.shader.myShaderName.onmousemove( event => {
+
+        starter.shader.myShaderName.material.uniforms.mouse.value.x = event.clientX;
+        starter.shader.myShaderName.material.uniforms.mouse.value.y = event.clientY;
+
+      } );
+      ```
+
+  - #### `.mouse`
+
+    it is the mouse component. you not need to create your mouse class. It is accessible through the starter object.
+
+    ##### example
+
+    ```js
+    starter.mouse
+
+    // outuput {x: 0, y: 0, move: ƒ}
+
+    starter.events.onmousemove( starter.mouse.move );
+
+    // the mouse is initialized to makes update each time the onmousemove event will be called.
+    ```
+
+  - #### `.screen`
+
+    it is the screen component, it contains the screen dimension and a resize function that you can call to though the `starter.event.onresize`.
+
+    ##### example
+
+    ```js
+    starter.screen
+
+    // outuput {width: 343, height: 811, resize: ƒ}
+
+    starter.events.onresize( starter.screen.resize ); 
+
+    // the screen is initialized to makes update each time the onresize event will be called.
+    ```
 
 ## 📝 Todo
 
-- [X] ~~glsl files support (create plugin)~~
 - [ ] supports glsl #include
-- [ ] keyboard event
+- [ ] more events
 - [ ] documentation
-- [ ] default mode
-- [ ] test cases
+- [x] mode by default
+- [ ] improve learning test cases
 
 ## 📁 Source
 
-- @see [WebGL best practices](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices)
-- @see [three.js documentation](https://threejs.org/docs/index.html)
+- [WebGL best practices](https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/WebGL_best_practices)
+- [three.js documentation](https://threejs.org/docs/index.html)
 
 ## ©️ License
 
@@ -305,7 +387,10 @@ Released under the [MIT](https://github.com/monsieurbadia/glsl-reports/blob/mast
 
 ## 🙏 Supports
 
-Built with 🖤 by [@monsieurbadia](https://twitter.com/monsieurbadia) ⭐️ this repository if this project helped you!
+Logo with 🖤 by [@mllemartins](https://twitter.com/mllemartins)   
+Built with 🖤 by [@monsieurbadia](https://twitter.com/monsieurbadia)    
+
+⭐️ this repository if this project helped you!       
 
 [npm]: https://img.shields.io/npm/v/w2gl
 [npm-url]: https://www.npmjs.com/package/w2gl

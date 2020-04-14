@@ -4,22 +4,22 @@ import { MATH, SHADER } from 'base';
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
-/** @public */
+/** @private */
 const merge = ( o1, o2 ) => ( { ...o1, ...o2 } );
 
 /** @private */
 const createUniforms = ( THREE, uniforms ) => 
   Object.keys( { ...uniforms } ).reduce( ( result, key ) => {
     
-    let uniform = uniforms[ key ];
+    const uniform = uniforms[ key ];
 
     if ( MATH.TYPES.includes( uniform.type ) ) {
 
       const { type, value } = uniform;
       const name = MATH.PRIMITIVES[ type ];
-    
+
       uniform.value = new THREE[ name ]();
-    
+
       if ( value.length > 0 ) uniform.value.set( ...value );
 
     }
@@ -31,21 +31,29 @@ const createUniforms = ( THREE, uniforms ) =>
   
   }, {} );
 
-/** @public */
-const compile = shade => {
+/** @private */
+const compile = shade =>
+  Object.keys( shade ).reduce( ( result, key ) => {
 
-  Object.keys( SHADER.TYPE ).forEach( key => {
+    const core = SHADER.TYPE[ key.replace( /Shader/, '' ) ];
 
-    const core = SHADER.TYPE[ key ];
-    let current = shade[ `${ core.type }Shader` ];
+    if ( core ) {
 
-    current = current.includes( core.name ) ? current.replace( core.name, core.template ) : current;
+      const current = shade[ `${ core.type }Shader` ];
 
-  } );
+      return {
+        ...result,
+        [ key ]: current.includes( core.name ) ? current.replace( core.name, core.template ) : current
+      };
 
-  return shade;
+    }
 
-};
+    return {
+      ...result,
+      [ key ]: shade[ key ]
+    };
+
+  }, {} );
 
 /**
  * shade

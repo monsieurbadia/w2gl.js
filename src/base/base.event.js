@@ -3,7 +3,7 @@
  */
 
 /** @public */
-export const LIST = Object.freeze( {
+const LIST = Object.freeze( {
   mousemoveList: [],
   renderList: [],
   resizeList: []

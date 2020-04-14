@@ -1,7 +1,7 @@
 {
   "name": "w2gl",
-  "version": "0.0.1",
-  "description": "A WebGL micro-library based on three.js that will helping you to initialize your shader scene more quickly",
+  "version": "0.0.12",
+  "description": "a webgl micro-library based on three.js that will helping you to initialize your shader scene more quickly",
   "main": "dist/w2gl.js",
   "repository": "https://github.com/monsieurbadia/w2gl.js.git",
   "author": "monsieurbadia <contact@monsieurbadia.com>",
@@ -22,12 +22,12 @@
     "core": "./src/core/index.js",
     "custom": "./src/custom/index.js",
     "util": "./src/util/index.js",
-    "event": "./src/event/index.js",
-    "webcomponent": "./src/webcomponent/index.js"
+    "event": "./src/event/index.js"
   },
   "scripts": {
-    "dev:default": "parcel src/index.html --global w2gl",
-    "prod:build": "parcel build src/index.js --out-file w2gl.js --experimental-scope-hoisting --global w2gl",
+    "dev:default": "parcel src/w2gl.js --global w2gl",
+    "dev:examples": "parcel examples/index.html --global w2gl",
+    "prod:build": "parcel build src/w2gl.js --experimental-scope-hoisting --global w2gl",
     "test:reports": "jest --coverage",
     "test:watch": "jest --watch test/*.js --coverage"
   },
@@ -51,7 +51,6 @@
   "devDependencies": {
     "@babel/core": "^7.0.0-0",
     "@babel/plugin-transform-runtime": "^7.8.3",
-    "@babel/preset-env": "^7.9.0",
     "@babel/runtime": "^7.9.2",
     "babel-jest": "^25.2.6",
     "jest": "^25.2.7",
