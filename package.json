@@ -1,6 +1,6 @@
 {
   "name": "w2gl",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "a webgl micro-library based on three.js that will helping you to initialize your shader scene more quickly",
   "main": "dist/w2gl.js",
   "repository": "https://github.com/monsieurbadia/w2gl.js.git",
