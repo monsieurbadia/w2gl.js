@@ -6,7 +6,7 @@
 
 ## Problem❓
 
-*to create a scene a director cut need 3 things : a scene, a camera and a monitor. it's the same in the shader universe. but using the **WebGL API** natively is not easy to use or to maintain a clean code. Some libraries already resolve this issue. Thank God ! Even if now it's more simple to create a shaders in **WebGL.** We still have to create declare several instructions manually before playing with shaders. it can be annoying when like me you like to play with the **WebGL** technology.*
+*to create a scene a director cut need 3 things : a scene, a camera and a monitor. it's the same in the shader universe. but using the **webgl api** natively is not easy to use or to maintain a clean code. Some libraries already resolve this issue. thank god ! even if now it's more simple to create a shaders in **WebGL.** we still have to create declare several instructions manually before playing with shaders. it can be annoying when like me you like to play with the **webgl** technology.*
 
 ### three.js
 
@@ -365,6 +365,32 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
     // the screen is initialized to makes update each time the onresize event will be called.
     ```
+
+## 🚨 Tests
+
+**reports**
+
+```sh
+npm run test:reports
+```
+
+OR
+
+```sh
+yarn test:reports
+```
+
+**watch**
+
+```sh
+npm run test:watch
+```
+
+OR
+
+```sh
+yarn test:watch
+```
 
 ## 📝 Todo
 
