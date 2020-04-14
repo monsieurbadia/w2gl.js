@@ -196,8 +196,8 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
   var starter = w2gl.init( {
     THREE,
     shader: {
-      vertex: document.getElementById( 'vertexShader' ),
-      fragment: document.getElementById( 'fragmentShader' )
+      vertex: document.getElementById( 'vertexShader' ).innerHTML,
+      fragment: document.getElementById( 'fragmentShader' ).innerHTML
     }
   } );
 
@@ -207,8 +207,8 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
   w2gl.init( {
     THREE,
     shader: {
-      vertex: document.getElementById( 'vertexShader' ),
-      fragment: document.getElementById( 'fragmentShader' )
+      vertex: document.getElementById( 'vertexShader' ).innerHTML,
+      fragment: document.getElementById( 'fragmentShader' ).innerHTML
     } 
   }, starter => {
   
