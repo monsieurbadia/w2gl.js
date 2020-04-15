@@ -1,19 +1,19 @@
-<img src="./w2gl-logo-standard.png">
+<img src="../w2gl-logo-standard.png">
 
 # w2gl.js [![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url] [![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
 
-> *javascript micro-library based on [three.js](https://threejs.org) that will helping you initialize your shader scene more quickly*
+> *une micro-librarie javascript basé sur [three.js](https://threejs.org) qui t'aidera à initialiser tes shaders plus facilement.*
 
-[English](README.md) - [French](documentation/README-fr.md)
+[Anglais](./../README.md) - [Français](./README-fr.md)
 
-## Problem❓
+## Probleme❓
 
-*to make a film, a director needs 3 things: a scene, a camera and a monitor. It's exactly the same in the world of shaders. But implementing webgl natively is not an easy task. Then it's really not easy to keep the code clean with this API. Fortunately, new libraries have already solved this problem. Thanks to them! Even though it has become easier to create webgl shaders with these libraries, sur still has to redefine the same instructions before we can have fun with our shaders.*
+*pour réaliser un film, un réalisateur a besoin de 3 choses: une scène, une caméra ainsi qu'un moniteur de contrôle. C'est exactement la même chose dans l'univers des shaders. Mais implémenter du webgl nativement n'est pas une tâche facile. Puis ce n'est vraiment pas évident de maintenir du code propre avec cette api. Heureusement, de nouvelles librairies ont dores et déjà résolues cette problématique. Merci à eux ! Même si il est devenu plus facile de créer des shaders en webgl grâce à ces libraries, on doit toujours redéfinir les mêmes instructions avant de pouvoir nous amuser avec nos shaders.*
 
 ### three.js
 
 ```html
-<!-- source @see https://thebookofshaders.com/04/ -->
+<!-- source https://thebookofshaders.com/04/ -->
 <body>
   <div id="container"></div>
   <script src="js/three.min.js"></script>
@@ -97,7 +97,7 @@
 
 ### Solution❓
 
-*and if you stop implementing the same instructions to start a project every time. as a 3d developer, you are going to need assistance, you need a safe guy who will take care of your back, who will take care of the boring tasks that you don't want to repeat anymore. this guy may be **w2gl**. written in javascript this micro-library based on 3d engine libraries will allow you to have fun quickly with the obscure universe of shaders. Note that **w2gl** is not there to replace the role of these libraries, it is a little overlay on these libraries which will precisely prepare your 3d scene and give you some super powers through a `starter` object.*
+*et si tu arrêtais d'implémenter les mêmes instructions pour démarrer un projet à chaque fois. en tant que réalisateur 3d, tu vas avoir besoin d'assistance, tu as besoin d'un gars sûr qui va assurer tes arrières, qui s'occupera de faire les tâches ennuyantes que tu ne souhaite plus répéter. ce gars c'est peut être **w2gl**. écrit en javascript cette micro-librairie basé sur les librairies de moteur 3d te permettra de t'amuser rapidement avec l'univers obscur des shaders. A savoir que **w2gl** n'est pas là pour remplacer le rôle de ces librairies, c'est une petite surcouche à ces librairies qui va justement préparer ta scène 3d et te donner quelques super pouvoirs à travers un objet `starter`.*
 
 ### w2gl.js
 
@@ -128,13 +128,13 @@ starter.events.onresize( starter.screen.resize );
 starter.events.onmousemove( starter.mouse.move );
 ```
 
-## ⚠️ Disclaimer
+## ⚠️ Avertissement
 
-I'm not a developer, I'm just a normal guy who likes programming with the desire to learn more about the dark side of force. last points, changes will be coming in the future for the good of all, I hope.
+Je ne suis pas un développeur, je suis juste un gars normal qui aime la programmation avec l'envie d'en apprendre d'avantage sur le côté obscur de la force. Dernier points, des changements seront à venir dans le futur pour le bien de tous, je l'espère.
 
-## 📦 Install dependencies
+## 📦 Installation
 
-### Command line
+### Terminal
 
 ```sh
 npm i w2gl
@@ -146,13 +146,13 @@ OR
 yarn add w2gl
 ```
 
-### Download
+### Téléchargement
 
-you can also download the project, after recover the file in `. / dist / w2gl.js` and then add it in the folder of your project in which you store the external libraries to your development.
+tu peux aussi télécharger le projet, après récupère le fichier dans `./dist/w2gl.js` et ensuite ajoute-le dans le dossier de ton projet dans lequel tu y stockes les librairies externes à ton développement.
 
-## 🚀 Start project
+## 🚀 Démarrer le projet
 
-are you looking to create a scene quickly? If your answer is yes, you should try this!
+est-ce que tu cherches à créer une scène rapidement ? Si ta réponse est oui, tu devrais essayer ça !
 
 ### 1. es6
 
@@ -162,15 +162,15 @@ import w2gl from 'w2gl';
 import vertex from './shader/vertex.fs';
 import fragment from './shader/fragment.fs';
 
-// 1. first way, to obtain the starter object provided by the result of the init method
+// 1. une première possibilité pour obtenir l'objet starter fourni par le résultat de la méthode init
 const starter = w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } } );
 
-console.log( starter ); // <-- et hop! w2gl is available
+console.log( starter ); // <-- et hop! w2gl est disponible
 
-// 2. second way, to obtain the starter object provided by the callback function, pass as the second argument of the init method
+// 2. et une seconde possibilité, pour obtenir l'objet starter fourni par la fonction de rappel passer en second argument de la méthod init
 w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter => {
 
-  console.log( starter ); // <-- voilà! w2gl is ready in the callback scope only
+  console.log( starter ); // <-- voilà! w2gl est disponible et scopé
 
 } );
 ```
@@ -198,27 +198,27 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 </script>
 
 <script>
-  // 1. first way, to obtain the starter object provided by the result of the init method
+  // 1. une première possibilité pour obtenir l'objet starter fourni par le résultat de la méthode init
   var starter = w2gl.init( {
-    THREE,
+    THREE: THREE,
     shader: {
       vertex: document.getElementById( 'vertexShader' ).innerHTML,
       fragment: document.getElementById( 'fragmentShader' ).innerHTML
     }
   } );
 
-  console.log( starter ); // <-- et hop! w2gl is available
+  console.log( starter ); // <-- et hop! w2gl est disponible
 
-  // 2. second way, to obtain the starter object provided by the callback function, pass as the second argument of the init method
-  w2gl.init( {
-    THREE,
+  // 2. et une seconde possibilité, pour obtenir l'object starter founi par la fonction de rappel passer en second argument de la méthod init
+  var starter = w2gl.init( {
+    THREE: THREE,
     shader: {
       vertex: document.getElementById( 'vertexShader' ).innerHTML,
       fragment: document.getElementById( 'fragmentShader' ).innerHTML
     } 
   }, starter => {
   
-    console.log( starter ); // <-- voilà! w2gl is available and scoped
+    console.log( starter ); // <-- voilà! w2gl est disponible et scopé
   
   } );
 </script>
@@ -228,21 +228,22 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
 - ### `.init( option )`
 
-  the `init` method takes as an input argument:` option`.
+  la methode `init` prend en argument d'entrée : `option`.
 
-  ##### params
+  ##### arguments
 
   `option` **{ Object }**: collection.
+  `returns` **{ Object|Function }**: l'object `starter`.
 
-  ##### example
+  ##### exemple
 
-  [see the option schema](./documentation/w2gl.option.md)
+  [voir le schema de l'objet `option`](./documentation/w2gl.option.md)
 
 - ### `starter`
 
-  it's a collection of methods that will help you during the development of your shaders. It contains everything you need to focus on your main task.
+  c'est une collection de méthode qui va t'aider durant le développement de tes shaders. Il contient tout ce dont tu as besoin pour te concentrer sur ta tâche principale.
 
-  ##### example
+  ##### exemple
 
   ```js
   {
@@ -259,13 +260,13 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
   - #### `.shader`
 
-    the `shader` object returns` THREE.Mesh` created from `PlaneBufferGeometry` and` ShaderMaterial`. This is the one that contains your vertex shader and your shader fragment as well as the uniforms.
+    l'objet `shader`retourne `THREE.Mesh` créer à partir de `PlaneBufferGeometry` et `ShaderMaterial`. C'est celui-ci qui contient ton vertex shader et ton fragment shader ainsi que les uniforms.
 
     ##### uniforms
 
-    to save time, I have already implemented basic uniforms.   
+    pour gagner du temps, j'ai déjà implémenté des uniforms basiques.
 
-    ##### example
+    ##### exemple
 
     ```glsl
     // fragmentShader.fs || vertexShader.vs
@@ -293,34 +294,34 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
   - #### `.scene`
 
-    the scene object returns `THREE.Scene ()`. This `scene` is the 3d space in which your mesh will be.
+    l'objet scene retourne `THREE.Scene()`. Cette `scene` est l'espace 3d dans laquelle se trouvera ton mesh.
 
   - #### `.camera`
 
-    the scene object returns `THREE.Camera ()`. A basic camera without artifice that you don't need to initialize.
+    l'objet scene retourne `THREE.Camera()`. Une camera basique sans artifice que tu n'as pas besoin d'initialiser.
 
   - #### `.renderer`
 
-    the scene object returns `THREE.WebGLRenderer ()`. I have it a little custom at once, so that it can increment the value of `timer.time` within the rendering loop.
+    l'objet scene retourne `THREE.WebGLRenderer()`. Je l'ai un peu custom du coup, pour qu'il puisse incrémenter la valeur de `timer.time` au sein de la boucle de rendu.
 
   - #### `.events`
 
-    i have made available to you methods that you can use as event listeners to update your scene. indeed each of these methods are executed in the event listener corresponding to its name.
+    je t'ai mis à disposition des méthodes que tu peux utiliser comme des écouteurs d'évènement afin de mettre à jour ta scène. En effet chacune de ces méthodes sont exécutés dans l'écouteur d'évenèment correspondant à son nom.
 
     - #### `onmousemove( f )`
 
-      this method is called when the mouse is moving on the screen. You can retrieve the `window` object directly and then update your fragment shader only when a movement of the mouse is detected.
+      cette méthode est appelé lorsque la souris est en mouvement sur l'écran. Tu peux récupréer l'object `window` directement pour ensuite mettre a jour ton fragment shader seulement lorsqu'un mouvement de la souris est détecté.   
 
       ##### arguments
 
       `f` **{ Function }**: callback.
       `returns` **{ Void }**: undefined.
 
-      ##### explanation
+      ##### explication
 
-      `onmousemove` => execute in the event listener callback `window.addEventListener( 'mousemove', _ => {}, false );`   
+      `onmousemove` => éxécuter dans la callback de l'écouteur d'évenement `window.addEventListener( 'mousemove', _ => {}, false )`    
 
-      ##### example
+      ##### exemple
 
       ```js
       starter.shader.myShaderName.onmousemove( event => {
@@ -333,18 +334,18 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
     - #### `onrender( f )`
 
-      this method is executed in a `requestAnimationFrame`. `onrender` is called with as input argument a` timer` object which will allow you to update your shader fragment.
+      cette méthode est éxécutée dans une `requestAnimationFrame`. `onrender` est appelée avec comme argument d'entrée un objet `timer` qui va te permettre de mettre à jour ton fragment shader.    
 
       ##### arguments
 
       `f` **{ Function }**: callback.
       `returns` **{ Void }**: undefined.
 
-      ##### explanation
+      ##### explication
 
-      `onrender` => executed in the ` setAnimationLoop` method. 
+      `onrender` => éxécuté dans la méthode `setAnimationLoop`       
 
-      ##### example
+      ##### exemple
 
       ```js
       starter.shader.myShaderName.onrender( timer => {
@@ -356,18 +357,18 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
     - #### `onresize( f )`
 
-      this method is called when the dimensions of your screens have changed, an event argument is passed to it that you can use to update the resolution of your fragment shader only when a screen change has been detected.
+      cette méthode est appelé lorsque les dimensions de vos écrans ont changés, un argument event lui est passé en argument que tu peux utiliser pour mettre à jour la résolution de ton fragment shader seulement lorsqu'un changement d'écran a été détecté.   
 
       ##### arguments
 
       `f` **{ Function }**: callback.
       `returns` **{ Void }**: undefined.
 
-      ##### explanation
+      ##### explication
 
-      `onresize` => execute in the event listener callback `window.addEventListener( 'resize', _ => {}, false );`  
+      `onresize` => éxécuter dans la callback de `window.addEventListener( 'resize', _ => {}, false );`    
 
-      ##### example
+      ##### exemple
 
       ```js
       starter.renderer.current.onresize( event => {
@@ -379,9 +380,9 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
   - #### `.mouse`
 
-    contains `new Mouse ()` which is nothing more than a simple two-dimensional vector. so you don't need to implement it anymore. It is accessible via the `starter` object. once initialized. You will have access to its positions `x`,` y`.
+    contient `new Mouse()` qui n'est rien d'autre qu'un simple vecteur à deux dimensions. comme ça tu n'as plus besoin de l'implémenter. Il est accesible via l'objet `starter`. une fois initialisé. Tu auras accès à ses positions `x`, `y`.
 
-    ##### example
+    ##### exemple
 
     ```js
     starter.mouse
@@ -390,14 +391,14 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
     starter.events.onmousemove( starter.mouse.move );
 
-    // the mouse is initialized to update each time the onmousemove event is called.
+    // la souris est initialisé pour se mettre à jour a chaque fois que l'évènement onmousemove sera appelé.
     ```
 
   - #### `.screen`
 
-    it is the screen component, it contains the screen dimension and a resize function that you can call to though the `starter.events.onresize`.
+    contient `new Screen()`, il contient les dimensions de l'écran ainsi qu'une méthode `resize` appelé en argument la méthode `starter.events.onresize`.
 
-    ##### example
+    ##### exemple
 
     ```js
     starter.screen
@@ -406,7 +407,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
     starter.events.onresize( starter.screen.resize ); 
 
-    // the screen is initialized to be set each time the onresize event is called.
+    // l'écran est initialisé pour se mettre à chaque à chaque fois que l'évènement onresize est appelé.
     ```
 
 ## 🚨 Tests
@@ -439,11 +440,11 @@ yarn test:watch
 
 ## 📝 Todo
 
-- [ ] supports glsl #include
-- [ ] more events
+- [ ] supporter les glsl #include
+- [ ] ajouter plus d'évènements
 - [ ] documentation
-- [x] mode by default
-- [ ] improve test cases
+- [x] mode par défaut
+- [ ] améliorer les cas de tests
 
 ## 📁 Source
 
@@ -458,10 +459,10 @@ Released under the [MIT](https://github.com/monsieurbadia/glsl-reports/blob/mast
 
 ## 🙏 Supports
 
-logo by [@mllemartins](https://twitter.com/mllemartins) with 🖤   
-built by [@monsieurbadia](https://twitter.com/monsieurbadia) with 🖤    
+logo par [@mllemartins](https://twitter.com/mllemartins) avec 🖤    
+code par [@monsieurbadia](https://twitter.com/monsieurbadia) avec 🖤    
 
-⭐️ this repository if this project helped you!       
+si ce projet t'as aidé ou simplement parce que t'es une personne dans le turfu ! n'hésites pas à mettre une ⭐️ pour m'encourager dans mes efforts.
 
 [npm]: https://img.shields.io/npm/v/w2gl
 [npm-url]: https://www.npmjs.com/package/w2gl
