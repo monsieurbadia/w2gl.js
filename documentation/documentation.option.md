@@ -1,6 +1,6 @@
 - ## option
 
-`option` object define your scene `starter`. this is the valid schema object you must follow to init your scene or shader scene properly.
+`option` define your scene. this is the valid schema object you must follow to init your scene or shader scene properly.
 
 ```js
 {

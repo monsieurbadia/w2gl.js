@@ -4,7 +4,7 @@
 
 > *une micro-librarie javascript basé sur [three.js](https://threejs.org) qui t'aidera à initialiser tes shaders plus facilement.*
 
-[anglais](./../README.md) - [français](./documentation.readme.fr.md)
+[anglais](../README.md) - [français](./documentation.readme.fr.md)
 
 ## Probleme❓
 

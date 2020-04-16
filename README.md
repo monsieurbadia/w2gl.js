@@ -8,7 +8,7 @@
 
 ## Problem❓
 
-*to make a film, a director needs 3 things: a scene, a camera and a monitor. It's exactly the same in the world of shaders. But implementing webgl natively is not an easy task. Then it's really not easy to keep the code clean with this API. Fortunately, new libraries have already solved this problem. Thanks to them! Even though it has become easier to create webgl shaders with these libraries, sur still has to redefine the same instructions before we can have fun with our shaders.*
+*to make a film, a director needs 3 things: a scene, a camera and a monitor. it's exactly the same in the world of shaders. But implementing webgl natively is not an easy task. then it's really not easy to keep the code clean with this api. fortunately, new libraries have already solved this problem. thanks to them! Even though it has become easier to create webgl shaders with these libraries, sur still has to redefine the same instructions before we can have fun with our shaders.*
 
 ### three.js
 
@@ -97,7 +97,7 @@
 
 ### Solution❓
 
-*and if you stop implementing the same instructions to start a project every time. as a 3d developer, you are going to need assistance, you need a safe guy who will take care of your back, who will take care of the boring tasks that you don't want to repeat anymore. this guy may be **w2gl**. written in javascript this micro-library based on 3d engine libraries will allow you to have fun quickly with the obscure universe of shaders. Note that **w2gl** is not there to replace the role of these libraries, it is a little overlay on these libraries which will precisely prepare your 3d scene and give you some super powers through a `starter` object.*
+*and if you stop implementing the same instructions to start a project every time. as a 3d developer, you are going to need assistance, you need a safe guy who will take care of your back, who will take care of the boring tasks that you don't want to repeat anymore. this guy may be **w2gl**. written in javascript this micro-library based on 3d engine libraries will allow you to have fun quickly with the obscure universe of shaders. note that **w2gl** is not there to replace the role of these libraries, it is a little overlay on these libraries which will precisely prepare your 3d scene and give you some super powers through a `starter` object.*
 
 ### w2gl.js
 
@@ -130,7 +130,7 @@ starter.events.onmousemove( starter.mouse.move );
 
 ## ⚠️ Disclaimer
 
-I'm not a developer, I'm just a normal guy who likes programming with the desire to learn more about the dark side of force. last points, changes will be coming in the future for the good of all, I hope.
+i'm not a developer, i'm just a normal guy who likes programming with the desire to learn more about the dark side of force. last points, changes will be coming in the future for the good of all, i hope.
 
 ## 📦 Install dependencies
 
