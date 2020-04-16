@@ -1,8 +1,0 @@
-{
-  "name": "parcel-plugin-glsl",
-  "version": "0.1.0",
-  "description": "Parcel plugin glsl",
-  "main": "index.js",
-  "devDependencies": {},
-  "dependencies": {}
-}

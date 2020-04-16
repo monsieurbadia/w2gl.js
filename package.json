@@ -4,7 +4,7 @@
   "description": "javascript micro-library based on three.js that will helping you initialize your shader scene more quickly",
   "main": "dist/w2gl.js",
   "repository": "https://github.com/monsieurbadia/w2gl.js.git",
-  "homepage": "https://github.com/monsieurbadia/w2gl.js",
+  "homepage": "https://github.com/monsieurbadia/w2gl.js#readme",
   "author": "monsieurbadia <contact@monsieurbadia.com>",
   "license": "MIT",
   "private": false,
@@ -55,6 +55,6 @@
     "babel-jest": "^25.2.6",
     "jest": "^25.2.7",
     "parcel-bundler": "^1.12.4",
-    "parcel-plugin-glsl": "file:root_modules/parcel-plugin-glsl"
+    "u3s": "^0.0.5"
   }
 }

@@ -1,10 +1,10 @@
-<img src="./w2gl-logo-standard.png">
+<img src="./images/w2gl-logo-standard.png">
 
 # w2gl.js [![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url] [![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
 
 > *javascript micro-library based on [three.js](https://threejs.org) that will helping you initialize your shader scene more quickly*
 
-[English](README.md) - [French](documentation/README-fr.md)
+[english](README.md) - [french](documentation/documentation.readme.fr.md)
 
 ## Problem❓
 
@@ -148,7 +148,7 @@ yarn add w2gl
 
 ### Download
 
-you can also download the project, after recover the file in `. / dist / w2gl.js` and then add it in the folder of your project in which you store the external libraries to your development.
+you can also download the project, after recover the file in `dist/w2gl.js` and then add it in the folder of your project in which you store the external libraries to your development.
 
 ## 🚀 Start project
 
@@ -228,7 +228,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
 - ### `.init( option )`
 
-  the `init` method takes as an input argument:` option`.
+  the `init` method takes as an input argument: `option`.
 
   ##### params
 
@@ -236,7 +236,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
   ##### example
 
-  [see the option schema](./documentation/w2gl.option.md)
+  [see the option schema](./documentation/documentation.option.md)
 
 - ### `starter`
 
@@ -259,7 +259,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
   - #### `.shader`
 
-    the `shader` object returns` THREE.Mesh` created from `PlaneBufferGeometry` and` ShaderMaterial`. This is the one that contains your vertex shader and your shader fragment as well as the uniforms.
+    the `shader` object returns` THREE.Mesh` created from `PlaneBufferGeometry` and `ShaderMaterial`. This is the one that contains your vertex shader and your shader fragment as well as the uniforms.
 
     ##### uniforms
 
@@ -461,7 +461,7 @@ Released under the [MIT](https://github.com/monsieurbadia/glsl-reports/blob/mast
 logo by [@mllemartins](https://twitter.com/mllemartins) with 🖤   
 built by [@monsieurbadia](https://twitter.com/monsieurbadia) with 🖤    
 
-⭐️ this repository if this project helped you!       
+*⭐️ this repository if this project helped you!*       
 
 [npm]: https://img.shields.io/npm/v/w2gl
 [npm-url]: https://www.npmjs.com/package/w2gl

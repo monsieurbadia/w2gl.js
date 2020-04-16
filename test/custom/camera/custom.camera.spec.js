@@ -1,21 +1,10 @@
-import { reducer } from '../../../src/util/util.reducer';
 import { createCustomCamera } from 'custom';
-
-jest.fn( reducer );
-jest.mock( '../../../src/util/util.reducer' );
 
 /**
  * @author monsieurbadia / https://monsieurbadia.com/
  */
 
 describe( 'camera', () => {
-
-  it( 'must return', () => {
-
-    // expect(  ).toBeDefined();
-    // expect( createCustomCamera ).toBeDefined();
-
-  } );
 
   describe( 'createCustomCamera', () => {
 

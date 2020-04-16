@@ -1,14 +1,14 @@
-<img src="../w2gl-logo-standard.png">
+<img src="../images/w2gl-logo-standard.png">
 
 # w2gl.js [![NPM Package][npm]][npm-url] [![Build Size][build-size]][build-size-url] [![NPM Downloads][npm-downloads]][npmtrends-url] [![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
 
 > *une micro-librarie javascript basé sur [three.js](https://threejs.org) qui t'aidera à initialiser tes shaders plus facilement.*
 
-[Anglais](./../README.md) - [Français](./README-fr.md)
+[anglais](./../README.md) - [français](./documentation.readme.fr.md)
 
 ## Probleme❓
 
-*pour réaliser un film, un réalisateur a besoin de 3 choses: une scène, une caméra ainsi qu'un moniteur de contrôle. C'est exactement la même chose dans l'univers des shaders. Mais implémenter du webgl nativement n'est pas une tâche facile. Puis ce n'est vraiment pas évident de maintenir du code propre avec cette api. Heureusement, de nouvelles librairies ont dores et déjà résolues cette problématique. Merci à eux ! Même si il est devenu plus facile de créer des shaders en webgl grâce à ces libraries, on doit toujours redéfinir les mêmes instructions avant de pouvoir nous amuser avec nos shaders.*
+*pour réaliser un film, un réalisateur a besoin de 3 choses: une scène, une caméra ainsi qu'un moniteur de contrôle. C'est exactement la même chose dans l'univers des shaders. Mais implémenter du webgl nativement n'est pas une tâche facile. Puis ce n'est vraiment pas évident de maintenir du code propre avec cette api. Heureusement, de nouvelles bibliothèques ont dores et déjà résolues cette problématique. Merci à eux ! Même si il est devenu plus facile de créer des shaders en webgl grâce à ces bibliothèques, on doit toujours redéfinir les mêmes instructions avant de pouvoir nous amuser avec nos shaders.*
 
 ### three.js
 
@@ -230,14 +230,14 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
   la methode `init` prend en argument d'entrée : `option`.
 
-  ##### arguments
+  ##### paramètres
 
   `option` **{ Object }**: collection.
   `returns` **{ Object|Function }**: l'object `starter`.
 
   ##### exemple
 
-  [voir le schema de l'objet `option`](./documentation/w2gl.option.md)
+  [voir le schema de l'objet `option`](./documentation/documentation.option.md)
 
 - ### `starter`
 
@@ -312,7 +312,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
       cette méthode est appelé lorsque la souris est en mouvement sur l'écran. Tu peux récupréer l'object `window` directement pour ensuite mettre a jour ton fragment shader seulement lorsqu'un mouvement de la souris est détecté.   
 
-      ##### arguments
+      ##### paramètres
 
       `f` **{ Function }**: callback.
       `returns` **{ Void }**: undefined.
@@ -336,7 +336,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
       cette méthode est éxécutée dans une `requestAnimationFrame`. `onrender` est appelée avec comme argument d'entrée un objet `timer` qui va te permettre de mettre à jour ton fragment shader.    
 
-      ##### arguments
+      ##### paramètres
 
       `f` **{ Function }**: callback.
       `returns` **{ Void }**: undefined.
@@ -359,7 +359,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
       cette méthode est appelé lorsque les dimensions de vos écrans ont changés, un argument event lui est passé en argument que tu peux utiliser pour mettre à jour la résolution de ton fragment shader seulement lorsqu'un changement d'écran a été détecté.   
 
-      ##### arguments
+      ##### paramètres
 
       `f` **{ Function }**: callback.
       `returns` **{ Void }**: undefined.
@@ -462,7 +462,7 @@ Released under the [MIT](https://github.com/monsieurbadia/glsl-reports/blob/mast
 logo par [@mllemartins](https://twitter.com/mllemartins) avec 🖤    
 code par [@monsieurbadia](https://twitter.com/monsieurbadia) avec 🖤    
 
-si ce projet t'as aidé ou simplement parce que t'es une personne dans le turfu ! n'hésites pas à mettre une ⭐️ pour m'encourager dans mes efforts.
+*si ce projet t'as aidé ou simplement parce que t'es une personne dans le turfu ! n'hésites pas à mettre une ⭐️ pour m'encourager dans mes efforts.*   
 
 [npm]: https://img.shields.io/npm/v/w2gl
 [npm-url]: https://www.npmjs.com/package/w2gl

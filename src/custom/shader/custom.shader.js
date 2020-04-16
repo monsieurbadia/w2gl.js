@@ -1,6 +1,6 @@
 import { Shade } from 'core';
-import { reducer } from 'util';
 import { onmousemove, onrender, onresize } from 'event';
+import { reducer } from 'u3s';
 
 /**
  * @author monsieurbadia / https://monsieurbadia.com/

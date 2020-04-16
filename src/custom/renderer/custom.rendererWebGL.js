@@ -1,7 +1,7 @@
+import { reducer } from 'u3s';
 import { EVENT } from 'base';
 import { Timer } from 'core';
 import { onresize } from 'event';
-import { reducer } from 'util';
 
 /**
  * @author monsieurbadia / https://monsieurbadia.com/
