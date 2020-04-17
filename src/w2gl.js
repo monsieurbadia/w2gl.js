@@ -2,7 +2,6 @@ import { is, pipe } from 'u3s';
 import { Events, Mouse, Screen } from 'core';
 import { createCustomCamera, createCustomShader, createCustomScene, createCustomRendererWebGL } from 'custom';
 
-console.log(is)
 /**
  * @author monsieurbadia / https://monsieurbadia.com/
  */
