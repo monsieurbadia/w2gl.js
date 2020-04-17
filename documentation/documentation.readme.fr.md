@@ -50,15 +50,15 @@
       var geometry = new THREE.PlaneBufferGeometry( 2, 2 );
 
       uniforms = {
-          u_time: { type: "f", value: 1.0 },
-          u_resolution: { type: "v2", value: new THREE.Vector2() },
-          u_mouse: { type: "v2", value: new THREE.Vector2() }
+        u_time: { type: "f", value: 1.0 },
+        u_resolution: { type: "v2", value: new THREE.Vector2() },
+        u_mouse: { type: "v2", value: new THREE.Vector2() }
       };
 
       var material = new THREE.ShaderMaterial( {
-          uniforms: uniforms,
-          vertexShader: document.getElementById( 'vertexShader' ).textContent,
-          fragmentShader: document.getElementById( 'fragmentShader' ).textContent
+        uniforms: uniforms,
+        vertexShader: document.getElementById( 'vertexShader' ).textContent,
+        fragmentShader: document.getElementById( 'fragmentShader' ).textContent
       } );
 
       var mesh = new THREE.Mesh( geometry, material );
@@ -148,7 +148,7 @@ yarn add w2gl
 
 ### Téléchargement
 
-tu peux aussi télécharger le projet, après récupère le fichier dans `./dist/w2gl.js` et ensuite ajoute-le dans le dossier de ton projet dans lequel tu y stockes les librairies externes à ton développement.
+tu peux aussi télécharger le projet, après récupère le fichier dans `dist/w2gl.js` et ensuite ajoute-le dans le dossier de ton projet dans lequel tu y stockes les librairies externes à ton développement.
 
 ## 🚀 Démarrer le projet
 
@@ -260,7 +260,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
   - #### `.shader`
 
-    l'objet `shader`retourne `THREE.Mesh` créer à partir de `PlaneBufferGeometry` et `ShaderMaterial`. C'est celui-ci qui contient ton vertex shader et ton fragment shader ainsi que les uniforms.
+    l'objet `shader`retourne `THREE.Mesh()` créer à partir de `PlaneBufferGeometry` et `ShaderMaterial`. C'est celui-ci qui contient ton vertex shader et ton fragment shader ainsi que les uniforms.
 
     ##### uniforms
 
@@ -294,7 +294,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
   - #### `.scene`
 
-    l'objet scene retourne `THREE.Scene()`. Cette `scene` est l'espace 3d dans laquelle se trouvera ton mesh.
+    l'objet scene retourne `THREE.Scene()`. Cette scene est l'espace 3d dans laquelle se trouvera ton mesh.
 
   - #### `.camera`
 

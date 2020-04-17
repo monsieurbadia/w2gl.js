@@ -4815,9 +4815,6 @@ parcel-bundler@^1.12.4:
     v8-compile-cache "^2.0.0"
     ws "^5.1.1"
 
-"parcel-plugin-glsl@file:root_modules/parcel-plugin-glsl":
-  version "0.1.0"
-
 parse-asn1@^5.0.0:
   version "5.1.5"
   resolved "https://registry.yarnpkg.com/parse-asn1/-/parse-asn1-5.1.5.tgz#003271343da58dc94cace494faef3d2147ecea0e"
@@ -6442,10 +6439,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-u3s@^0.0.5:
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/u3s/-/u3s-0.0.5.tgz#1bf6981dfbb4be99a0c67f7f41d424354a6dfd14"
-  integrity sha512-3EImEg41qRk2PThzrNrt16A+ntM3rIxPI5u0bJAk97XzBCFlu4Q2/UaGBIMLJ1o5lWIsH6BZO3RfzhgWxpJilA==
+u3s@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/u3s/-/u3s-0.0.6.tgz#3f1f58e748a3b79b59a160f1431cf74e41a5e1f0"
+  integrity sha512-4Ci2AGhqKKHUtUsNC+nM0t7Cj5mETdOK9dJDIFcM6JuqCElgr2V8kxBbKBcdNfg4SqpttBqJLU67akjXsg4j3A==
 
 uncss@^0.17.2:
   version "0.17.3"

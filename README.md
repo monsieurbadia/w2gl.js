@@ -259,7 +259,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
   - #### `.shader`
 
-    the `shader` object returns` THREE.Mesh` created from `PlaneBufferGeometry` and `ShaderMaterial`. This is the one that contains your vertex shader and your shader fragment as well as the uniforms.
+    the `shader` object returns `THREE.Mesh` created from `PlaneBufferGeometry` and `ShaderMaterial`. This is the one that contains your vertex shader and your shader fragment as well as the uniforms.
 
     ##### uniforms
 
@@ -274,7 +274,6 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
     uniform vec2 resolution;
     uniform float time;
     ```
-
 
     ```js
     // index.js
@@ -293,15 +292,15 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
   - #### `.scene`
 
-    the scene object returns `THREE.Scene ()`. This `scene` is the 3d space in which your mesh will be.
+    the scene object returns `THREE.Scene()`. This scene is the 3d space in which your mesh will be.
 
   - #### `.camera`
 
-    the scene object returns `THREE.Camera ()`. A basic camera without artifice that you don't need to initialize.
+    the scene object returns `THREE.Camera()`. A basic camera without artifice that you don't need to initialize.
 
   - #### `.renderer`
 
-    the scene object returns `THREE.WebGLRenderer ()`. I have it a little custom at once, so that it can increment the value of `timer.time` within the rendering loop.
+    the scene object returns `THREE.WebGLRenderer()`. I have it a little custom at once, so that it can increment the value of `timer.time` within the rendering loop.
 
   - #### `.events`
 
@@ -333,7 +332,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
     - #### `onrender( f )`
 
-      this method is executed in a `requestAnimationFrame`. `onrender` is called with as input argument a` timer` object which will allow you to update your shader fragment.
+      this method is executed in a `requestAnimationFrame`. `onrender` is called with as input argument a `timer` object which will allow you to update your shader fragment.
 
       ##### arguments
 
@@ -342,7 +341,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
       ##### explanation
 
-      `onrender` => executed in the ` setAnimationLoop` method. 
+      `onrender` => executed in the `setAnimationLoop` method. 
 
       ##### example
 
@@ -379,7 +378,7 @@ w2gl.init( { THREE, shader: { myShaderName : { vertex, fragment } } }, starter =
 
   - #### `.mouse`
 
-    contains `new Mouse ()` which is nothing more than a simple two-dimensional vector. so you don't need to implement it anymore. It is accessible via the `starter` object. once initialized. You will have access to its positions `x`,` y`.
+    contains `new Mouse ()` which is nothing more than a simple two-dimensional vector. so you don't need to implement it anymore. It is accessible via the `starter` object. once initialized. You will have access to its positions `x`, `y`.
 
     ##### example
 
