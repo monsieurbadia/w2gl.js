@@ -1,6 +1,12 @@
 import { is, pipe } from 'u3s';
 import { Events, Mouse, Screen } from 'core';
-import { createCustomCamera, createCustomShader, createCustomScene, createCustomRendererWebGL } from 'custom';
+
+import {
+  createCustomCamera,
+  createCustomShader,
+  createCustomScene,
+  createCustomRendererWebGL
+} from 'custom';
 
 /**
  * @author monsieurbadia / https://monsieurbadia.com/
@@ -10,7 +16,7 @@ const w2gl = Object.freeze( {
 
   init ( payload, f ) {
 
-    if ( !payload.THREE ) is.required = 'required THREE instance';;
+    if ( !payload.THREE ) is.required = 'required THREE instance';
 
     const operations = [
       createCustomScene,
